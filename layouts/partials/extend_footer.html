@@ -7,5 +7,17 @@
 {{- if .Site.Params.musicPlayer.enabled }}
   <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
-  <script defer src="{{ "js/music-init.js" | relURL }}"></script>
+  <meting-js
+    server="netease"
+    type="playlist"
+    id="6792103822"
+    fixed="true"
+    autoplay="false"
+    theme="#8fb3a9"
+    order="list"
+    loop="all"
+    volume="0.7"
+    mini="true"
+    mutex="true">
+  </meting-js>
 {{- end }}
