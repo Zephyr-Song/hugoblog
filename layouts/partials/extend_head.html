@@ -1,11 +1,10 @@
 {{- /* 动态效果和音乐播放器 */ -}}
 
 {{- if .Site.Params.animations.enabled }}
-  {{- /* 加载动画样式 */ -}}
   <link rel="stylesheet" href="{{ "css/animations.css" | relURL }}">
 {{- end }}
 
 {{- if .Site.Params.musicPlayer.enabled }}
-  {{- /* 加载音乐播放器样式 */ -}}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
   <link rel="stylesheet" href="{{ "css/music-player.css" | relURL }}">
 {{- end }}
