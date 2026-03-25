@@ -1,33 +1,36 @@
-/* ==================== APlayer 定位样式 ==================== */
+/* ==================== APlayer 强制右下角 ==================== */
 
-/* 固定在右下角 */
-.aplayer-fixed-wrap {
-  position: fixed !important;
-  bottom: 24px !important;
+/* APlayer fixed 模式默认左下角，强制改到右下角 */
+.aplayer.aplayer-fixed {
+  left: auto !important;
   right: 24px !important;
-  z-index: 999 !important;
+  bottom: 24px !important;
 }
 
-/* 折叠按钮美化 */
+.aplayer.aplayer-fixed .aplayer-miniswitcher {
+  left: auto !important;
+  right: 0 !important;
+  border-radius: 4px 0 0 4px !important;
+}
+
 .aplayer.aplayer-fixed .aplayer-body {
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  left: auto !important;
+  right: 66px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
 }
 
-/* 主题色覆盖为薄荷绿 */
+/* 主题色薄荷绿 */
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played {
   background: #8fb3a9 !important;
 }
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb {
   background: #8fb3a9 !important;
 }
-.aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path {
-  fill: #8fb3a9 !important;
-}
 
 /* 响应式 */
 @media (max-width: 480px) {
-  .aplayer-fixed-wrap {
+  .aplayer.aplayer-fixed {
     right: 8px !important;
     bottom: 16px !important;
   }
