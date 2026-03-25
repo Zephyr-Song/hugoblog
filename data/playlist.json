@@ -1,0 +1,35 @@
+{
+  "description": "示例歌单 - 替换为你自己的歌曲",
+  "songs": [
+    {
+      "title": "晴天",
+      "artist": "周杰伦",
+      "url": "https://music.163.com/song/media/outer/url?id=167876.mp3",
+      "cover": "https://p1.music.126.net/34nXKzsKR7_WBIcE_gVjZQ==/109951163785860651.jpg"
+    },
+    {
+      "title": "稻香",
+      "artist": "周杰伦",
+      "url": "https://music.163.com/song/media/outer/url?id=25641950.mp3",
+      "cover": "https://p1.music.126.net/34nXKzsKR7_WBIcE_gVjZQ==/109951163785860651.jpg"
+    },
+    {
+      "title": "夜曲",
+      "artist": "周杰伦",
+      "url": "https://music.163.com/song/media/outer/url?id=25641948.mp3",
+      "cover": "https://p1.music.126.net/34nXKzsKR7_WBIcE_gVjZQ==/109951163785860651.jpg"
+    },
+    {
+      "title": "说好不哭",
+      "artist": "五月天",
+      "url": "https://music.163.com/song/media/outer/url?id=1300375346.mp3",
+      "cover": "https://p1.music.126.net/34nXKzsKR7_WBIcE_gVjZQ==/109951163785860651.jpg"
+    },
+    {
+      "title": "光年之外",
+      "artist": "邓紫棋",
+      "url": "https://music.163.com/song/media/outer/url?id=574566224.mp3",
+      "cover": "https://p1.music.126.net/34nXKzsKR7_WBIcE_gVjZQ==/109951163785860651.jpg"
+    }
+  ]
+}

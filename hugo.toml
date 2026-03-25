@@ -1,0 +1,29 @@
+baseURL = 'https://zephyrsong.qzz.io/'
+languageCode = 'en-us'
+title = 'My Blog'
+theme = 'PaperMod'
+
+# 启用资源处理
+[build]
+  writeStats = true
+
+[params]
+  # 启用 Home Info 模式 —— socialIcons 只在这个模式下显示
+  [params.homeInfoParams]
+    Title = "Hi, I'm Zephyr 👋"
+    Content = "记录生活 · 分享技术 · 感悟世界"
+
+  # GitHub 图标（必须配合 homeInfoParams 或 profileMode 才显示）
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/Zephyr-Song"
+
+  # 动态效果和音乐播放器配置
+  [params.animations]
+    enabled = true
+    particleCount = 25
+    enableMouseTracking = true
+
+  [params.musicPlayer]
+    enabled = true
+    autoplay = false

@@ -1,0 +1,9 @@
+/* 全局字体替换 */
+body, input, textarea, button {
+  font-family: var(--font-main);
+}
+ 
+/* 代码字体替换 */
+pre, code, kbd, samp {
+  font-family: var(--font-mono);
+}

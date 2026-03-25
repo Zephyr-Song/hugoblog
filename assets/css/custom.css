@@ -1,0 +1,228 @@
+/* ==================== 文艺清新风格 ==================== */
+
+/* 基础字体设置 */
+:root {
+  --font-main: 'Noto Serif SC', 'Source Han Serif SC', serif;
+  --font-sans: 'Noto Sans SC', 'Source Han Sans SC', sans-serif;
+  --bg-color: #faf9f6;
+  --bg-secondary: #f5f3ef;
+  --text-main: #4a4a4a;
+  --text-secondary: #7a7a7a;
+  --accent: #8fb3a9;
+  --accent-hover: #7a9e96;
+  --border: #e8e4df;
+}
+
+/* 深色模式 */
+[data-theme="dark"] {
+  --bg-color: #1a1a1a;
+  --bg-secondary: #252525;
+  --text-main: #e0e0e0;
+  --text-secondary: #a0a0a0;
+  --border: #333;
+}
+
+/* 基础样式 */
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  line-height: 1.8;
+}
+
+/* 顶部导航栏 */
+.top-nav {
+  background: rgba(250, 249, 246, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-bar {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.site-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 2px;
+}
+
+/* Hero 区域 */
+.hero-container {
+  background: linear-gradient(135deg, #f5f3ef 0%, #e8e4df 100%);
+  padding: 5rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(143, 179, 169, 0.1) 0%, transparent 70%);
+  animation: gentleFloat 15s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(2%, 2%); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: 3px;
+}
+
+/* 文章卡片 */
+.post-entry {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.post-entry:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  border-color: var(--accent);
+}
+
+.post-entry .title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.post-entry .post-meta {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+}
+
+/* 标签样式 */
+.tag {
+  background: var(--accent);
+  color: white;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-family: var(--font-sans);
+  margin-right: 0.5rem;
+}
+
+.tag:hover {
+  background: var(--accent-hover);
+}
+
+/* 归档页面 */
+.archive-posts {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.archive-month {
+  margin-bottom: 2rem;
+}
+
+.archive-month h3 {
+  font-size: 1.1rem;
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* 关于页面 */
+.about-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+}
+
+/* 页脚 */
+.site-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.site-footer a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+/* 代码块样式 */
+pre {
+  background: #f8f7f4 !important;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+code {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.9em;
+}
+
+/* 目录样式 */
+.toc {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.toc h3 {
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+  }
+  
+  .post-entry {
+    padding: 1rem;
+  }
+}

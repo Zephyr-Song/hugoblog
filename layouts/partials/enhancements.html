@@ -1,0 +1,20 @@
+{{- /* 动态效果和音乐播放器加载 */ -}}
+
+{{- if .Site.Params.animations.enabled }}
+  {{- /* 加载动画样式 */ -}}
+  <link rel="stylesheet" href="{{ "css/animations.css" | relURL }}">
+  
+  {{- /* 加载粒子系统脚本 */ -}}
+  <script defer src="{{ "js/particles.js" | relURL }}"></script>
+{{- end }}
+
+{{- if .Site.Params.musicPlayer.enabled }}
+  {{- /* 加载音乐播放器样式 */ -}}
+  <link rel="stylesheet" href="{{ "css/music-player.css" | relURL }}">
+  
+  {{- /* 加载音乐播放器脚本 */ -}}
+  <script defer src="{{ "js/music-player.js" | relURL }}"></script>
+  
+  {{- /* 加载初始化脚本 */ -}}
+  <script defer src="{{ "js/music-init.js" | relURL }}"></script>
+{{- end }}

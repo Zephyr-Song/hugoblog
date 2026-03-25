@@ -1,0 +1,44 @@
+/* 文艺清新风格 —— 覆盖 PaperMod 主题变量 */
+
+:root {
+    --theme: #faf9f6;
+    --entry: #f5f3ef;
+    --primary: #4a4a4a;
+    --secondary: #7a7a7a;
+    --tertiary: #e8e4df;
+    --content: #4a4a4a;
+    --border: #e8e4df;
+    --code-bg: #f5f3ef;
+}
+
+:root[data-theme="dark"] {
+    --theme: #1a1a1a;
+    --entry: #252525;
+    --primary: #e0e0e0;
+    --secondary: #a0a0a0;
+    --tertiary: #333333;
+    --content: #d0d0d0;
+    --border: #333333;
+    --code-bg: #252525;
+}
+
+/* 文章卡片悬浮效果 */
+.post-entry {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.post-entry:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: #8fb3a9;
+}
+
+/* 链接颜色 */
+a:hover {
+    color: #8fb3a9;
+}
+
+/* 社交图标颜色 */
+.social-icons a:hover svg {
+    fill: #8fb3a9;
+    stroke: #8fb3a9;
+}
