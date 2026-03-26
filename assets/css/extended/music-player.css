@@ -1,40 +1,74 @@
-/* ==================== APlayer 右下角展开模式 ==================== */
+/* ==================== APlayer fixed + mini 模式 ==================== */
 
+/* 固定在右下角 */
 .aplayer.aplayer-fixed {
+  position: fixed !important;
   left: auto !important;
   right: 24px !important;
   bottom: 24px !important;
+  top: auto !important;
   width: 320px !important;
+  z-index: 9999 !important;
 }
 
+/* 展开后的播放器主体 */
 .aplayer.aplayer-fixed .aplayer-body {
+  left: auto !important;
+  right: 0 !important;
+  bottom: 66px !important;   /* 在 mini 按钮上方展开 */
   border-radius: 12px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+  width: 320px !important;
+  background: var(--entry, #f5f3ef) !important;
 }
 
-/* 隐藏左侧 mini 切换按钮（展开模式不需要） */
+/* mini 圆形按钮 */
 .aplayer.aplayer-fixed .aplayer-miniswitcher {
-  display: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 50% !important;
+  background: #8fb3a9 !important;
+  box-shadow: 0 4px 16px rgba(143,179,169,0.5) !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: auto !important;
+  position: absolute !important;
 }
 
-/* 进度条薄荷绿 */
+.aplayer.aplayer-fixed .aplayer-miniswitcher .aplayer-icon {
+  fill: #fff !important;
+}
+
+/* 进度条 */
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played {
   background: #8fb3a9 !important;
 }
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb {
   background: #8fb3a9 !important;
+  box-shadow: 0 0 0 3px rgba(143,179,169,0.3) !important;
 }
 
-/* 音量条薄荷绿 */
+/* 音量条 */
 .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
   background: #8fb3a9 !important;
 }
 
-/* 响应式 */
-@media (max-width: 480px) {
+/* 歌单列表最大高度，防止遮挡页面 */
+.aplayer .aplayer-list {
+  max-height: 250px !important;
+}
+
+/* 响应式手机端 */
+@media (max-width: 600px) {
   .aplayer.aplayer-fixed {
-    right: 8px !important;
+    right: 12px !important;
     bottom: 16px !important;
-    width: calc(100vw - 16px) !important;
+    width: calc(100vw - 24px) !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-body {
+    width: calc(100vw - 24px) !important;
   }
 }
