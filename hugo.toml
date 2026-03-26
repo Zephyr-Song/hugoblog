@@ -22,7 +22,7 @@ theme = 'PaperMod'
 
   [[params.socialIcons]]
     name = "link"
-    url = "https://zephyr-song.github.io"
+    url = "https://github.com/Zephyr-Song"
 
   # 动态效果和音乐播放器配置
   [params.animations]
