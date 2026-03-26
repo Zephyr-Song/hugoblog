@@ -1,0 +1,40 @@
+/* ==================== APlayer 右下角展开模式 ==================== */
+
+.aplayer.aplayer-fixed {
+  left: auto !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  width: 320px !important;
+}
+
+.aplayer.aplayer-fixed .aplayer-body {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15) !important;
+}
+
+/* 隐藏左侧 mini 切换按钮（展开模式不需要） */
+.aplayer.aplayer-fixed .aplayer-miniswitcher {
+  display: none !important;
+}
+
+/* 进度条薄荷绿 */
+.aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played {
+  background: #8fb3a9 !important;
+}
+.aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb {
+  background: #8fb3a9 !important;
+}
+
+/* 音量条薄荷绿 */
+.aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
+  background: #8fb3a9 !important;
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+  .aplayer.aplayer-fixed {
+    right: 8px !important;
+    bottom: 16px !important;
+    width: calc(100vw - 16px) !important;
+  }
+}

@@ -1,4 +1,4 @@
-/* 文艺清新风格 —— 覆盖 PaperMod 主题变量 */
+/* ==================== 文艺清新风格 —— 覆盖 PaperMod 主题变量 ==================== */
 
 :root {
     --theme: #faf9f6;
@@ -32,12 +32,12 @@
     border-color: #8fb3a9;
 }
 
-/* 链接颜色 */
+/* 链接悬停颜色 */
 a:hover {
     color: #8fb3a9;
 }
 
-/* 社交图标颜色 */
+/* 社交图标悬停颜色 */
 .social-icons a:hover svg {
     fill: #8fb3a9;
     stroke: #8fb3a9;
