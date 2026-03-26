@@ -11,7 +11,9 @@ theme = 'PaperMod'
   # 启用 Home Info 模式 —— socialIcons 只在这个模式下显示
   [params.homeInfoParams]
     Title = "Hi, I'm Zephyr 👋"
-    Content = "记录生活 · 分享技术 · 感悟世界"
+    Content = """生于湖北荆州沙市，六岁后迁居湖南长沙，在青园小学、南雅初中、雅礼高中的时光里积攒成长印记，十八岁赴苏，现就读于西交利物浦大学。
+
+闲暇时偏爱在围棋象棋的对弈中寻思悟，于街健中感受身体的力量，也常沉浸在小说、漫画的世界里，让旋律伴日常，在多元热爱里慢慢沉淀，自在前行。"""
 
   # GitHub 图标（必须配合 homeInfoParams 或 profileMode 才显示）
   [[params.socialIcons]]
