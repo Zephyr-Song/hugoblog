@@ -44,24 +44,15 @@ hasCJKLanguage = true
     name = "link"
     url = "https://zephyr-song.github.io"
 
-  # 动态效果和音乐播放器配置
+  # 动态效果和音乐播放器配置（已禁用）
   [params.animations]
-    enabled = true
-    particleCount = 25
-    enableMouseTracking = true
+    enabled = false
 
-  # 漫画鼠标特效
   [params.comicEffects]
-    enabled = true
-    mouseFlow = true
-    comicBubbles = true
+    enabled = false
 
   [params.musicPlayer]
-    enabled = true
-    autoplay = false
+    enabled = false
 
   disableLangToggle = false
-  
-  # 嵌入漫画特效脚本
-  enableComicEffects = true
 
