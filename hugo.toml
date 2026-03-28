@@ -61,4 +61,7 @@ hasCJKLanguage = true
     autoplay = false
 
   disableLangToggle = false
+  
+  # 嵌入漫画特效脚本
+  enableComicEffects = true
 
