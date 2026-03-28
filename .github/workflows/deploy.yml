@@ -30,10 +30,33 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
+      - name: Check environment
+        run: |
+          echo "=== System Info ==="
+          uname -a
+          echo "=== Hugo Version ==="
+          hugo version
+          echo "=== Directory Structure ==="
+          ls -la
+          echo "=== Content ==="
+          find content -type f | head -20
+          echo "=== Themes ==="
+          ls -la themes/
+
       - name: Build
         run: |
-          hugo --minify
-          ls -la public/
+          echo "Starting Hugo build..."
+          hugo --minify -v 2>&1 | tee build.log
+          echo "Build completed"
+          echo "=== Build Output ==="
+          cat build.log
+
+      - name: Check build output
+        run: |
+          echo "=== Public Directory ==="
+          ls -la public/ | head -20
+          echo "=== File Count ==="
+          find public -type f | wc -l
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
