@@ -50,6 +50,12 @@ hasCJKLanguage = true
     particleCount = 25
     enableMouseTracking = true
 
+  # 漫画鼠标特效
+  [params.comicEffects]
+    enabled = true
+    mouseFlow = true
+    comicBubbles = true
+
   [params.musicPlayer]
     enabled = true
     autoplay = false

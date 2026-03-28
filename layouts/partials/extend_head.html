@@ -2,3 +2,8 @@
 {{- if .Site.Params.musicPlayer.enabled }}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 {{- end }}
+
+{{- /* 漫画特效 CSS */ -}}
+<link rel="stylesheet" href="{{ "css/comic-effects.css" | relURL }}">
+{{- /* 漫画特效 JS */ -}}
+<script defer src="{{ "js/mouse-follow.js" | relURL }}"></script>
