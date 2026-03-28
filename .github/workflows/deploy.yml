@@ -31,9 +31,11 @@ jobs:
           hugo-version: 'latest'
           extended: true
 
+      - name: Check Hugo version
+        run: hugo version
+
       - name: Build
-        run: |
-          hugo --minify --verbose
+        run: hugo --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
