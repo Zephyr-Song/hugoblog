@@ -1,4 +1,4 @@
-base10 = 'https://zephyrsong.qzz.io/'
+baseURL = 'https://zephyrsong.qzz.io/'
 languageCode = 'en-us'
 title = 'My Blog'
 theme = 'PaperMod'
