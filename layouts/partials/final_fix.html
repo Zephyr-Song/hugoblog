@@ -1,0 +1,90 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Zephyr 博客漫画特效启动');
+  
+  // 创建 Canvas
+  const canvas = document.createElement('canvas');
+  canvas.id = 'comic-canvas';
+  canvas.style.position = 'fixed';
+  canvas.style.top = '0';
+  canvas.style.left = '0';
+  canvas.style.width = '100%';
+  canvas.style.height = '100%';
+  canvas.style.pointerEvents = 'none';
+  canvas.style.zIndex = '-1';
+  document.body.appendChild(canvas);
+  
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  // 粒子数组
+  const particles = [];
+  const mouse = { x: 0, y: 0 };
+  
+  // 初始化粒子
+  for (let i = 0; i < 30; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      size: Math.random() * 3 + 2,
+      speed: Math.random() * 0.5 + 0.2,
+      color: `rgb(${Math.floor(Math.random() * 150)}, ${Math.floor(Math.random() * 200)}, ${Math.floor(Math.random() * 200)})`,
+      angle: Math.random() * Math.PI * 2
+    });
+  }
+  
+  // 鼠标跟踪
+  document.addEventListener('mousemove', function(e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+  
+  // 动画循环
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    particles.forEach(p => {
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      // 鼠标吸引
+      if (distance < 200) {
+        const force = (200 - distance) / 200 * 0.3;
+        p.angle += Math.atan2(dy, dx) * force;
+      }
+      
+      // 移动粒子
+      p.x += Math.cos(p.angle) * p.speed;
+      p.y += Math.sin(p.angle) * p.speed;
+      
+      // 边界重置
+      if (p.x < 0) p.x = canvas.width;
+      if (p.x > canvas.width) p.x = 0;
+      if (p.y < 0) p.y = canvas.height;
+      if (p.y > canvas.height) p.y = 0;
+      
+      // 绘制粒子
+      ctx.beginPath();
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = 0.5;
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+      
+      // 粒子轨迹（手绘风格）
+      ctx.beginPath();
+      ctx.strokeStyle = p.color;
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.3;
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + Math.cos(p.angle) * 5, p.y + Math.sin(p.angle) * 5);
+      ctx.stroke();
+    });
+    
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+});
+</script>
