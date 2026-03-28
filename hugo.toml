@@ -12,10 +12,54 @@ hasCJKLanguage = true
     languageName = "English"
     weight = 1
 
+    [languages.en.params]
+      archiveEnabled = true
+      searchEnabled = true
+      copyCodeEnabled = true
+      tableOfContentsEnabled = true
+      readingTimeEnabled = true
+      postNavigationEnabled = true
+      breadcrumbEnabled = true
+      shareButtonsEnabled = true
+
+    [[languages.en.params.menu]]
+      identifier = "archive"
+      name = "Archives"
+      url = "/archive"
+      weight = 1
+
+    [[languages.en.params.menu]]
+      identifier = "search"
+      name = "Search"
+      url = "/search"
+      weight = 2
+
   [languages.zh]
     title = "我的博客"
     languageName = "中文"
     weight = 2
+
+    [languages.zh.params]
+      archiveEnabled = true
+      searchEnabled = true
+      copyCodeEnabled = true
+      tableOfContentsEnabled = true
+      readingTimeEnabled = true
+      postNavigationEnabled = true
+      breadcrumbEnabled = true
+      shareButtonsEnabled = true
+
+    [[languages.zh.params.menu]]
+      identifier = "archive"
+      name = "归档"
+      url = "/archive"
+      weight = 1
+
+    [[languages.zh.params.menu]]
+      identifier = "search"
+      name = "搜索"
+      url = "/search"
+      weight = 2
 
 # 启用资源处理
 [build]
