@@ -1,0 +1,10 @@
+<div class="language-selector">
+  {{ $currentLang := .Site.Language.Lang }}
+  {{ range .Site.Home.AllTranslations }}
+    {{ if eq .Lang $currentLang }}
+      <a href="{{ .Permalink }}" class="active">{{ .LanguageName }}</a>
+    {{ else }}
+      <a href="{{ .Permalink }}">{{ .LanguageName }}</a>
+    {{ end }}
+  {{ end }}
+</div>

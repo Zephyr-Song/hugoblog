@@ -1,0 +1,47 @@
+# 中文翻译
+archives:
+  one: "归档"
+  other: "归档"
+
+search:
+  one: "搜索"
+  other: "搜索"
+
+reading_time:
+  one: "{{.ReadingTime}} 分钟阅读"
+  other: "{{.ReadingTime}} 分钟阅读"
+
+date_format_short:
+  one: "3月 2日"
+  other: "3月 2日"
+
+date_format_long:
+  one: "2026年3月2日"
+  other: "2026年3月2日"
+
+home_info_title:
+  one: "你好，我是 Zephyr 👋"
+  other: "你好，我是 Zephyr 👋"
+
+categories:
+  one: "分类"
+  other: "分类"
+
+tags:
+  one: "标签"
+  other: "标签"
+
+menu:
+  main:
+    archives:
+      name: "归档"
+    search:
+      name: "搜索"
+
+breadcrumb_home:
+  one: "首页"
+  other: "首页"
+
+breadcrumb_archives:
+  one: "归档"
+  other: "归档"

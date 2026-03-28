@@ -1,0 +1,47 @@
+# English translations
+archives:
+  one: "Archives"
+  other: "Archives"
+
+search:
+  one: "Search"
+  other: "Search"
+
+reading_time:
+  one: "{{.ReadingTime}} min read"
+  other: "{{.ReadingTime}} min read"
+
+date_format_short:
+  one: "Jan 2"
+  other: "Jan 2"
+
+date_format_long:
+  one: "January 2, 2026"
+  other: "January 2, 2026"
+
+home_info_title:
+  one: "Hi, I'm Zephyr 👋"
+  other: "Hi, I'm Zephyr 👋"
+
+categories:
+  one: "Categories"
+  other: "Categories"
+
+tags:
+  one: "Tags"
+  other: "Tags"
+
+menu:
+  main:
+    archives:
+      name: "Archives"
+    search:
+      name: "Search"
+
+breadcrumb_home:
+  one: "Home"
+  other: "Home"
+
+breadcrumb_archives:
+  one: "Archives"
+  other: "Archives"

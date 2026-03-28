@@ -3,6 +3,20 @@ languageCode = 'en-us'
 title = 'My Blog'
 theme = 'PaperMod'
 
+defaultContentLanguage = "en"
+hasCJKLanguage = true
+
+[languages]
+  [languages.en]
+    title = "My Blog"
+    languageName = "English"
+    weight = 1
+
+  [languages.zh]
+    title = "我的博客"
+    languageName = "中文"
+    weight = 2
+
 # 启用资源处理
 [build]
   writeStats = true
@@ -33,3 +47,55 @@ theme = 'PaperMod'
   [params.musicPlayer]
     enabled = true
     autoplay = false
+
+  # 启用归档页面
+  [params.archive]
+    enabled = true
+
+  # 启用搜索页面
+  [params.search]
+    enabled = true
+
+  # 启用代码块复制按钮
+  [params.copyCode]
+    enabled = true
+
+  # 启用文章目录
+  [params.tableOfContents]
+    enabled = true
+
+  # 启用阅读时间估算
+  [params.readingTime]
+    enabled = true
+
+  # 启用文章导航
+  [params.postNavigation]
+    enabled = true
+
+  # 启用 Breadcrumb 导航
+  [params.breadcrumb]
+    enabled = true
+
+  # 启用社交分享按钮
+  [params.shareButtons]
+    enabled = true
+    platforms = ["twitter", "facebook", "linkedin", "reddit", "pinterest", "telegram", "whatsapp"]
+
+  # 语言配置
+  [params.language]
+    default = "en"
+    languageNames = ["English", "Chinese"]
+    languageCodes = ["en", "zh"]
+
+  # 多语言菜单
+  [[params.menu]]
+    identifier = "archive"
+    name = "Archives"
+    url = "/archive"
+    weight = 1
+
+  [[params.menu]]
+    identifier = "search"
+    name = "Search"
+    url = "/search"
+    weight = 2
