@@ -3,7 +3,6 @@ title: "欢迎来到我的博客"
 date: 2026-03-24
 description: "这是我的第一篇博客文章"
 categories: ["随笔"]
-lang: "zh"
 ---
 
 这个博客使用 [Hugo](https://gohugo.io) 框架和 [PaperMod](https://github.com/adityatelange/hugo-PaperMod) 主题构建。
