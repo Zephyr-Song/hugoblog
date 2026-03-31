@@ -1,5 +1,6 @@
-/* ==================== 音乐播放器样式 v2.1 ==================== */
+/* ==================== 音乐播放器样式 v4.0 ==================== */
 
+/* ---- 触发按钮 ---- */
 .music-toggle {
   position: fixed;
   bottom: 32px;
@@ -31,7 +32,7 @@
 
 @keyframes togglePulse {
   0%, 100% { box-shadow: 0 4px 16px rgba(143, 179, 169, 0.5); }
-  50% { box-shadow: 0 4px 28px rgba(143, 179, 169, 0.9); }
+  50%       { box-shadow: 0 4px 28px rgba(143, 179, 169, 0.9); }
 }
 
 /* ---- 播放器主体 ---- */
@@ -40,23 +41,22 @@
   bottom: 96px;
   right: 24px;
   width: 320px;
-  background: var(--bg-secondary, #f5f3ef);
+  background: var(--theme, #faf9f6);
   border: 1px solid var(--border, #e8e4df);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
   z-index: 1000;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  max-height: 82vh;
 }
 
 .music-player.hidden { display: none; }
 
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
 }
 
 /* ---- 头部 ---- */
@@ -64,41 +64,72 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.85rem 1rem;
+  padding: 0.75rem 0.85rem;
   background: linear-gradient(135deg, #8fb3a9 0%, #7a9e96 100%);
   color: white;
   flex-shrink: 0;
+  gap: 0.5rem;
 }
+
+.player-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.player-icon { font-size: 1rem; flex-shrink: 0; }
 
 .player-title {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.player-close {
-  background: rgba(255,255,255,0.2);
+.player-header-btns {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.header-btn {
+  background: rgba(255, 255, 255, 0.2);
   border: none;
   color: white;
-  width: 26px;
   height: 26px;
-  border-radius: 50%;
-  font-size: 0.85rem;
+  border-radius: 13px;
+  font-size: 0.72rem;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0 8px;
+  text-decoration: none;
   transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.player-close:hover {
-  background: rgba(255,255,255,0.4);
-  transform: scale(1.1);
+.header-btn:hover {
+  background: rgba(255, 255, 255, 0.38);
+  transform: scale(1.05);
 }
 
-/* ---- 网易云歌单容器 ---- */
+.close-btn {
+  width: 26px;
+  padding: 0;
+  font-size: 0.8rem;
+}
+
+/* ---- 网易云 iframe 容器 ---- */
 .netease-container {
-  background: var(--bg-color, #faf9f6);
+  flex-shrink: 0;
+  background: #fff;
   overflow: hidden;
 }
 
@@ -108,12 +139,11 @@
 
 /* ---- 深色模式 ---- */
 [data-theme="dark"] .music-player {
-  background: var(--bg-secondary, #252525);
+  background: var(--theme, #1d1e20);
   border-color: var(--border, #333);
 }
-[data-theme="dark"] .album-art::after {
-  background: var(--bg-secondary, #252525);
-  border-color: var(--border, #333);
+[data-theme="dark"] .netease-container {
+  background: #1a1a1a;
 }
 
 /* ---- 响应式 ---- */
@@ -122,7 +152,6 @@
     right: 8px;
     bottom: 80px;
     width: calc(100vw - 16px);
-    max-height: 75vh;
   }
   .music-toggle {
     bottom: 20px;
