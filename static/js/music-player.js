@@ -1,4 +1,4 @@
-// ==================== 音乐播放器 v3.0 - Spotify 嵌入方案 ====================
+// ==================== 音乐播放器 v3.1 - 网易云歌单整体嵌入 ====================
 
 class MusicPlayer {
   constructor(config = {}) {
@@ -18,8 +18,8 @@ class MusicPlayer {
           <span class="player-title">🎵 Music</span>
           <button class="player-close" id="player-close" title="关闭">✕</button>
         </div>
-        <div class="spotify-container" id="spotify-container">
-          <!-- Spotify iframe 将由 music-init.js 注入 -->
+        <div class="netease-container" id="netease-container">
+          <!-- 网易云歌单 iframe 将由 music-init.js 注入 -->
         </div>
       </div>
       <button class="music-toggle" id="music-toggle" title="打开音乐播放器">🎵</button>
@@ -27,17 +27,16 @@ class MusicPlayer {
     document.body.insertAdjacentHTML('beforeend', playerHTML);
   }
 
-  setPlaylist(spotifyEmbedUrl) {
-    const container = document.getElementById('spotify-container');
+  setPlaylist(neteasePlaylistId) {
+    const container = document.getElementById('netease-container');
     container.innerHTML = `
       <iframe
-        src="${spotifyEmbedUrl}"
+        src="https://music.163.com/outchain/player?type=0&id=${neteasePlaylistId}&auto=0&height=430"
         width="100%"
-        height="352"
+        height="430"
         frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-        style="border-radius:12px;">
+        allowtransparency="true"
+        style="display:block;">
       </iframe>
     `;
   }
