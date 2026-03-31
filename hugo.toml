@@ -1,33 +1,118 @@
 baseURL = 'https://zephyrsong.qzz.io/'
-languageCode = 'en-us'
-title = 'My Blog'
+languageCode = 'zh-cn'
+title = "Zephyr's Blog"
 theme = 'PaperMod'
 
-defaultContentLanguage = "en"
+defaultContentLanguage = "zh"
 hasCJKLanguage = true
 
 [languages]
-  [languages.en]
-    title = "My Blog"
-    languageName = "English"
+  [languages.zh]
+    title = "Zephyr's Blog"
+    languageName = "中文"
     weight = 1
-    
+
+    [languages.zh.params]
+      languageAltTitle = "中文"
+
+    [[languages.zh.menu.main]]
+      identifier = "posts"
+      name = "文章"
+      url = "/posts/"
+      weight = 10
+
+    [[languages.zh.menu.main]]
+      identifier = "archives"
+      name = "归档"
+      url = "/archives/"
+      weight = 20
+
+    [[languages.zh.menu.main]]
+      identifier = "tags"
+      name = "标签"
+      url = "/tags/"
+      weight = 30
+
+    [[languages.zh.menu.main]]
+      identifier = "about"
+      name = "关于"
+      url = "/about/"
+      weight = 40
+
+    [[languages.zh.menu.main]]
+      identifier = "search"
+      name = "搜索"
+      url = "/search/"
+      weight = 50
+
+  [languages.en]
+    title = "Zephyr's Blog"
+    languageName = "English"
+    weight = 2
+
     [languages.en.params]
       languageAltTitle = "English"
 
-  [languages.zh]
-    title = "我的博客"
-    languageName = "中文"
-    weight = 2
-    
-    [languages.zh.params]
-      languageAltTitle = "Chinese"
+    [[languages.en.menu.main]]
+      identifier = "posts"
+      name = "Posts"
+      url = "/posts/"
+      weight = 10
+
+    [[languages.en.menu.main]]
+      identifier = "archives"
+      name = "Archives"
+      url = "/archives/"
+      weight = 20
+
+    [[languages.en.menu.main]]
+      identifier = "tags"
+      name = "Tags"
+      url = "/tags/"
+      weight = 30
+
+    [[languages.en.menu.main]]
+      identifier = "about"
+      name = "About"
+      url = "/about/"
+      weight = 40
 
 # 启用资源处理
 [build]
   writeStats = true
 
 [params]
+  env = "production"
+  description = "Zephyr 的个人博客 — 记录科技思考、读书感悟与日常随笔"
+  author = "Zephyr"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowWordCount = true
+  ShowRssButtonInSectionTermList = true
+  UseHugoToc = true
+  disableSpecial1stPost = false
+  disableScrollToTop = false
+  comments = false
+  hidemeta = false
+  hideSummary = false
+  showtoc = true
+  tocopen = false
+
+  # 启用搜索
+  [params.fuseOpts]
+    isCaseSensitive = false
+    shouldSort = true
+    location = 0
+    distance = 1000
+    threshold = 0.4
+    minMatchCharLength = 1
+    limit = 10
+    keys = ["title", "permalink", "summary", "content"]
+
   # 启用 Home Info 模式 —— socialIcons 只在这个模式下显示
   [params.homeInfoParams]
     Title = "Hi, I'm Zephyr 👋"
@@ -35,14 +120,13 @@ hasCJKLanguage = true
 
 闲暇时偏爱在围棋象棋的对弈中思悟，通过运动健身来感受心脏真实跳动，也常沉浸在小说漫画和游戏的世界里，让音乐伴日常，同时积极探索科技。"""
 
-  # GitHub 图标（必须配合 homeInfoParams 或 profileMode 才显示）
   [[params.socialIcons]]
     name = "github"
     url = "https://github.com/Zephyr-Song"
 
   [[params.socialIcons]]
-    name = "link"
-    url = "https://zephyr-song.github.io"
+    name = "rss"
+    url = "/index.xml"
 
   # 动态效果和音乐播放器配置（已禁用）
   [params.animations]
@@ -55,4 +139,7 @@ hasCJKLanguage = true
     enabled = false
 
   disableLangToggle = false
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
 
