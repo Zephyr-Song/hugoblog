@@ -1,5 +1,24 @@
 {{ if .Site.Params.musicPlayer.enabled }}
+<!-- APlayer 样式微调 -->
 <link rel="stylesheet" href="/css/music-player.css">
-<script src="/js/music-player.js" defer></script>
-<script src="/js/music-init.js" defer></script>
+
+<!-- APlayer + MetingJS CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+
+<!-- 播放器标签：网易云歌单 2809513713，固定右下角，mini 模式，随机播放 -->
+<meting-js
+  server="netease"
+  type="playlist"
+  id="2809513713"
+  fixed="true"
+  autoplay="false"
+  loop="all"
+  order="random"
+  volume="0.7"
+  mutex="true"
+  preload="auto"
+  theme="#8fb3a9"
+></meting-js>
 {{ end }}
