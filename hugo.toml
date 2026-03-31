@@ -45,37 +45,8 @@ hasCJKLanguage = true
       url = "/search/"
       weight = 50
 
-  [languages.en]
-    title = "Zephyr's Blog"
-    languageName = "English"
-    weight = 2
 
-    [languages.en.params]
-      languageAltTitle = "English"
 
-    [[languages.en.menu.main]]
-      identifier = "posts"
-      name = "Posts"
-      url = "/posts/"
-      weight = 10
-
-    [[languages.en.menu.main]]
-      identifier = "archives"
-      name = "Archives"
-      url = "/archives/"
-      weight = 20
-
-    [[languages.en.menu.main]]
-      identifier = "tags"
-      name = "Tags"
-      url = "/tags/"
-      weight = 30
-
-    [[languages.en.menu.main]]
-      identifier = "about"
-      name = "About"
-      url = "/about/"
-      weight = 40
 
 # 启用资源处理
 [build]
@@ -138,7 +109,7 @@ hasCJKLanguage = true
   [params.musicPlayer]
     enabled = false
 
-  disableLangToggle = false
+  disableLangToggle = true
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
