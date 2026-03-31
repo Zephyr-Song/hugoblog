@@ -57,12 +57,12 @@ hasCJKLanguage = true
   description = "Zephyr 的个人博客 — 记录科技思考、读书感悟与日常随笔"
   author = "Zephyr"
   defaultTheme = "auto"
-  ShowReadingTime = true
+  ShowReadingTime = false
   ShowShareButtons = false
   ShowPostNavLinks = true
   ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
-  ShowWordCount = true
+  ShowWordCount = false
   ShowRssButtonInSectionTermList = true
   UseHugoToc = true
   disableSpecial1stPost = false
@@ -99,7 +99,7 @@ hasCJKLanguage = true
     name = "rss"
     url = "/index.xml"
 
-  # 动态效果和音乐播放器配置（已禁用）
+  # 动态效果和音乐播放器配置
   [params.animations]
     enabled = false
 
@@ -107,7 +107,7 @@ hasCJKLanguage = true
     enabled = false
 
   [params.musicPlayer]
-    enabled = false
+    enabled = true
 
   disableLangToggle = true
 
