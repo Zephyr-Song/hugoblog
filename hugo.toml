@@ -5,6 +5,7 @@ theme = 'PaperMod'
 
 defaultContentLanguage = "zh"
 hasCJKLanguage = true
+buildFuture = true
 
 [languages]
   [languages.zh]
