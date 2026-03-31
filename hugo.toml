@@ -28,12 +28,6 @@ hasCJKLanguage = true
       weight = 20
 
     [[languages.zh.menu.main]]
-      identifier = "tags"
-      name = "标签"
-      url = "/tags/"
-      weight = 30
-
-    [[languages.zh.menu.main]]
       identifier = "about"
       name = "关于"
       url = "/about/"
