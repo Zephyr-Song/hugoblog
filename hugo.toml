@@ -96,6 +96,10 @@ hasCJKLanguage = true
     url = "https://github.com/Zephyr-Song"
 
   [[params.socialIcons]]
+    name = "globe"
+    url = "https://zephyr-song.github.io"
+
+  [[params.socialIcons]]
     name = "rss"
     url = "/index.xml"
 
