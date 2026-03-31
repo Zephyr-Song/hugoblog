@@ -1,28 +1,39 @@
-/* ==================== APlayer 浮窗微调 v5.0 ==================== */
+/* ==================== APlayer 浮窗 v5.2 ==================== */
 
-/* 固定在右下角 */
-.aplayer.aplayer-fixed {
-  bottom: 24px !important;
-  right: 24px !important;
-  left: auto !important;
-  z-index: 1000 !important;
+/* 外层容器：固定右下角 */
+#music-player-wrap {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  border-radius: 16px;
+  overflow: hidden;
 }
 
-/* 圆形触发按钮颜色融入博客风格（绿色系） */
-.aplayer.aplayer-fixed .aplayer-body {
-  border-radius: 16px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.16) !important;
+/* APlayer 本体撑满容器，移除多余圆角让容器统一控制 */
+#music-player-wrap .aplayer {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
-/* 展开面板最大宽度 */
-.aplayer.aplayer-fixed .aplayer-list {
-  max-height: 240px !important;
+/* 进度条强制可见 */
+#music-player-wrap .aplayer-bar-wrap {
+  display: block !important;
+}
+
+/* 歌单列表向上展开，圆角 */
+#music-player-wrap .aplayer-list {
+  border-radius: 16px 16px 0 0 !important;
 }
 
 /* 移动端适配 */
 @media (max-width: 480px) {
-  .aplayer.aplayer-fixed {
-    right: 8px !important;
-    bottom: 16px !important;
+  #music-player-wrap {
+    right: 8px;
+    bottom: 16px;
+    width: calc(100vw - 16px);
   }
 }
