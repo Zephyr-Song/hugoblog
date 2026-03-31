@@ -39,7 +39,7 @@
   position: fixed;
   bottom: 96px;
   right: 24px;
-  width: 340px;
+  width: 320px;
   background: var(--bg-secondary, #f5f3ef);
   border: 1px solid var(--border, #e8e4df);
   border-radius: 20px;
@@ -96,15 +96,14 @@
   transform: scale(1.1);
 }
 
-/* ---- Spotify 播放器容器 ---- */
-.spotify-container {
-  padding: 0.75rem;
+/* ---- 网易云歌单容器 ---- */
+.netease-container {
   background: var(--bg-color, #faf9f6);
+  overflow: hidden;
 }
 
-.spotify-container iframe {
+.netease-container iframe {
   display: block;
-  border-radius: 12px;
 }
 
 /* ---- 深色模式 ---- */
