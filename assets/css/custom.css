@@ -228,22 +228,59 @@ code {
   font-size: 0.95rem;
 }
 
-/* 响应式 */
+/* 响应式 - 手机端 */
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
   
   .hero-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     letter-spacing: 1px;
   }
   
   .post-entry {
-    padding: 0.9rem;
+    padding: 0.8rem;
+  }
+  
+  .post-entry .title {
+    font-size: 0.95rem;
   }
   
   .site-title {
+    font-size: 0.9rem;
+  }
+  
+  .hero-container {
+    padding: 2rem 1rem;
+  }
+  
+  body {
+    font-size: 0.9rem;
+  }
+  
+  .post-single h1 {
+    font-size: 1.15rem;
+  }
+  
+  .post-single h2 {
     font-size: 1rem;
+  }
+  
+  .post-single h3 {
+    font-size: 0.9rem;
+  }
+  
+  .tag {
+    font-size: 0.65rem;
+    padding: 0.1rem 0.5rem;
+  }
+  
+  .archive-month h3 {
+    font-size: 0.85rem;
+  }
+  
+  .toc h3 {
+    font-size: 0.8rem;
   }
 }
