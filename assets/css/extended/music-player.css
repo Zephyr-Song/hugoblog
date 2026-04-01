@@ -106,11 +106,14 @@
 .aplayer.aplayer-fixed .aplayer-icon-forward { right: 25px !important; }
 .aplayer.aplayer-fixed .aplayer-icon-menu { right: 0 !important; display: inline-block !important; }
 
-/* 音量按钮位置 */
+/* 音量按钮 - 移到最左边与其他按钮同排 */
 .aplayer.aplayer-fixed .aplayer-icon-volume {
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
+  position: absolute !important;
+  bottom: 10px !important;
+  right: 100px !important;
 }
 
 /* 暗黑模式 */
