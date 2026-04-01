@@ -1,44 +1,44 @@
 /**
  * 音乐播放器自动跳下一首
- * 解决 APlayer loop 属性不生效 + 网易云试听30秒问题
+ * 通过 monkey-patch APlayer 构造函数，在初始化时自动绑定 ended/error 事件
  */
 (function () {
-  function setupAutoNext() {
-    var audio = document.querySelector('.aplayer audio');
-    if (!audio) return false;
+  // 保存原始 APlayer 构造函数
+  var OrigAPlayer = window.APlayer;
 
-    function goNext() {
-      var btn = document.querySelector('.aplayer .aplayer-icon-next');
-      if (btn) {
-        btn.click();
-      } else {
-        // 备用方案：用 APlayer API
-        var apEl = document.querySelector('.aplayer');
-        if (apEl._aplayer) {
-          apEl._aplayer.skipForward();
-        }
-      }
-    }
+  // 如果 APlayer 已加载，直接 patch；否则等加载完再 patch
+  function patch() {
+    if (typeof window.APlayer !== 'function') return false;
 
-    audio.addEventListener('ended', goNext);
-    audio.addEventListener('error', function () {
-      setTimeout(goNext, 500);
-    });
+    var Orig = window.APlayer;
+    window.APlayer = function () {
+      var instance = new Orig.apply(this, arguments);
 
+      // 自动跳下一首
+      instance.on('ended', function () {
+        instance.skipForward();
+      });
+      instance.on('error', function () {
+        setTimeout(function () { instance.skipForward(); }, 500);
+      });
+
+      return instance;
+    };
+
+    // 继承原型
+    window.APlayer.prototype = Orig.prototype;
+    window.APlayer.constructor = Orig;
+
+    console.log('[auto-next] APlayer patched OK');
     return true;
   }
 
-  function poll() {
+  if (!patch()) {
+    // APlayer 还没加载，轮询等待
     var count = 0;
     var timer = setInterval(function () {
       count++;
-      if (setupAutoNext() || count > 120) clearInterval(timer);
+      if (patch() || count > 60) clearInterval(timer);
     }, 500);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', poll);
-  } else {
-    poll();
   }
 })();
