@@ -25,38 +25,31 @@
 ></meting-js>
 
 <script>
-// 确保播完一首自动跳下一首（兼容试听30秒的歌曲）
-function bindAutoNext() {
-  var apEl = document.querySelector('.aplayer');
-  if (apEl && apEl._aplayer) {
-    var ap = apEl._aplayer;
-    // ended: 正常播完
-    ap.on('ended', function () {
-      ap.skipForward();
-    });
-    // error: 试听片段播完后可能触发 error 而非 ended
-    ap.on('error', function () {
-      setTimeout(function () { ap.skipForward(); }, 300);
-    });
-    return true;
-  }
-  return false;
+// 监听底层 audio 元素，确保播完自动跳下一首
+function setupAutoNext() {
+  var audio = document.querySelector('.aplayer .aplayer-video');
+  if (!audio) return false;
+  audio.addEventListener('ended', function () {
+    // 找到"下一首"按钮并点击
+    var btn = document.querySelector('.aplayer .aplayer-icon-next');
+    if (btn) btn.click();
+  });
+  return true;
 }
 
-// MetingJS 异步加载，轮询等待 APlayer 实例
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', pollAPlayer);
+  document.addEventListener('DOMContentLoaded', function () {
+    var count = 0;
+    var timer = setInterval(function () {
+      count++;
+      if (setupAutoNext() || count > 120) clearInterval(timer);
+    }, 500);
+  });
 } else {
-  pollAPlayer();
-}
-
-function pollAPlayer() {
   var count = 0;
   var timer = setInterval(function () {
     count++;
-    if (bindAutoNext() || count > 60) {
-      clearInterval(timer);
-    }
+    if (setupAutoNext() || count > 120) clearInterval(timer);
   }, 500);
 }
 </script>
