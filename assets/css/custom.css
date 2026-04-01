@@ -40,11 +40,11 @@ body {
 .nav-bar {
   max-width: 900px;
   margin: 0 auto;
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
 }
 
 .site-title {
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-main);
   letter-spacing: 2px;
@@ -53,7 +53,7 @@ body {
 /* Hero 区域 */
 .hero-container {
   background: linear-gradient(135deg, #f5f3ef 0%, #e8e4df 100%);
-  padding: 5rem 2rem;
+  padding: 3rem 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -81,17 +81,17 @@ body {
 }
 
 .hero-title {
-  font-size: 2.5rem;
+  font-size: 1.6rem;
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
   color: var(--text-main);
 }
 
 .hero-subtitle {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: var(--text-secondary);
   font-weight: 400;
-  letter-spacing: 3px;
+  letter-spacing: 2px;
 }
 
 /* 文章卡片 */
@@ -99,8 +99,8 @@ body {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
   transition: all 0.3s ease;
 }
 
@@ -111,14 +111,14 @@ body {
 }
 
 .post-entry .title {
-  font-size: 1.3rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-main);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .post-entry .post-meta {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   font-family: var(--font-sans);
 }
@@ -127,11 +127,11 @@ body {
 .tag {
   background: var(--accent);
   color: white;
-  padding: 0.2rem 0.8rem;
+  padding: 0.15rem 0.6rem;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-family: var(--font-sans);
-  margin-right: 0.5rem;
+  margin-right: 0.4rem;
 }
 
 .tag:hover {
@@ -145,22 +145,22 @@ body {
 }
 
 .archive-month {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .archive-month h3 {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: var(--accent);
   border-bottom: 2px solid var(--accent);
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
 }
 
 /* 关于页面 */
 .about-content {
   max-width: 700px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
   background: var(--bg-secondary);
   border-radius: 16px;
   border: 1px solid var(--border);
@@ -170,9 +170,9 @@ body {
 .site-footer {
   background: var(--bg-secondary);
   border-top: 1px solid var(--border);
-  padding: 2rem;
+  padding: 1.5rem;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
 }
 
@@ -194,7 +194,7 @@ pre {
 
 code {
   font-family: 'Fira Code', 'JetBrains Mono', monospace;
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 /* 目录样式 */
@@ -202,27 +202,48 @@ code {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0.8rem;
 }
 
 .toc h3 {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: var(--accent);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
+}
+
+/* 文章内标题 */
+.post-single h1 {
+  font-size: 1.4rem;
+}
+
+.post-single h2 {
+  font-size: 1.2rem;
+}
+
+.post-single h3 {
+  font-size: 1.05rem;
+}
+
+.post-single h4 {
+  font-size: 0.95rem;
 }
 
 /* 响应式 */
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
   }
   
   .hero-subtitle {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     letter-spacing: 1px;
   }
   
   .post-entry {
-    padding: 1rem;
+    padding: 0.9rem;
+  }
+  
+  .site-title {
+    font-size: 1rem;
   }
 }
