@@ -12,8 +12,6 @@
     el.setAttribute('list-folded', 'false');
     el.setAttribute('autoplay', 'false');
     el.setAttribute('theme', '#8fb3a9');
-    // 尝试多个API服务器
-    el.setAttribute('api', 'https://api.yuanningtech.cn/');
     document.body.appendChild(el);
   }
 
