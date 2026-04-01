@@ -11,7 +11,7 @@
     el.setAttribute('type', 'playlist');
     el.setAttribute('id', '2809513713');
     el.setAttribute('fixed', 'true');
-    el.setAttribute('mini', 'true');
+    el.setAttribute('mini', 'false');
     el.setAttribute('list-folded', 'false');
     el.setAttribute('list-max-height', '180px');
     el.setAttribute('autoplay', 'false');
