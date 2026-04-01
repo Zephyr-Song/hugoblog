@@ -1,6 +1,7 @@
 <!-- 指尖粒子特效 -->
 <script src="/js/cursor-effect.js" defer></script>
 
+<!-- 音乐播放器 -->
 <link rel="stylesheet" href="/css/music-player.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
 <script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
@@ -24,32 +25,5 @@
   theme="#8fb3a9"
 ></meting-js>
 
-<script>
-// 监听底层 audio 元素，确保播完自动跳下一首
-function setupAutoNext() {
-  var audio = document.querySelector('.aplayer .aplayer-video');
-  if (!audio) return false;
-  audio.addEventListener('ended', function () {
-    // 找到"下一首"按钮并点击
-    var btn = document.querySelector('.aplayer .aplayer-icon-next');
-    if (btn) btn.click();
-  });
-  return true;
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function () {
-    var count = 0;
-    var timer = setInterval(function () {
-      count++;
-      if (setupAutoNext() || count > 120) clearInterval(timer);
-    }, 500);
-  });
-} else {
-  var count = 0;
-  var timer = setInterval(function () {
-    count++;
-    if (setupAutoNext() || count > 120) clearInterval(timer);
-  }, 500);
-}
-</script>
+<!-- 自动跳下一首 -->
+<script src="/js/auto-next.js"></script>
