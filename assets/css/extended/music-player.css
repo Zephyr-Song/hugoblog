@@ -61,6 +61,61 @@
   max-height: 250px !important;
 }
 
+/* 暗黑模式 */
+[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body {
+  background: #1a1a1a !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-info {
+  border-bottom-color: #333 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-list {
+  background: #1a1a1a !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-list li {
+  border-bottom-color: #333 !important;
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-list li:hover {
+  background: #252525 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-list li.aplayer-list-light {
+  background: #252525 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-list li .aplayer-list-index {
+  color: #a0a0a0 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-list li .aplayer-list-author {
+  color: #a0a0a0 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-title {
+  color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  color: #a0a0a0 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time {
+  color: #a0a0a0 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar {
+  background: #333 !important;
+}
+
+[data-theme="dark"] .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar {
+  background: #333 !important;
+}
+
 /* 响应式手机端 */
 @media (max-width: 600px) {
   .aplayer.aplayer-fixed {
