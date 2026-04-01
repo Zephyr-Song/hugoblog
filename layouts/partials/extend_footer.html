@@ -24,4 +24,19 @@
   preload="auto"
   theme="#8fb3a9"
 ></meting-js>
+
+<script>
+// 确保播完一首自动跳下一首
+document.addEventListener('DOMContentLoaded', function () {
+  var timer = setInterval(function () {
+    var ap = document.querySelector('.aplayer');
+    if (ap && ap._aplayer) {
+      clearInterval(timer);
+      ap._aplayer.on('ended', function () {
+        ap._aplayer.skipForward();
+      });
+    }
+  }, 500);
+});
+</script>
 {{ end }}
