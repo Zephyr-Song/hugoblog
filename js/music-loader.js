@@ -1,9 +1,10 @@
 /**
- * Music Loader - 替代 HTML <meting-js> 标签
- * 用 JavaScript 动态创建 meting-js 元素，避免 Hugo --minify 破坏属性值
- * 同时自动绑定 ended/error 事件实现自动下一首
+ * Music Loader - 动态加载 Meting 播放器
+ * 避免 Hugo --minify 破坏 HTML 属性值
  */
 (function () {
+  var bound = false;
+
   function initMeting() {
     var el = document.createElement('meting-js');
     el.setAttribute('server', 'netease');
@@ -21,9 +22,35 @@
     el.setAttribute('preload', 'auto');
     el.setAttribute('theme', '#8fb3a9');
     document.body.appendChild(el);
+  }
 
-    /* 等 Meting 异步拉取歌单、创建 APlayer 实例 */
-    waitForAPlayer();
+  function bindOnce(ap) {
+    if (bound) return;
+    bound = true;
+
+    ap.on('ended', function () {
+      /* 正常播放结束才跳下一首 */
+      ap.skipForward();
+    });
+
+    /* 错误处理：最多连续跳过3首，防止无限循环 */
+    var errorCount = 0;
+    var maxErrors = 3;
+    ap.on('error', function () {
+      errorCount++;
+      if (errorCount <= maxErrors) {
+        setTimeout(function () { ap.skipForward(); }, 800);
+      } else {
+        console.warn('[music-loader] Too many errors, stopped auto-skip');
+      }
+    });
+
+    /* 播放成功后重置错误计数 */
+    ap.on('play', function () {
+      errorCount = 0;
+    });
+
+    console.log('[music-loader] Events bound, loop=' + ap.loop);
   }
 
   function waitForAPlayer() {
@@ -33,33 +60,22 @@
       var dom = document.querySelector('.aplayer');
       if (dom && dom.__aplayer) {
         clearInterval(timer);
-        var ap = dom.__aplayer;
-
-        /* 强制开启循环（双重保险） */
-        ap.loop = 'all';
-
-        /* 播完自动下一首 */
-        ap.on('ended', function () {
-          ap.skipForward();
-        });
-        /* 加载出错也自动跳过 */
-        ap.on('error', function () {
-          setTimeout(function () { ap.skipForward(); }, 500);
-        });
-
-        console.log('[music-loader] APlayer ready, loop=' + ap.loop);
-        return;
+        bindOnce(dom.__aplayer);
       }
-      if (count > 120) {
+      if (count > 100) {
         clearInterval(timer);
-        console.warn('[music-loader] APlayer instance not found after 60 s');
+        console.warn('[music-loader] Timeout');
       }
-    }, 500);
+    }, 300);
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMeting);
+    document.addEventListener('DOMContentLoaded', function () {
+      initMeting();
+      waitForAPlayer();
+    });
   } else {
     initMeting();
+    waitForAPlayer();
   }
 })();
