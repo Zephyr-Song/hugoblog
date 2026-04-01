@@ -1,44 +1,43 @@
 /**
- * 音乐播放器自动跳下一首
- * 通过 monkey-patch APlayer 构造函数，在初始化时自动绑定 ended/error 事件
+ * 音乐播放器自动跳下一首（修复版）
+ * 直接获取 Meting 创建的 APlayer 实例，绑定 ended/error 事件
  */
 (function () {
-  // 保存原始 APlayer 构造函数
-  var OrigAPlayer = window.APlayer;
-
-  // 如果 APlayer 已加载，直接 patch；否则等加载完再 patch
-  function patch() {
-    if (typeof window.APlayer !== 'function') return false;
-
-    var Orig = window.APlayer;
-    window.APlayer = function () {
-      var instance = new Orig.apply(this, arguments);
-
-      // 自动跳下一首
-      instance.on('ended', function () {
-        instance.skipForward();
-      });
-      instance.on('error', function () {
-        setTimeout(function () { instance.skipForward(); }, 500);
-      });
-
-      return instance;
-    };
-
-    // 继承原型
-    window.APlayer.prototype = Orig.prototype;
-    window.APlayer.constructor = Orig;
-
-    console.log('[auto-next] APlayer patched OK');
-    return true;
+  function bindEvents(ap) {
+    ap.on('ended', function () {
+      ap.skipForward();
+    });
+    ap.on('error', function () {
+      setTimeout(function () { ap.skipForward(); }, 500);
+    });
+    console.log('[auto-next] Bound ended/error events to APlayer');
   }
 
-  if (!patch()) {
-    // APlayer 还没加载，轮询等待
+  function tryBind() {
+    /* Meting 把实例挂在 .aplayer DOM 元素的 __aplayer 属性上 */
+    var el = document.querySelector('.aplayer');
+    if (el && el.__aplayer) {
+      bindEvents(el.__aplayer);
+      return true;
+    }
+
+    /* 备用：Meting 2.x 内部也通过 .ap 存储实例 */
+    var metingEl = document.querySelector('meting-js');
+    if (metingEl && metingEl.ap) {
+      bindEvents(metingEl.ap);
+      return true;
+    }
+    return false;
+  }
+
+  if (!tryBind()) {
     var count = 0;
     var timer = setInterval(function () {
       count++;
-      if (patch() || count > 60) clearInterval(timer);
+      if (tryBind() || count > 120) {
+        clearInterval(timer);
+        if (count > 120) console.warn('[auto-next] APlayer instance not found after 60s');
+      }
     }, 500);
   }
 })();
