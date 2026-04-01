@@ -51,27 +51,30 @@
   box-shadow: 0 0 0 3px rgba(143,179,169,0.3) !important;
 }
 
-/* 音量条 */
+/* 音量条颜色 */
 .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
   background: #8fb3a9 !important;
 }
 
-/* 音量按钮往右移，避免被其他按钮遮挡 */
-.aplayer .aplayer-volume-wrap {
-  right: 0 !important;
-  left: auto !important;
+/* 控制按钮区域 - 给音量按钮留空间 */
+.aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap {
+  margin-right: 100px !important;
 }
 
-/* 音量弹出面板往右偏移 */
-.aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap {
-  right: 0 !important;
-  left: auto !important;
-}
-
-/* 歌单列表高度 */
+/* 歌单列表高度 - 减少底部空白 */
 .aplayer .aplayer-list {
-  max-height: 180px !important;
+  max-height: 160px !important;
   overflow-y: auto !important;
+}
+
+/* 播放器body高度自适应 */
+.aplayer.aplayer-fixed .aplayer-body {
+  height: auto !important;
+}
+
+/* info区域 */
+.aplayer .aplayer-info {
+  padding-bottom: 0 !important;
 }
 
 /* 暗黑模式 */
@@ -140,6 +143,9 @@
     width: calc(100vw - 24px) !important;
   }
   .aplayer .aplayer-list {
-    max-height: 150px !important;
+    max-height: 130px !important;
+  }
+  .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap {
+    margin-right: 90px !important;
   }
 }
