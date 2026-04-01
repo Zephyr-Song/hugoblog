@@ -25,16 +25,38 @@
 ></meting-js>
 
 <script>
-// 确保播完一首自动跳下一首
-document.addEventListener('DOMContentLoaded', function () {
+// 确保播完一首自动跳下一首（兼容试听30秒的歌曲）
+function bindAutoNext() {
+  var apEl = document.querySelector('.aplayer');
+  if (apEl && apEl._aplayer) {
+    var ap = apEl._aplayer;
+    // ended: 正常播完
+    ap.on('ended', function () {
+      ap.skipForward();
+    });
+    // error: 试听片段播完后可能触发 error 而非 ended
+    ap.on('error', function () {
+      setTimeout(function () { ap.skipForward(); }, 300);
+    });
+    return true;
+  }
+  return false;
+}
+
+// MetingJS 异步加载，轮询等待 APlayer 实例
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', pollAPlayer);
+} else {
+  pollAPlayer();
+}
+
+function pollAPlayer() {
+  var count = 0;
   var timer = setInterval(function () {
-    var ap = document.querySelector('.aplayer');
-    if (ap && ap._aplayer) {
+    count++;
+    if (bindAutoNext() || count > 60) {
       clearInterval(timer);
-      ap._aplayer.on('ended', function () {
-        ap._aplayer.skipForward();
-      });
     }
   }, 500);
-});
+}
 </script>
