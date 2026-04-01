@@ -56,14 +56,16 @@
   background: #8fb3a9 !important;
 }
 
-/* 音量按钮往下移，避免被遮挡 */
+/* 音量按钮往右移，避免被其他按钮遮挡 */
 .aplayer .aplayer-volume-wrap {
-  bottom: 2px !important;
+  right: 0 !important;
+  left: auto !important;
 }
 
-/* 音量弹出面板位置调整 */
+/* 音量弹出面板往右偏移 */
 .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap {
-  bottom: 20px !important;
+  right: 0 !important;
+  left: auto !important;
 }
 
 /* 歌单列表高度 */
