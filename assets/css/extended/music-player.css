@@ -12,31 +12,6 @@
   max-width: 320px !important;
 }
 
-/* 展开后的播放器主体 - 强制背景色 */
-.aplayer.aplayer-fixed .aplayer-body {
-  position: fixed !important;
-  left: auto !important;
-  right: 24px !important;
-  bottom: 66px !important;
-  border-radius: 12px !important;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
-  width: 320px !important;
-  max-width: 320px !important;
-  background: #f5f3ef !important;
-  padding-right: 0 !important;
-  overflow: hidden !important;
-}
-
-/* 歌单列表 - 强制背景和高度 */
-.aplayer.aplayer-fixed .aplayer-list {
-  background: #f5f3ef !important;
-  max-height: 150px !important;
-  overflow-y: auto !important;
-  border: none !important;
-  border-top: 1px solid #e8e4df !important;
-  margin-bottom: 0 !important;
-}
-
 /* mini 圆形按钮 */
 .aplayer.aplayer-fixed .aplayer-miniswitcher {
   display: flex !important;
@@ -55,6 +30,29 @@
 
 .aplayer.aplayer-fixed .aplayer-miniswitcher .aplayer-icon {
   fill: #fff !important;
+}
+
+/* 展开后的播放器主体 */
+.aplayer.aplayer-fixed .aplayer-body {
+  position: fixed !important;
+  left: auto !important;
+  right: 24px !important;
+  bottom: 66px !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+  width: 320px !important;
+  max-width: 320px !important;
+  background: #f5f3ef !important;
+}
+
+/* 歌单列表 - 限制高度，留出底部按钮空间 */
+.aplayer.aplayer-fixed .aplayer-list {
+  background: #f5f3ef !important;
+  max-height: 120px !important;
+  overflow-y: auto !important;
+  border: none !important;
+  border-top: 1px solid #e8e4df !important;
+  margin-bottom: 40px !important;
 }
 
 /* 进度条颜色 */
@@ -90,7 +88,7 @@
   visibility: visible !important;
 }
 
-/* 前进/后退/播放按钮 */
+/* 前进/后退/播放按钮 - 底部固定位置 */
 .aplayer.aplayer-fixed .aplayer-icon-back,
 .aplayer.aplayer-fixed .aplayer-icon-forward,
 .aplayer.aplayer-fixed .aplayer-icon-play {
@@ -98,7 +96,7 @@
   visibility: visible !important;
   opacity: 1 !important;
   position: absolute !important;
-  bottom: 27px !important;
+  bottom: 10px !important;
   width: 20px !important;
   height: 20px !important;
 }
@@ -115,7 +113,7 @@
   opacity: 1 !important;
 }
 
-/* ========== 暗黑模式 ========== */
+/* 暗黑模式 */
 [data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body {
   background: #1a1a1a !important;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
@@ -171,7 +169,7 @@
   background: #333 !important;
 }
 
-/* ========== 响应式手机端 ========== */
+/* 响应式手机端 */
 @media (max-width: 600px) {
   .aplayer.aplayer-fixed {
     right: 12px !important;
@@ -185,6 +183,13 @@
     max-width: calc(100vw - 24px) !important;
   }
   .aplayer.aplayer-fixed .aplayer-list {
-    max-height: 120px !important;
+    max-height: 100px !important;
+    margin-bottom: 35px !important;
+  }
+  /* 手机端按钮位置微调 */
+  .aplayer.aplayer-fixed .aplayer-icon-back,
+  .aplayer.aplayer-fixed .aplayer-icon-forward,
+  .aplayer.aplayer-fixed .aplayer-icon-play {
+    bottom: 8px !important;
   }
 }
