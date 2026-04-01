@@ -11,15 +11,17 @@
   z-index: 9999 !important;
 }
 
-/* 展开后的播放器主体 */
+/* 展开后的播放器主体 - 去掉多余的 padding 和高度 */
 .aplayer.aplayer-fixed .aplayer-body {
   left: auto !important;
   right: 0 !important;
-  bottom: 66px !important;   /* 在 mini 按钮上方展开 */
+  bottom: 66px !important;
   border-radius: 12px !important;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
   width: 320px !important;
   background: var(--entry, #f5f3ef) !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
 }
 
 /* mini 圆形按钮 */
@@ -56,9 +58,26 @@
   background: #8fb3a9 !important;
 }
 
-/* 歌单列表最大高度，防止遮挡页面 */
+/* 歌单列表最大高度 */
 .aplayer .aplayer-list {
-  max-height: 250px !important;
+  max-height: 200px !important;
+}
+
+/* 修复 info 区域高度，让音量按钮不被遮挡 */
+.aplayer .aplayer-info {
+  padding: 10px 15px !important;
+  margin-bottom: 0 !important;
+}
+
+/* 控制器区域紧凑布局 */
+.aplayer .aplayer-info .aplayer-controller {
+  padding: 8px 15px 10px !important;
+}
+
+/* 歌单列表紧贴底部 */
+.aplayer .aplayer-list {
+  margin-top: 0 !important;
+  border-top: 1px solid var(--border-color, #e8e4df) !important;
 }
 
 /* 暗黑模式 */
@@ -116,6 +135,10 @@
   background: #333 !important;
 }
 
+[data-theme="dark"] .aplayer .aplayer-list {
+  border-top-color: #333 !important;
+}
+
 /* 响应式手机端 */
 @media (max-width: 600px) {
   .aplayer.aplayer-fixed {
@@ -125,5 +148,8 @@
   }
   .aplayer.aplayer-fixed .aplayer-body {
     width: calc(100vw - 24px) !important;
+  }
+  .aplayer .aplayer-list {
+    max-height: 180px !important;
   }
 }
