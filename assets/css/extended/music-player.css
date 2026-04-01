@@ -71,6 +71,50 @@
   background: #8fb3a9 !important;
 }
 
+/* 确保控制按钮显示 */
+.aplayer .aplayer-icon {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 控制按钮区域 */
+.aplayer .aplayer-controller {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* 音量按钮 */
+.aplayer .aplayer-volume-wrap {
+  display: inline-block !important;
+  visibility: visible !important;
+}
+
+/* 前进/后退/播放按钮 */
+.aplayer.aplayer-fixed .aplayer-icon-back,
+.aplayer.aplayer-fixed .aplayer-icon-forward,
+.aplayer.aplayer-fixed .aplayer-icon-play {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  bottom: 27px !important;
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.aplayer.aplayer-fixed .aplayer-icon-back { right: 75px !important; }
+.aplayer.aplayer-fixed .aplayer-icon-play { right: 50px !important; }
+.aplayer.aplayer-fixed .aplayer-icon-forward { right: 25px !important; }
+.aplayer.aplayer-fixed .aplayer-icon-menu { right: 0 !important; display: inline-block !important; }
+
+/* 音量按钮位置 */
+.aplayer.aplayer-fixed .aplayer-icon-volume {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* ========== 暗黑模式 ========== */
 [data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body {
   background: #1a1a1a !important;
