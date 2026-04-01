@@ -56,6 +56,16 @@
   background: #8fb3a9 !important;
 }
 
+/* 音量按钮往下移，避免被遮挡 */
+.aplayer .aplayer-volume-wrap {
+  bottom: 2px !important;
+}
+
+/* 音量弹出面板位置调整 */
+.aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap {
+  bottom: 20px !important;
+}
+
 /* 歌单列表高度 */
 .aplayer .aplayer-list {
   max-height: 180px !important;
