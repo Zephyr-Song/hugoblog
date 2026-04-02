@@ -189,11 +189,10 @@
     max-height: 100px !important;
     margin-bottom: 35px !important;
   }
-  /* 手机端按钮位置微调 */
-  .aplayer.aplayer-fixed .aplayer-icon-back,
-  .aplayer.aplayer-fixed .aplayer-icon-forward,
-  .aplayer.aplayer-fixed .aplayer-icon-play,
-  .aplayer.aplayer-fixed .aplayer-icon-volume {
-    bottom: 8px !important;
-  }
+  /* 手机端按钮位置微调 - 往下移避免被遮挡 */
+  .aplayer.aplayer-fixed .aplayer-icon-back { bottom: 5px !important; right: 75px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-play { bottom: 5px !important; right: 50px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-forward { bottom: 5px !important; right: 25px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-volume { bottom: 5px !important; right: 100px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-menu { bottom: 5px !important; right: 0 !important; }
 }
