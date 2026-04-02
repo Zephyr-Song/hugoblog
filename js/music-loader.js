@@ -3,7 +3,9 @@
  */
 (function () {
   // 手机端不加载播放器
-  if (window.innerWidth < 768) {
+  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 1024;
+  
+  if (isMobile) {
     return;
   }
 
