@@ -185,12 +185,12 @@
     width: calc(100vw - 16px) !important;
     max-width: calc(100vw - 16px) !important;
   }
-  /* 手机端小绿圈更小更靠右下 */
+  /* 手机端小绿圈 */
   .aplayer.aplayer-fixed .aplayer-miniswitcher {
-    width: 36px !important;
-    height: 36px !important;
-    right: -3px !important;
-    bottom: -3px !important;
+    width: 40px !important;
+    height: 40px !important;
+    right: -5px !important;
+    bottom: -5px !important;
   }
   .aplayer.aplayer-fixed .aplayer-list {
     max-height: 100px !important;
