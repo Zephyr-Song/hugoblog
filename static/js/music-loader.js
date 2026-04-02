@@ -18,6 +18,7 @@
     el.setAttribute('mini', 'false');
     el.setAttribute('list-folded', 'false');
     el.setAttribute('autoplay', 'false');
+    el.setAttribute('order', 'random');
     el.setAttribute('theme', '#8fb3a9');
     document.body.appendChild(el);
   }
