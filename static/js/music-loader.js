@@ -23,13 +23,17 @@
 
     // 歌单加载后移除前7首
     function removeFirstSeven() {
-      var apEl = document.querySelector('.aplayer');
-      if (apEl && apEl.__aplayer && apEl.__aplayer.list && apEl.__aplayer.list.audios) {
-        var ap = apEl.__aplayer;
-        for (var i = 0; i < 7 && ap.list.audios.length > 1; i++) {
-          ap.list.remove(0);
+      var metingEl = document.querySelector('meting-js');
+      if (metingEl && metingEl.ap && metingEl.ap.list) {
+        var ap = metingEl.ap;
+        console.log('[music] 歌单加载完成，共', ap.list.audios.length, '首');
+        // 从后往前删，避免索引问题
+        for (var i = 6; i >= 0; i--) {
+          if (ap.list.audios.length > 1) {
+            ap.list.remove(i);
+          }
         }
-        ap.list.show();
+        console.log('[music] 删除前7首后剩余', ap.list.audios.length, '首');
         return true;
       }
       return false;
@@ -38,10 +42,11 @@
     var count = 0;
     var timer = setInterval(function () {
       count++;
-      if (removeFirstSeven() || count > 60) {
+      if (removeFirstSeven() || count > 100) {
         clearInterval(timer);
+        if (count > 100) console.warn('[music] 超时未找到播放器');
       }
-    }, 500);
+    }, 300);
   }
 
   if (document.readyState === 'loading') {
