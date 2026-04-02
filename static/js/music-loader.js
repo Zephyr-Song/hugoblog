@@ -2,6 +2,11 @@
  * Music Loader - 动态加载 Meting 播放器
  */
 (function () {
+  // 手机端不加载播放器
+  if (window.innerWidth < 768) {
+    return;
+  }
+
   function initMeting() {
     var el = document.createElement('meting-js');
     el.setAttribute('server', 'netease');
