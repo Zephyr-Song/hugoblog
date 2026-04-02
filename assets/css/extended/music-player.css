@@ -192,7 +192,8 @@
   /* 手机端按钮位置微调 */
   .aplayer.aplayer-fixed .aplayer-icon-back,
   .aplayer.aplayer-fixed .aplayer-icon-forward,
-  .aplayer.aplayer-fixed .aplayer-icon-play {
+  .aplayer.aplayer-fixed .aplayer-icon-play,
+  .aplayer.aplayer-fixed .aplayer-icon-volume {
     bottom: 8px !important;
   }
 }
