@@ -1,5 +1,5 @@
 /**
- * Inspiration 动态背景交互脚本
+ * Inspiration 动态背景交互脚本 - 升级版
  * 点击按钮触发动态背景效果
  */
 
@@ -21,19 +21,35 @@
     particles.id = 'inspiration-particles';
     particles.className = 'inspiration-particles';
     
-    // 添加 20 个粒子
+    // 添加 20 个彩色粒子
+    const colors = ['#ff9ff3', '#feca57', '#ff6b6b', '#48dbfb', '#1dd1a1', '#5f27cd'];
     for (let i = 0; i < 20; i++) {
       const p = document.createElement('div');
       p.className = 'particle';
       particles.appendChild(p);
     }
     document.body.appendChild(particles);
+
+    // 添加星星层
+    const stars = document.createElement('div');
+    stars.id = 'inspiration-stars';
+    stars.className = 'inspiration-stars';
+    for (let i = 0; i < 15; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = Math.random() * 2 + 's';
+      stars.appendChild(s);
+    }
+    document.body.appendChild(stars);
   }
 
   // 切换灵感模式
   function toggleInspiration() {
     const bg = document.getElementById('inspiration-bg');
     const particles = document.getElementById('inspiration-particles');
+    const stars = document.getElementById('inspiration-stars');
     const btn = document.querySelector('.inspiration-btn');
     const body = document.body;
     
@@ -49,22 +65,25 @@
       // 关闭
       bg.classList.remove('active');
       particles.classList.remove('active');
+      if (stars) stars.classList.remove('active');
       body.classList.remove('inspiration-active');
       if (btn) btn.classList.remove('active');
     } else {
       // 开启
       bg.classList.add('active');
       particles.classList.add('active');
+      if (stars) stars.classList.add('active');
       body.classList.add('inspiration-active');
       if (btn) btn.classList.add('active');
       
-      // 5秒后自动关闭
+      // 6秒后自动关闭
       setTimeout(() => {
         bg.classList.remove('active');
         particles.classList.remove('active');
+        if (stars) stars.classList.remove('active');
         body.classList.remove('inspiration-active');
         if (btn) btn.classList.remove('active');
-      }, 5000);
+      }, 6000);
     }
   }
 
