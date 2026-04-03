@@ -21,8 +21,8 @@
     particles.id = 'inspiration-particles';
     particles.className = 'inspiration-particles';
     
-    // 添加 12 个粒子
-    for (let i = 0; i < 12; i++) {
+    // 添加 20 个粒子
+    for (let i = 0; i < 20; i++) {
       const p = document.createElement('div');
       p.className = 'particle';
       particles.appendChild(p);
