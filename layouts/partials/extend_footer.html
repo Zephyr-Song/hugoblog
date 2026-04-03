@@ -8,73 +8,78 @@
 <script src="/js/music-loader.js"></script>
 <script src="/js/auto-next.js"></script>
 
-{{- /* Inspiration 流星雨效果 */ -}}
+{{- /* Inspiration 星河背景效果 */ -}}
 {{- if .Site.Params.inspiration.enabled }}
 <link rel="stylesheet" href="/css/inspiration.css">
 <script>
-// 创建流星背景
-function createMeteorBg() {
-  if (document.getElementById('meteor-wrap')) return;
+// 创建星河背景
+function createStarBg() {
+  if (document.getElementById('star-wrap')) return;
 
   var wrap = document.createElement('div');
-  wrap.id = 'meteor-wrap';
-  wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:0;transition:opacity 1.5s ease;background:linear-gradient(135deg,#0a1a0f,#0d2818);';
+  wrap.id = 'star-wrap';
+  wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:0;transition:opacity 2s ease;';
 
   var colors = [
     '#00E5FF','#FF6B6B','#FFD93D','#6BCB77',
     '#C9B1FF','#FF9A8B','#00D2FF','#FFB6C1',
     '#7CFFCB','#FFC300','#A29BFE','#FD79A8',
-    '#55EFC4','#FF7675','#74B9FF','#FDCB6E',
-    '#E17055','#00CEC9','#FAB1A0','#A3CB38'
+    '#55EFC4','#FF7675','#74B9FF','#FDCB6E'
   ];
 
-  // 流星：从右上半区随机位置出发，飞向左下
-  for (var i = 0; i < 18; i++) {
-    var m = document.createElement('div');
-    m.className = 'meteor';
+  // 星星：随机分布，各色闪烁
+  for (var i = 0; i < 60; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
     var c = colors[i % colors.length];
-    // 随机起点：右边界外，上半区随机位置
-    var startRight = -20 - Math.random() * 200; // -20 ~ -220px
-    var startTop = Math.random() * 55;          // 0 ~ 55%
-    var dur = (1.2 + Math.random() * 1.8).toFixed(2);
-    var del = (Math.random() * 5).toFixed(2);
-    m.style.cssText = [
+    var size = (1 + Math.random() * 2).toFixed(1);
+    s.style.cssText = [
       'position:absolute',
-      'width:3px',
-      'height:3px',
-      'border-radius:50%',
+      'width:' + size + 'px',
+      'height:' + size + 'px',
       'background:' + c,
-      'box-shadow:0 0 4px ' + c + ', 0 0 8px ' + c,
-      'right:' + startRight + 'px',
-      'top:' + startTop + '%',
-      'opacity:0',
-      'animation:meteorFly ' + dur + 's ease-in infinite',
-      'animation-delay:' + del + 's',
-      '--mc:' + c
+      'border-radius:50%',
+      'box-shadow:0 0 ' + size + 'px ' + c,
+      'left:' + (Math.random() * 100).toFixed(2) + '%',
+      'top:' + (Math.random() * 100).toFixed(2) + '%',
+      'animation:starTwinkle ' + (1 + Math.random() * 3).toFixed(2) + 's ease-in-out infinite',
+      'animation-delay:' + (Math.random() * 3).toFixed(2) + 's',
+      '--sc:' + c
     ].join(';');
-    wrap.appendChild(m);
+    wrap.appendChild(s);
   }
 
-  // 星星点缀
-  for (var j = 0; j < 15; j++) {
-    var s = document.createElement('div');
-    s.className = 'star-dot';
-    var sc = colors[j % colors.length];
-    s.style.cssText = 'position:absolute;width:2px;height:2px;background:' + sc + ';border-radius:50%;box-shadow:0 0 4px ' + sc + ';top:' + (Math.random() * 70) + '%;left:' + (Math.random() * 100) + '%;animation:starTwinkle ' + (1.5 + Math.random()) + 's ease-in-out infinite;animation-delay:' + Math.random() + 's;';
-    wrap.appendChild(s);
+  // 几颗大星星更亮
+  for (var j = 0; j < 8; j++) {
+    var b = document.createElement('div');
+    b.className = 'star big';
+    var c = colors[j % colors.length];
+    b.style.cssText = [
+      'position:absolute',
+      'width:4px',
+      'height:4px',
+      'background:#fff',
+      'border-radius:50%',
+      'box-shadow:0 0 8px 3px ' + c + ', 0 0 20px 6px ' + c,
+      'left:' + (Math.random() * 100).toFixed(2) + '%',
+      'top:' + (Math.random() * 100).toFixed(2) + '%',
+      'animation:bigStarPulse ' + (2 + Math.random() * 2).toFixed(2) + 's ease-in-out infinite',
+      'animation-delay:' + (Math.random() * 3).toFixed(2) + 's'
+    ].join(';');
+    wrap.appendChild(b);
   }
 
   document.body.appendChild(wrap);
 }
 
 // 切换特效（手动关闭）
-function toggleMeteor() {
-  var wrap = document.getElementById('meteor-wrap');
+function toggleStar() {
+  var wrap = document.getElementById('star-wrap');
   var btn = document.querySelector('.inspiration-btn');
 
   if (!wrap) {
-    createMeteorBg();
-    toggleMeteor();
+    createStarBg();
+    toggleStar();
     return;
   }
 
@@ -89,7 +94,7 @@ function toggleMeteor() {
 
 // 初始化
 document.addEventListener('DOMContentLoaded', function() {
-  createMeteorBg();
+  createStarBg();
 
   setTimeout(function() {
     var footer = document.querySelector('.home-info .entry-footer');
@@ -97,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var btn = document.createElement('button');
       btn.className = 'inspiration-btn';
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>Inspiration';
-      btn.onclick = toggleMeteor;
+      btn.onclick = toggleStar;
       btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,#8fb3a9,#7a9e96);color:white;border:none;border-radius:30px;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.3s;box-shadow:0 2px 8px rgba(143,179,169,0.25);margin-top:0.5rem;';
       footer.appendChild(btn);
     }
@@ -105,74 +110,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 <style>
-/* 流星：亮点在前方，尾巴向左上方向拖尾（与飞行方向相反） */
-.meteor {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  right: -20px;
-  top: 0;
-  opacity: 0;
-  animation: meteorFly var(--dur, 2s) ease-in infinite;
-  animation-delay: var(--del, 0s);
-  background: var(--mc, #00E5FF);
-  box-shadow: 0 0 6px var(--mc, #00E5FF), 0 0 12px var(--mc, #00E5FF);
-}
-/* 流星尾巴：朝左上方向斜向拖尾（与飞行方向相反：亮点在右下，尾巴拖向左上） */
-.meteor::before {
-  content: '';
-  position: absolute;
-  width: 70px;
-  height: 1.5px;
-  background: linear-gradient(to left top, var(--mc, #00E5FF), rgba(0,0,0,0));
-  border-radius: 1px;
-  right: 4px;
-  top: 4px;
-  transform: rotate(45deg);
-  transform-origin: right center;
-  opacity: 0.8;
-}
-/* 更长的外层尾巴，渐变更淡 */
-.meteor::after {
-  content: '';
-  position: absolute;
-  width: 140px;
-  height: 1px;
-  background: linear-gradient(to left top, rgba(255,255,255,0.15), rgba(0,0,0,0));
-  border-radius: 1px;
-  right: 4px;
-  top: 4px;
-  transform: rotate(45deg);
-  transform-origin: right center;
-  opacity: 0.4;
-}
-
-@keyframes meteorFly {
-  0% {
-    right: -20px;
-    top: 0;
-    opacity: 0;
-    transform: scale(1);
-  }
-  5% {
-    opacity: 1;
-    transform: scale(1.8);
-  }
-  70% {
-    opacity: 0.6;
-  }
-  100% {
-    right: calc(100% + 20px);
-    top: calc(100% + 20px);
-    opacity: 0;
-    transform: scale(0.3);
-  }
-}
-/* 星星闪烁 */
+/* 普通星星闪烁 */
 @keyframes starTwinkle {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+/* 大星星脉冲 */
+@keyframes bigStarPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
 }
 </style>
 {{- end }}
