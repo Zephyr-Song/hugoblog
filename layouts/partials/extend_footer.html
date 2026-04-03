@@ -11,30 +11,106 @@
 {{- /* Inspiration 动态背景 */ -}}
 {{- if .Site.Params.inspiration.enabled }}
 <link rel="stylesheet" href="/css/inspiration.css">
-<script src="/js/inspiration.js" defer></script>
+<script>
+(function() {
+  'use strict';
+
+  function createInspirationElements() {
+    if (document.getElementById('inspiration-bg')) return;
+
+    var bg = document.createElement('div');
+    bg.id = 'inspiration-bg';
+    bg.className = 'inspiration-bg';
+    document.body.appendChild(bg);
+
+    var particles = document.createElement('div');
+    particles.id = 'inspiration-particles';
+    particles.className = 'inspiration-particles';
+    
+    for (var i = 0; i < 20; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      particles.appendChild(p);
+    }
+    document.body.appendChild(particles);
+
+    var stars = document.createElement('div');
+    stars.id = 'inspiration-stars';
+    stars.className = 'inspiration-stars';
+    for (var j = 0; j < 15; j++) {
+      var s = document.createElement('div');
+      s.className = 'star';
+      s.style.left = (Math.random() * 100) + '%';
+      s.style.top = (Math.random() * 100) + '%';
+      s.style.animationDelay = (Math.random() * 2) + 's';
+      stars.appendChild(s);
+    }
+    document.body.appendChild(stars);
+  }
+
+  function toggleInspiration() {
+    var bg = document.getElementById('inspiration-bg');
+    var particles = document.getElementById('inspiration-particles');
+    var stars = document.getElementById('inspiration-stars');
+    var btn = document.querySelector('.inspiration-btn');
+    var body = document.body;
+    
+    if (!bg || !particles) {
+      createInspirationElements();
+      toggleInspiration();
+      return;
+    }
+
+    var isActive = bg.classList.contains('active');
+    
+    if (isActive) {
+      bg.classList.remove('active');
+      particles.classList.remove('active');
+      if (stars) stars.classList.remove('active');
+      body.classList.remove('inspiration-active');
+      if (btn) btn.classList.remove('active');
+    } else {
+      bg.classList.add('active');
+      particles.classList.add('active');
+      if (stars) stars.classList.add('active');
+      body.classList.add('inspiration-active');
+      if (btn) btn.classList.add('active');
+      
+      setTimeout(function() {
+        bg.classList.remove('active');
+        particles.classList.remove('active');
+        if (stars) stars.classList.remove('active');
+        body.classList.remove('inspiration-active');
+        if (btn) btn.classList.remove('active');
+      }, 6000);
+    }
+  }
+
+  window.toggleInspiration = toggleInspiration;
+
+  createInspirationElements();
+  
+  // 绑定按钮点击
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('.inspiration-btn')) {
+      toggleInspiration();
+    }
+  });
+})();
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // 在首页 Hero 区域添加 Inspiration 按钮
   setTimeout(function() {
-    // PaperMod 主题的首页是 .home-info
-    const heroContent = document.querySelector('.home-info .entry-content, .home-info .entry-footer, article.first-entry');
-    if (heroContent && !document.querySelector('.inspiration-btn')) {
-      const btn = document.createElement('button');
+    var footer = document.querySelector('.home-info .entry-footer');
+    if (footer && !document.querySelector('.inspiration-btn')) {
+      var btn = document.createElement('button');
       btn.className = 'inspiration-btn';
       btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>Inspiration';
       btn.onclick = toggleInspiration;
-      
-      // 插入到 entry-footer 中
-      const footer = document.querySelector('.home-info .entry-footer');
-      if (footer) {
-        footer.appendChild(btn);
-        btn.style.marginTop = '1rem';
-      } else {
-        // 如果没有 footer，直接插入到 content 后面
-        heroContent.parentNode.insertBefore(btn, heroContent.nextSibling);
-      }
+      footer.appendChild(btn);
+      btn.style.marginTop = '1rem';
     }
-  }, 800);
+  }, 500);
 });
 </script>
 {{- end }}
