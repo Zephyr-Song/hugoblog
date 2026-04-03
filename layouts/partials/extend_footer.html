@@ -16,16 +16,23 @@
 document.addEventListener('DOMContentLoaded', function() {
   // 在首页 Hero 区域添加 Inspiration 按钮
   setTimeout(function() {
-    const heroContent = document.querySelector('.home-container, .home-content, .hero-content, main .content-container');
+    // PaperMod 主题的首页是 .home-info
+    const heroContent = document.querySelector('.home-info .entry-content, .home-info .entry-footer, article.first-entry');
     if (heroContent && !document.querySelector('.inspiration-btn')) {
       const btn = document.createElement('button');
       btn.className = 'inspiration-btn';
       btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>Inspiration';
       btn.onclick = toggleInspiration;
-      btn.style.display = 'block';
-      btn.style.margin = '1rem auto 0';
-      btn.style.textAlign = 'center';
-      heroContent.appendChild(btn);
+      
+      // 插入到 entry-footer 中
+      const footer = document.querySelector('.home-info .entry-footer');
+      if (footer) {
+        footer.appendChild(btn);
+        btn.style.marginTop = '1rem';
+      } else {
+        // 如果没有 footer，直接插入到 content 后面
+        heroContent.parentNode.insertBefore(btn, heroContent.nextSibling);
+      }
     }
   }, 800);
 });
