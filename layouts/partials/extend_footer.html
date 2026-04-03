@@ -119,20 +119,19 @@ document.addEventListener('DOMContentLoaded', function() {
   background: var(--mc, #00E5FF);
   box-shadow: 0 0 6px var(--mc, #00E5FF), 0 0 12px var(--mc, #00E5FF);
 }
-/* 流星尾巴：朝向左上方渐变消失（飞行方向的反方向） */
+/* 流星尾巴：朝左上方向斜向拖尾（与飞行方向相反：亮点在右下，尾巴拖向左上） */
 .meteor::before {
   content: '';
   position: absolute;
   width: 70px;
   height: 1.5px;
-  background: linear-gradient(to left, var(--mc, #00E5FF), rgba(0,0,0,0));
+  background: linear-gradient(to left top, var(--mc, #00E5FF), rgba(0,0,0,0));
   border-radius: 1px;
-  /* 亮点在右侧尾巴在左侧，朝左上扬起（与右→左下的飞行方向相反） */
   right: 4px;
-  top: 50%;
-  transform: translateY(-50%) rotate(0deg);
+  top: 4px;
+  transform: rotate(45deg);
+  transform-origin: right center;
   opacity: 0.8;
-  filter: blur(0.5px);
 }
 /* 更长的外层尾巴，渐变更淡 */
 .meteor::after {
@@ -140,11 +139,12 @@ document.addEventListener('DOMContentLoaded', function() {
   position: absolute;
   width: 140px;
   height: 1px;
-  background: linear-gradient(to left, rgba(255,255,255,0.15), rgba(0,0,0,0));
+  background: linear-gradient(to left top, rgba(255,255,255,0.15), rgba(0,0,0,0));
   border-radius: 1px;
   right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 4px;
+  transform: rotate(45deg);
+  transform-origin: right center;
   opacity: 0.4;
 }
 
