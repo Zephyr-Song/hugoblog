@@ -7,3 +7,26 @@
 <script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
 <script src="/js/music-loader.js"></script>
 <script src="/js/auto-next.js"></script>
+
+{{- /* Inspiration 动态背景 */ -}}
+{{- if .Site.Params.inspiration.enabled }}
+<script src="/js/inspiration.js" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 在首页 Hero 区域添加 Inspiration 按钮
+  setTimeout(function() {
+    const heroContent = document.querySelector('.home-container, .home-content, .hero-content, main .content-container');
+    if (heroContent && !document.querySelector('.inspiration-btn')) {
+      const btn = document.createElement('button');
+      btn.className = 'inspiration-btn';
+      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>Inspiration';
+      btn.onclick = toggleInspiration;
+      btn.style.display = 'block';
+      btn.style.margin = '1rem auto 0';
+      btn.style.textAlign = 'center';
+      heroContent.appendChild(btn);
+    }
+  }, 800);
+});
+</script>
+{{- end }}

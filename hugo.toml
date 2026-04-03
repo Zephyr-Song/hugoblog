@@ -110,6 +110,14 @@ buildFuture = true
 
   disableLangToggle = true
 
+  # 自定义 CSS
+  [params.assets]
+    customCSS = ["css/inspiration.css"]
+
+  # 启用 Inspiration 动态背景
+  [params.inspiration]
+    enabled = true
+
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
