@@ -13,9 +13,7 @@
 <link rel="stylesheet" href="/css/inspiration.css">
 <script>
 (function() {
-  'use strict';
-
-  function createInspirationElements() {
+  function init() {
     if (document.getElementById('inspiration-bg')) return;
 
     var bg = document.createElement('div');
@@ -33,30 +31,16 @@
       particles.appendChild(p);
     }
     document.body.appendChild(particles);
-
-    var stars = document.createElement('div');
-    stars.id = 'inspiration-stars';
-    stars.className = 'inspiration-stars';
-    for (var j = 0; j < 15; j++) {
-      var s = document.createElement('div');
-      s.className = 'star';
-      s.style.left = (Math.random() * 100) + '%';
-      s.style.top = (Math.random() * 100) + '%';
-      s.style.animationDelay = (Math.random() * 2) + 's';
-      stars.appendChild(s);
-    }
-    document.body.appendChild(stars);
   }
 
   function toggleInspiration() {
     var bg = document.getElementById('inspiration-bg');
     var particles = document.getElementById('inspiration-particles');
-    var stars = document.getElementById('inspiration-stars');
     var btn = document.querySelector('.inspiration-btn');
     var body = document.body;
     
     if (!bg || !particles) {
-      createInspirationElements();
+      init();
       toggleInspiration();
       return;
     }
@@ -66,39 +50,33 @@
     if (isActive) {
       bg.classList.remove('active');
       particles.classList.remove('active');
-      if (stars) stars.classList.remove('active');
       body.classList.remove('inspiration-active');
       if (btn) btn.classList.remove('active');
     } else {
       bg.classList.add('active');
       particles.classList.add('active');
-      if (stars) stars.classList.add('active');
       body.classList.add('inspiration-active');
       if (btn) btn.classList.add('active');
       
       setTimeout(function() {
         bg.classList.remove('active');
         particles.classList.remove('active');
-        if (stars) stars.classList.remove('active');
         body.classList.remove('inspiration-active');
         if (btn) btn.classList.remove('active');
-      }, 6000);
+      }, 5000);
     }
   }
 
   window.toggleInspiration = toggleInspiration;
+  init();
 
-  createInspirationElements();
-  
-  // 绑定按钮点击
   document.addEventListener('click', function(e) {
     if (e.target.closest('.inspiration-btn')) {
       toggleInspiration();
     }
   });
 })();
-</script>
-<script>
+
 document.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
     var footer = document.querySelector('.home-info .entry-footer');
