@@ -28,14 +28,16 @@ function createMeteorBg() {
     '#E17055','#00CEC9','#FAB1A0','#A3CB38'
   ];
 
-  // 流星：从右上往左下飞，竖条+尾巴
+  // 流星：从右上半区随机位置出发，飞向左下
   for (var i = 0; i < 18; i++) {
     var m = document.createElement('div');
     m.className = 'meteor';
     var c = colors[i % colors.length];
-    var top = Math.random() * 45;
-    var dur = (1.5 + Math.random() * 2).toFixed(2);
-    var del = (Math.random() * 4).toFixed(2);
+    // 随机起点：右边界外，上半区随机位置
+    var startRight = -20 - Math.random() * 200; // -20 ~ -220px
+    var startTop = Math.random() * 55;          // 0 ~ 55%
+    var dur = (1.2 + Math.random() * 1.8).toFixed(2);
+    var del = (Math.random() * 5).toFixed(2);
     m.style.cssText = [
       'position:absolute',
       'width:3px',
@@ -43,8 +45,8 @@ function createMeteorBg() {
       'border-radius:50%',
       'background:' + c,
       'box-shadow:0 0 4px ' + c + ', 0 0 8px ' + c,
-      'right:-20px',
-      'top:' + top + '%',
+      'right:' + startRight + 'px',
+      'top:' + startTop + '%',
       'opacity:0',
       'animation:meteorFly ' + dur + 's ease-in infinite',
       'animation-delay:' + del + 's',
