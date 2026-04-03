@@ -1,4 +1,4 @@
-/* ==================== Inspiration 动态背景效果 - 升级版 ==================== */
+/* ==================== Inspiration 动态背景效果 ==================== */
 
 /* 动态背景层 */
 .inspiration-bg {
@@ -11,7 +11,7 @@
   z-index: -1;
   overflow: hidden;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
 }
 
 .inspiration-bg::before {
@@ -22,12 +22,10 @@
   width: 200%;
   height: 200%;
   background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 200, 150, 0.4) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(180, 140, 255, 0.35) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(100, 220, 200, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 10% 90%, rgba(255, 150, 180, 0.25) 0%, transparent 35%),
-    radial-gradient(circle at 90% 10%, rgba(150, 200, 255, 0.25) 0%, transparent 35%);
-  animation: auroraMove 12s ease-in-out infinite;
+    radial-gradient(circle at 20% 80%, rgba(143, 179, 169, 0.5) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(143, 179, 169, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(100, 180, 160, 0.3) 0%, transparent 40%);
+  animation: inspirationFloat 10s ease-in-out infinite;
 }
 
 .inspiration-bg.active {
@@ -35,40 +33,20 @@
 }
 
 .inspiration-bg.active::before {
-  animation: auroraActive 6s ease-in-out infinite;
+  animation: inspirationActive 4s ease-in-out infinite;
 }
 
-@keyframes auroraMove {
-  0%, 100% { 
-    transform: translate(0, 0) scale(1) rotate(0deg); 
-    filter: hue-rotate(0deg);
-  }
-  25% { 
-    transform: translate(2%, 1%) scale(1.05) rotate(2deg);
-    filter: hue-rotate(30deg);
-  }
-  50% { 
-    transform: translate(-1%, 2%) scale(1.02) rotate(-2deg);
-    filter: hue-rotate(60deg);
-  }
-  75% { 
-    transform: translate(1%, -1%) scale(1.08) rotate(3deg);
-    filter: hue-rotate(90deg);
-  }
+@keyframes inspirationFloat {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-2%, 2%) rotate(-2deg); }
 }
 
-@keyframes auroraActive {
-  0%, 100% { 
-    transform: scale(1) rotate(0deg);
-    filter: brightness(1);
-  }
-  50% { 
-    transform: scale(1.15) rotate(5deg);
-    filter: brightness(1.3);
-  }
+@keyframes inspirationActive {
+  0%, 100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+  50% { transform: scale(1.1) rotate(3deg); filter: brightness(1.2); }
 }
 
-/* 浮动粒子效果 - 彩色版 */
+/* 浮动粒子效果 */
 .inspiration-particles {
   position: fixed;
   top: 0;
@@ -79,112 +57,62 @@
   z-index: -1;
   overflow: hidden;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.8s ease;
 }
 
 .inspiration-particles.active {
   opacity: 1;
 }
 
-/* 彩色发光粒子 */
 .particle {
   position: absolute;
+  width: 10px;
+  height: 10px;
+  background: rgba(143, 179, 169, 0.8);
   border-radius: 50%;
-  bottom: -30px;
-  animation: particleRise 8s ease-out infinite;
-  filter: blur(1px);
+  bottom: -20px;
+  animation: particleFloat 6s linear infinite;
+  box-shadow: 0 0 10px rgba(143, 179, 169, 0.6), 0 0 20px rgba(143, 179, 169, 0.4);
 }
 
-.particle::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200%;
-  height: 200%;
-  border-radius: 50%;
-  background: inherit;
-  filter: blur(8px);
-  opacity: 0.6;
-}
+.particle:nth-child(1) { left: 5%; animation-duration: 7s; animation-delay: 0s; }
+.particle:nth-child(2) { left: 10%; animation-duration: 8s; animation-delay: 0.5s; }
+.particle:nth-child(3) { left: 15%; animation-duration: 6s; animation-delay: 1s; }
+.particle:nth-child(4) { left: 20%; animation-duration: 9s; animation-delay: 1.5s; }
+.particle:nth-child(5) { left: 25%; animation-duration: 7s; animation-delay: 2s; }
+.particle:nth-child(6) { left: 30%; animation-duration: 8s; animation-delay: 2.5s; }
+.particle:nth-child(7) { left: 35%; animation-duration: 6s; animation-delay: 3s; }
+.particle:nth-child(8) { left: 40%; animation-duration: 9s; animation-delay: 3.5s; }
+.particle:nth-child(9) { left: 45%; animation-duration: 7s; animation-delay: 4s; }
+.particle:nth-child(10) { left: 50%; animation-duration: 8s; animation-delay: 4.5s; }
+.particle:nth-child(11) { left: 55%; animation-duration: 6s; animation-delay: 5s; }
+.particle:nth-child(12) { left: 60%; animation-duration: 9s; animation-delay: 5.5s; }
+.particle:nth-child(13) { left: 65%; animation-duration: 7s; animation-delay: 6s; }
+.particle:nth-child(14) { left: 70%; animation-duration: 8s; animation-delay: 6.5s; }
+.particle:nth-child(15) { left: 75%; animation-duration: 6s; animation-delay: 7s; }
+.particle:nth-child(16) { left: 80%; animation-duration: 9s; animation-delay: 7.5s; }
+.particle:nth-child(17) { left: 85%; animation-duration: 7s; animation-delay: 8s; }
+.particle:nth-child(18) { left: 90%; animation-duration: 8s; animation-delay: 8.5s; }
+.particle:nth-child(19) { left: 95%; animation-duration: 6s; animation-delay: 9s; }
+.particle:nth-child(20) { left: 3%; animation-duration: 8s; animation-delay: 2s; }
 
-/* 多种颜色的粒子 */
-.particle:nth-child(1) { left: 5%; background: #ff9ff3; width: 12px; height: 12px; animation-duration: 9s; animation-delay: 0s; }
-.particle:nth-child(2) { left: 10%; background: #feca57; width: 8px; height: 8px; animation-duration: 11s; animation-delay: 0.5s; }
-.particle:nth-child(3) { left: 15%; background: #ff6b6b; width: 10px; height: 10px; animation-duration: 8s; animation-delay: 1s; }
-.particle:nth-child(4) { left: 20%; background: #48dbfb; width: 14px; height: 14px; animation-duration: 12s; animation-delay: 1.5s; }
-.particle:nth-child(5) { left: 25%; background: #1dd1a1; width: 6px; height: 6px; animation-duration: 10s; animation-delay: 2s; }
-.particle:nth-child(6) { left: 30%; background: #5f27cd; width: 11px; height: 11px; animation-duration: 9s; animation-delay: 2.5s; }
-.particle:nth-child(7) { left: 35%; background: #ff9ff3; width: 9px; height: 9px; animation-duration: 11s; animation-delay: 3s; }
-.particle:nth-child(8) { left: 40%; background: #feca57; width: 13px; height: 13px; animation-duration: 8s; animation-delay: 3.5s; }
-.particle:nth-child(9) { left: 45%; background: #48dbfb; width: 7px; height: 7px; animation-duration: 13s; animation-delay: 4s; }
-.particle:nth-child(10) { left: 50%; background: #ff6b6b; width: 10px; height: 10px; animation-duration: 10s; animation-delay: 4.5s; }
-.particle:nth-child(11) { left: 55%; background: #1dd1a1; width: 12px; height: 12px; animation-duration: 9s; animation-delay: 5s; }
-.particle:nth-child(12) { left: 60%; background: #5f27cd; width: 8px; height: 8px; animation-duration: 12s; animation-delay: 5.5s; }
-.particle:nth-child(13) { left: 65%; background: #ff9ff3; width: 11px; height: 11px; animation-duration: 8s; animation-delay: 6s; }
-.particle:nth-child(14) { left: 70%; background: #feca57; width: 14px; height: 14px; animation-duration: 11s; animation-delay: 6.5s; }
-.particle:nth-child(15) { left: 75%; background: #48dbfb; width: 6px; height: 6px; animation-duration: 10s; animation-delay: 7s; }
-.particle:nth-child(16) { left: 80%; background: #ff6b6b; width: 9px; height: 9px; animation-duration: 9s; animation-delay: 7.5s; }
-.particle:nth-child(17) { left: 85%; background: #1dd1a1; width: 13px; height: 13px; animation-duration: 12s; animation-delay: 8s; }
-.particle:nth-child(18) { left: 90%; background: #5f27cd; width: 7px; height: 7px; animation-duration: 8s; animation-delay: 8.5s; }
-.particle:nth-child(19) { left: 95%; background: #ff9ff3; width: 10px; height: 10px; animation-duration: 11s; animation-delay: 9s; }
-.particle:nth-child(20) { left: 3%; background: #feca57; width: 15px; height: 15px; animation-duration: 10s; animation-delay: 2s; }
-
-@keyframes particleRise {
+@keyframes particleFloat {
   0% { 
-    transform: translateY(0) translateX(0) scale(0);
+    transform: translateY(0) translateX(0) scale(0.5);
     opacity: 0;
   }
-  5% {
+  10% {
     opacity: 1;
-    transform: translateY(-20px) translateX(0) scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(-50vh) translateX(30px) scale(1);
+    transform: translateY(-30px) scale(1);
   }
   100% { 
-    transform: translateY(-110vh) translateX(-20px) scale(0.3);
+    transform: translateY(-120vh) translateX(40px) scale(0.8);
     opacity: 0;
   }
 }
 
-/* 激活状态下的粒子更活跃 */
 .inspiration-particles.active .particle {
-  animation-duration: 5s;
-}
-
-/* 星星闪烁效果 */
-.star {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
-  animation: twinkle 2s ease-in-out infinite;
-}
-
-.star::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 300%;
-  height: 300%;
-  background: white;
-  border-radius: 50%;
-  filter: blur(3px);
-  opacity: 0.3;
-}
-
-@keyframes twinkle {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  50% { opacity: 1; transform: scale(1.2); }
+  animation-duration: 4s;
 }
 
 /* Inspiration 按钮样式 */
@@ -193,7 +121,7 @@
   align-items: center;
   gap: 8px;
   padding: 14px 28px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8fb3a9 0%, #6b9e8a 100%);
   color: white;
   border: none;
   border-radius: 50px;
@@ -202,72 +130,43 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-  position: relative;
-  overflow: hidden;
-}
-
-.inspiration-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.inspiration-btn:hover::before {
-  left: 100%;
+  box-shadow: 0 8px 25px rgba(143, 179, 169, 0.4);
 }
 
 .inspiration-btn:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(143, 179, 169, 0.5);
 }
 
 .inspiration-btn:active {
-  transform: translateY(-1px) scale(1.02);
+  transform: translateY(-1px);
 }
 
 .inspiration-btn svg {
   width: 20px;
   height: 20px;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .inspiration-btn:hover svg {
-  transform: rotate(180deg) scale(1.2);
-  filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+  transform: rotate(20deg) scale(1.2);
 }
 
 .inspiration-btn.active {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+  background: linear-gradient(135deg, #6b9e8a 0%, #5a8a78 100%);
+  box-shadow: 0 4px 15px rgba(143, 179, 169, 0.3);
 }
 
 .inspiration-btn.active svg {
-  animation: sparkle 0.6s ease-in-out;
+  animation: sparkle 0.5s ease-in-out;
 }
 
 @keyframes sparkle {
-  0%, 100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 2px white); }
-  25% { transform: scale(1.5) rotate(90deg); filter: drop-shadow(0 0 8px white); }
-  50% { transform: scale(0.8) rotate(180deg); filter: drop-shadow(0 0 5px white); }
-  75% { transform: scale(1.3) rotate(270deg); filter: drop-shadow(0 0 10px white); }
+  0%, 100% { transform: scale(1) rotate(0); }
+  50% { transform: scale(1.3) rotate(180deg); }
 }
 
-/* 主内容区动态效果 */
-body.inspiration-active {
-  animation: backgroundPulse 4s ease-in-out infinite;
-}
-
-@keyframes backgroundPulse {
-  0%, 100% { background-color: var(--bg-color, #faf9f6); }
-  50% { background-color: var(--bg-color, #faf9f6); }
-}
-
+/* 主内容区效果 */
 body.inspiration-active .home-info::after {
   content: '';
   position: absolute;
@@ -275,18 +174,15 @@ body.inspiration-active .home-info::after {
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 30% 20%, rgba(255, 159, 243, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(72, 219, 251, 0.1) 0%, transparent 50%);
+  background: radial-gradient(circle at center, rgba(143, 179, 169, 0.15) 0%, transparent 70%);
   pointer-events: none;
-  animation: contentGlow 3s ease-in-out infinite;
+  animation: contentGlow 2s ease-in-out infinite;
   z-index: -1;
-  border-radius: 16px;
 }
 
 @keyframes contentGlow {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 /* 响应式 */
@@ -294,10 +190,5 @@ body.inspiration-active .home-info::after {
   .inspiration-btn {
     padding: 12px 24px;
     font-size: 0.95rem;
-  }
-  
-  .particle {
-    width: 6px;
-    height: 6px;
   }
 }
