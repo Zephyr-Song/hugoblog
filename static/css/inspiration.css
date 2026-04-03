@@ -1,4 +1,4 @@
-/* ==================== Inspiration 动态背景 - 清新气泡版 ==================== */
+/* ==================== Inspiration 动态背景 - 流星雨版 ==================== */
 
 .inspiration-bg {
   position: fixed;
@@ -10,6 +10,7 @@
   z-index: -1;
   opacity: 0;
   transition: opacity 1s ease;
+  background: linear-gradient(135deg, #0a1a0f 0%, #0d2818 50%, #0a1a12 100%);
 }
 
 .inspiration-bg::before {
@@ -20,45 +21,16 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 30% 20%, rgba(144, 238, 144, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(72, 201, 176, 0.25) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(123, 237, 159, 0.2) 0%, transparent 60%);
-  animation: breathe 8s ease-in-out infinite;
+    radial-gradient(ellipse at 20% 80%, rgba(46, 204, 113, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(39, 174, 96, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(26, 188, 156, 0.08) 0%, transparent 60%);
 }
 
 .inspiration-bg.active {
   opacity: 1;
 }
 
-.inspiration-bg.active::before {
-  animation: aurora 5s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; }
-}
-
-@keyframes aurora {
-  0%, 100% { 
-    transform: scale(1) translateY(0);
-    filter: hue-rotate(0deg) brightness(1);
-  }
-  25% { 
-    transform: scale(1.1) translateY(-10px);
-    filter: hue-rotate(20deg) brightness(1.1);
-  }
-  50% { 
-    transform: scale(1.05) translateY(10px);
-    filter: hue-rotate(-20deg) brightness(1.05);
-  }
-  75% { 
-    transform: scale(1.15) translateY(-5px);
-    filter: hue-rotate(10deg) brightness(1.15);
-  }
-}
-
-/* 粒子层 - 气泡效果 */
+/* 流星层 */
 .inspiration-particles {
   position: fixed;
   top: 0;
@@ -69,96 +41,111 @@
   z-index: -1;
   opacity: 0;
   transition: opacity 1s ease;
+  overflow: hidden;
 }
 
 .inspiration-particles.active {
   opacity: 1;
 }
 
-/* 彩色气泡粒子 */
+/* 流星 */
 .particle {
   position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #2ECC71;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(144, 238, 144, 0.6));
-  bottom: -50px;
-  animation: bubbleRise 8s ease-in-out infinite;
   box-shadow: 
-    0 0 20px rgba(144, 238, 144, 0.4),
-    inset 0 0 10px rgba(255, 255, 255, 0.3);
+    0 0 6px #2ECC71,
+    0 0 12px #27AE60,
+    0 0 20px #1E8449;
+  animation: meteor 3s linear infinite;
 }
 
-.particle::after {
+.particle::before {
   content: '';
   position: absolute;
-  top: 15%;
-  left: 20%;
-  width: 25%;
-  height: 25%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
-  filter: blur(2px);
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, rgba(46, 204, 113, 0.8), transparent);
+  transform: rotate(-45deg);
+  transform-origin: left center;
 }
 
-/* 气泡大小和位置 */
-.particle:nth-child(1) { left: 8%; width: 40px; height: 40px; animation-duration: 10s; animation-delay: 0s; }
-.particle:nth-child(2) { left: 15%; width: 25px; height: 25px; animation-duration: 12s; animation-delay: 1s; }
-.particle:nth-child(3) { left: 22%; width: 35px; height: 35px; animation-duration: 9s; animation-delay: 2s; }
-.particle:nth-child(4) { left: 30%; width: 20px; height: 20px; animation-duration: 11s; animation-delay: 0.5s; }
-.particle:nth-child(5) { left: 38%; width: 45px; height: 45px; animation-duration: 13s; animation-delay: 3s; }
-.particle:nth-child(6) { left: 45%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 1.5s; }
-.particle:nth-child(7) { left: 52%; width: 22px; height: 22px; animation-duration: 12s; animation-delay: 2.5s; }
-.particle:nth-child(8) { left: 60%; width: 38px; height: 38px; animation-duration: 9s; animation-delay: 4s; }
-.particle:nth-child(9) { left: 68%; width: 28px; height: 28px; animation-duration: 11s; animation-delay: 0.8s; }
-.particle:nth-child(10) { left: 75%; width: 42px; height: 42px; animation-duration: 10s; animation-delay: 3.5s; }
-.particle:nth-child(11) { left: 82%; width: 18px; height: 18px; animation-duration: 13s; animation-delay: 1.2s; }
-.particle:nth-child(12) { left: 88%; width: 32px; height: 32px; animation-duration: 11s; animation-delay: 2.2s; }
-.particle:nth-child(13) { left: 5%; width: 26px; height: 26px; animation-duration: 12s; animation-delay: 4.5s; }
-.particle:nth-child(14) { left: 25%; width: 36px; height: 36px; animation-duration: 10s; animation-delay: 5s; }
-.particle:nth-child(15) { left: 50%; width: 24px; height: 24px; animation-duration: 11s; animation-delay: 1.8s; }
-.particle:nth-child(16) { left: 70%; width: 44px; height: 44px; animation-duration: 9s; animation-delay: 3.2s; }
-.particle:nth-child(17) { left: 35%; width: 16px; height: 16px; animation-duration: 13s; animation-delay: 0.3s; }
-.particle:nth-child(18) { left: 80%; width: 34px; height: 34px; animation-duration: 10s; animation-delay: 2.8s; }
+/* 流星位置和动画延迟 */
+.particle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { top: 20%; left: 25%; animation-delay: 0.3s; width: 3px; height: 3px; }
+.particle:nth-child(3) { top: 5%; left: 40%; animation-delay: 0.6s; }
+.particle:nth-child(4) { top: 30%; left: 55%; animation-delay: 0.9s; width: 5px; height: 5px; }
+.particle:nth-child(5) { top: 15%; left: 70%; animation-delay: 1.2s; }
+.particle:nth-child(6) { top: 25%; left: 85%; animation-delay: 1.5s; width: 3px; height: 3px; }
+.particle:nth-child(7) { top: 8%; left: 15%; animation-delay: 1.8s; }
+.particle:nth-child(8) { top: 35%; left: 30%; animation-delay: 2.1s; width: 4px; height: 4px; }
+.particle:nth-child(9) { top: 12%; left: 50%; animation-delay: 2.4s; }
+.particle:nth-child(10) { top: 22%; left: 65%; animation-delay: 2.7s; width: 3px; height: 3px; }
+.particle:nth-child(11) { top: 18%; left: 80%; animation-delay: 0.15s; }
+.particle:nth-child(12) { top: 28%; left: 92%; animation-delay: 0.45s; width: 4px; height: 4px; }
+.particle:nth-child(13) { top: 3%; left: 35%; animation-delay: 0.75s; }
+.particle:nth-child(14) { top: 40%; left: 45%; animation-delay: 1.05s; width: 3px; height: 3px; }
+.particle:nth-child(15) { top: 7%; left: 60%; animation-delay: 1.35s; }
+.particle:nth-child(16) { top: 32%; left: 75%; animation-delay: 1.65s; width: 5px; height: 5px; }
+.particle:nth-child(17) { top: 14%; left: 5%; animation-delay: 1.95s; }
+.particle:nth-child(18) { top: 38%; left: 20%; animation-delay: 2.25s; width: 3px; height: 3px; }
+.particle:nth-child(19) { top: 6%; left: 90%; animation-delay: 2.55s; }
+.particle:nth-child(20) { top: 26%; left: 48%; animation-delay: 2.85s; width: 4px; height: 4px; }
 
-@keyframes bubbleRise {
-  0% { 
-    transform: translateY(0) translateX(0) scale(0.5);
+@keyframes meteor {
+  0% {
+    transform: translate(0, 0) rotate(-45deg);
     opacity: 0;
   }
   5% {
-    opacity: 0.9;
-    transform: translateY(-30px) translateX(0) scale(1);
+    opacity: 1;
   }
   30% {
-    transform: translateY(-40vh) translateX(30px) scale(1.05);
+    transform: translate(200px, 200px) rotate(-45deg);
+    opacity: 1;
   }
-  60% {
-    transform: translateY(-70vh) translateX(-20px) scale(0.95);
-  }
-  100% { 
-    transform: translateY(-130vh) translateX(10px) scale(0.6);
+  100% {
+    transform: translate(300px, 300px) rotate(-45deg);
     opacity: 0;
   }
 }
 
 .inspiration-particles.active .particle {
-  animation-duration: 6s;
+  animation: meteor 2s linear infinite;
 }
 
-/* 闪烁的光点 */
-.sparkle {
-  position: fixed;
-  width: 4px;
-  height: 4px;
+/* 星星闪烁 */
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
   background: #90EE90;
   border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0;
   animation: twinkle 2s ease-in-out infinite;
-  box-shadow: 0 0 6px #90EE90;
+  box-shadow: 0 0 8px #2ECC71;
 }
 
-/* 按钮样式 - 绿色 */
+.star:nth-child(21) { top: 15%; left: 12%; animation-delay: 0s; }
+.star:nth-child(22) { top: 25%; left: 38%; animation-delay: 0.5s; }
+.star:nth-child(23) { top: 8%; left: 58%; animation-delay: 1s; }
+.star:nth-child(24) { top: 35%; left: 82%; animation-delay: 1.5s; }
+.star:nth-child(25) { top: 18%; left: 22%; animation-delay: 0.3s; }
+.star:nth-child(26) { top: 42%; left: 65%; animation-delay: 0.8s; width: 4px; height: 4px; }
+.star:nth-child(27) { top: 12%; left: 78%; animation-delay: 1.3s; }
+.star:nth-child(28) { top: 28%; left: 5%; animation-delay: 1.8s; }
+.star:nth-child(29) { top: 38%; left: 48%; animation-delay: 0.2s; width: 2px; height: 2px; }
+.star:nth-child(30) { top: 5%; left: 32%; animation-delay: 0.7s; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* 绿色按钮 */
 .inspiration-btn {
   display: inline-flex;
   align-items: center;
@@ -217,30 +204,22 @@
 
 .inspiration-btn:hover svg {
   transform: rotate(15deg) scale(1.15);
-  filter: drop-shadow(0 2px 5px rgba(255,255,255,0.5));
 }
 
 .inspiration-btn.active {
   background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
-  box-shadow: 
-    0 4px 15px rgba(46, 204, 113, 0.3),
-    inset 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .inspiration-btn.active svg {
-  animation: pulse 0.6s ease-in-out;
+  animation: sparkle 0.5s ease-in-out;
 }
 
-@keyframes pulse {
+@keyframes sparkle {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
+  50% { transform: scale(1.3); filter: drop-shadow(0 0 8px #90EE90); }
 }
 
 /* 激活时内容区效果 */
-body.inspiration-active .home-info {
-  position: relative;
-}
-
 body.inspiration-active .home-info::after {
   content: '';
   position: absolute;
@@ -248,19 +227,16 @@ body.inspiration-active .home-info::after {
   left: -20px;
   right: -20px;
   bottom: -20px;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(144, 238, 144, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(72, 201, 176, 0.12) 0%, transparent 50%);
+  background: radial-gradient(circle at center, rgba(46, 204, 113, 0.08) 0%, transparent 70%);
   pointer-events: none;
-  animation: contentGlow 3s ease-in-out infinite;
+  animation: contentGlow 2s ease-in-out infinite;
   z-index: -1;
   border-radius: 20px;
-  filter: blur(10px);
 }
 
 @keyframes contentGlow {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.02); }
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 }
 
 /* 响应式 */
@@ -268,10 +244,5 @@ body.inspiration-active .home-info::after {
   .inspiration-btn {
     padding: 14px 26px;
     font-size: 1rem;
-  }
-  
-  .particle {
-    width: 20px !important;
-    height: 20px !important;
   }
 }
