@@ -1,6 +1,5 @@
-/* ==================== Inspiration 动态背景效果 ==================== */
+/* ==================== Inspiration 动态背景 - 清新气泡版 ==================== */
 
-/* 动态背景层 */
 .inspiration-bg {
   position: fixed;
   top: 0;
@@ -9,23 +8,22 @@
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  overflow: hidden;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 1s ease;
 }
 
 .inspiration-bg::before {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(143, 179, 169, 0.5) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(143, 179, 169, 0.4) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(100, 180, 160, 0.3) 0%, transparent 40%);
-  animation: inspirationFloat 10s ease-in-out infinite;
+    radial-gradient(circle at 30% 20%, rgba(144, 238, 144, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(72, 201, 176, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(123, 237, 159, 0.2) 0%, transparent 60%);
+  animation: breathe 8s ease-in-out infinite;
 }
 
 .inspiration-bg.active {
@@ -33,20 +31,34 @@
 }
 
 .inspiration-bg.active::before {
-  animation: inspirationActive 4s ease-in-out infinite;
+  animation: aurora 5s ease-in-out infinite;
 }
 
-@keyframes inspirationFloat {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  50% { transform: translate(-2%, 2%) rotate(-2deg); }
+@keyframes breathe {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
 }
 
-@keyframes inspirationActive {
-  0%, 100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
-  50% { transform: scale(1.1) rotate(3deg); filter: brightness(1.2); }
+@keyframes aurora {
+  0%, 100% { 
+    transform: scale(1) translateY(0);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  25% { 
+    transform: scale(1.1) translateY(-10px);
+    filter: hue-rotate(20deg) brightness(1.1);
+  }
+  50% { 
+    transform: scale(1.05) translateY(10px);
+    filter: hue-rotate(-20deg) brightness(1.05);
+  }
+  75% { 
+    transform: scale(1.15) translateY(-5px);
+    filter: hue-rotate(10deg) brightness(1.15);
+  }
 }
 
-/* 浮动粒子效果 */
+/* 粒子层 - 气泡效果 */
 .inspiration-particles {
   position: fixed;
   top: 0;
@@ -55,140 +67,211 @@
   height: 100%;
   pointer-events: none;
   z-index: -1;
-  overflow: hidden;
   opacity: 0;
-  transition: opacity 0.8s ease;
+  transition: opacity 1s ease;
 }
 
 .inspiration-particles.active {
   opacity: 1;
 }
 
+/* 彩色气泡粒子 */
 .particle {
   position: absolute;
-  width: 10px;
-  height: 10px;
-  background: rgba(143, 179, 169, 0.8);
   border-radius: 50%;
-  bottom: -20px;
-  animation: particleFloat 6s linear infinite;
-  box-shadow: 0 0 10px rgba(143, 179, 169, 0.6), 0 0 20px rgba(143, 179, 169, 0.4);
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(144, 238, 144, 0.6));
+  bottom: -50px;
+  animation: bubbleRise 8s ease-in-out infinite;
+  box-shadow: 
+    0 0 20px rgba(144, 238, 144, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-.particle:nth-child(1) { left: 5%; animation-duration: 7s; animation-delay: 0s; }
-.particle:nth-child(2) { left: 10%; animation-duration: 8s; animation-delay: 0.5s; }
-.particle:nth-child(3) { left: 15%; animation-duration: 6s; animation-delay: 1s; }
-.particle:nth-child(4) { left: 20%; animation-duration: 9s; animation-delay: 1.5s; }
-.particle:nth-child(5) { left: 25%; animation-duration: 7s; animation-delay: 2s; }
-.particle:nth-child(6) { left: 30%; animation-duration: 8s; animation-delay: 2.5s; }
-.particle:nth-child(7) { left: 35%; animation-duration: 6s; animation-delay: 3s; }
-.particle:nth-child(8) { left: 40%; animation-duration: 9s; animation-delay: 3.5s; }
-.particle:nth-child(9) { left: 45%; animation-duration: 7s; animation-delay: 4s; }
-.particle:nth-child(10) { left: 50%; animation-duration: 8s; animation-delay: 4.5s; }
-.particle:nth-child(11) { left: 55%; animation-duration: 6s; animation-delay: 5s; }
-.particle:nth-child(12) { left: 60%; animation-duration: 9s; animation-delay: 5.5s; }
-.particle:nth-child(13) { left: 65%; animation-duration: 7s; animation-delay: 6s; }
-.particle:nth-child(14) { left: 70%; animation-duration: 8s; animation-delay: 6.5s; }
-.particle:nth-child(15) { left: 75%; animation-duration: 6s; animation-delay: 7s; }
-.particle:nth-child(16) { left: 80%; animation-duration: 9s; animation-delay: 7.5s; }
-.particle:nth-child(17) { left: 85%; animation-duration: 7s; animation-delay: 8s; }
-.particle:nth-child(18) { left: 90%; animation-duration: 8s; animation-delay: 8.5s; }
-.particle:nth-child(19) { left: 95%; animation-duration: 6s; animation-delay: 9s; }
-.particle:nth-child(20) { left: 3%; animation-duration: 8s; animation-delay: 2s; }
+.particle::after {
+  content: '';
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  filter: blur(2px);
+}
 
-@keyframes particleFloat {
+/* 气泡大小和位置 */
+.particle:nth-child(1) { left: 8%; width: 40px; height: 40px; animation-duration: 10s; animation-delay: 0s; }
+.particle:nth-child(2) { left: 15%; width: 25px; height: 25px; animation-duration: 12s; animation-delay: 1s; }
+.particle:nth-child(3) { left: 22%; width: 35px; height: 35px; animation-duration: 9s; animation-delay: 2s; }
+.particle:nth-child(4) { left: 30%; width: 20px; height: 20px; animation-duration: 11s; animation-delay: 0.5s; }
+.particle:nth-child(5) { left: 38%; width: 45px; height: 45px; animation-duration: 13s; animation-delay: 3s; }
+.particle:nth-child(6) { left: 45%; width: 30px; height: 30px; animation-duration: 10s; animation-delay: 1.5s; }
+.particle:nth-child(7) { left: 52%; width: 22px; height: 22px; animation-duration: 12s; animation-delay: 2.5s; }
+.particle:nth-child(8) { left: 60%; width: 38px; height: 38px; animation-duration: 9s; animation-delay: 4s; }
+.particle:nth-child(9) { left: 68%; width: 28px; height: 28px; animation-duration: 11s; animation-delay: 0.8s; }
+.particle:nth-child(10) { left: 75%; width: 42px; height: 42px; animation-duration: 10s; animation-delay: 3.5s; }
+.particle:nth-child(11) { left: 82%; width: 18px; height: 18px; animation-duration: 13s; animation-delay: 1.2s; }
+.particle:nth-child(12) { left: 88%; width: 32px; height: 32px; animation-duration: 11s; animation-delay: 2.2s; }
+.particle:nth-child(13) { left: 5%; width: 26px; height: 26px; animation-duration: 12s; animation-delay: 4.5s; }
+.particle:nth-child(14) { left: 25%; width: 36px; height: 36px; animation-duration: 10s; animation-delay: 5s; }
+.particle:nth-child(15) { left: 50%; width: 24px; height: 24px; animation-duration: 11s; animation-delay: 1.8s; }
+.particle:nth-child(16) { left: 70%; width: 44px; height: 44px; animation-duration: 9s; animation-delay: 3.2s; }
+.particle:nth-child(17) { left: 35%; width: 16px; height: 16px; animation-duration: 13s; animation-delay: 0.3s; }
+.particle:nth-child(18) { left: 80%; width: 34px; height: 34px; animation-duration: 10s; animation-delay: 2.8s; }
+
+@keyframes bubbleRise {
   0% { 
     transform: translateY(0) translateX(0) scale(0.5);
     opacity: 0;
   }
-  10% {
-    opacity: 1;
-    transform: translateY(-30px) scale(1);
+  5% {
+    opacity: 0.9;
+    transform: translateY(-30px) translateX(0) scale(1);
+  }
+  30% {
+    transform: translateY(-40vh) translateX(30px) scale(1.05);
+  }
+  60% {
+    transform: translateY(-70vh) translateX(-20px) scale(0.95);
   }
   100% { 
-    transform: translateY(-120vh) translateX(40px) scale(0.8);
+    transform: translateY(-130vh) translateX(10px) scale(0.6);
     opacity: 0;
   }
 }
 
 .inspiration-particles.active .particle {
-  animation-duration: 4s;
+  animation-duration: 6s;
 }
 
-/* Inspiration 按钮样式 */
+/* 闪烁的光点 */
+.sparkle {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #90EE90;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0;
+  animation: twinkle 2s ease-in-out infinite;
+  box-shadow: 0 0 6px #90EE90;
+}
+
+/* 按钮样式 - 绿色 */
 .inspiration-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 14px 28px;
-  background: linear-gradient(135deg, #8fb3a9 0%, #6b9e8a 100%);
+  gap: 10px;
+  padding: 16px 32px;
+  background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
   color: white;
   border: none;
   border-radius: 50px;
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-family: 'Noto Sans SC', sans-serif;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(143, 179, 169, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 8px 25px rgba(46, 204, 113, 0.4),
+    0 2px 10px rgba(39, 174, 96, 0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  position: relative;
+  overflow: hidden;
 }
 
-.inspiration-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(143, 179, 169, 0.5);
-}
-
-.inspiration-btn:active {
-  transform: translateY(-1px);
-}
-
-.inspiration-btn svg {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-.inspiration-btn:hover svg {
-  transform: rotate(20deg) scale(1.2);
-}
-
-.inspiration-btn.active {
-  background: linear-gradient(135deg, #6b9e8a 0%, #5a8a78 100%);
-  box-shadow: 0 4px 15px rgba(143, 179, 169, 0.3);
-}
-
-.inspiration-btn.active svg {
-  animation: sparkle 0.5s ease-in-out;
-}
-
-@keyframes sparkle {
-  0%, 100% { transform: scale(1) rotate(0); }
-  50% { transform: scale(1.3) rotate(180deg); }
-}
-
-/* 主内容区效果 */
-body.inspiration-active .home-info::after {
+.inspiration-btn::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at center, rgba(143, 179, 169, 0.15) 0%, transparent 70%);
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.inspiration-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 
+    0 15px 35px rgba(46, 204, 113, 0.5),
+    0 4px 15px rgba(39, 174, 96, 0.4),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.inspiration-btn:hover::before {
+  left: 100%;
+}
+
+.inspiration-btn:active {
+  transform: translateY(-2px) scale(1.02);
+}
+
+.inspiration-btn svg {
+  width: 22px;
+  height: 22px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+
+.inspiration-btn:hover svg {
+  transform: rotate(15deg) scale(1.15);
+  filter: drop-shadow(0 2px 5px rgba(255,255,255,0.5));
+}
+
+.inspiration-btn.active {
+  background: linear-gradient(135deg, #27AE60 0%, #1E8449 100%);
+  box-shadow: 
+    0 4px 15px rgba(46, 204, 113, 0.3),
+    inset 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.inspiration-btn.active svg {
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+/* 激活时内容区效果 */
+body.inspiration-active .home-info {
+  position: relative;
+}
+
+body.inspiration-active .home-info::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(144, 238, 144, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(72, 201, 176, 0.12) 0%, transparent 50%);
   pointer-events: none;
-  animation: contentGlow 2s ease-in-out infinite;
+  animation: contentGlow 3s ease-in-out infinite;
   z-index: -1;
+  border-radius: 20px;
+  filter: blur(10px);
 }
 
 @keyframes contentGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.02); }
 }
 
 /* 响应式 */
 @media (max-width: 768px) {
   .inspiration-btn {
-    padding: 12px 24px;
-    font-size: 0.95rem;
+    padding: 14px 26px;
+    font-size: 1rem;
+  }
+  
+  .particle {
+    width: 20px !important;
+    height: 20px !important;
   }
 }
