@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh" dir="auto" data-theme="light">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>我做了一个微信小程序：每日牌阵 | Zephyr&#39;s Blog</title>
+<meta name="keywords" content="小程序, 塔罗, 工具">
+<meta name="description" content="高中时用塔罗牌给同学测过，觉得挺准的。后来自己写了个小程序，把这件事自动化了。">
+<meta name="author" content="Zephyr">
+<link rel="canonical" href="https://zephyrsong.qzz.io/posts/zh/daily-tarot/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.172f4d85c09ced349a4939e4e734ace6c1670417436dd0eaa5c855e9473d549f.css" integrity="sha256-Fy9NhcCc7TSaSTnk5zSs5sFnBBdDbdDqpchV6Uc9VJ8=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://zephyrsong.qzz.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zephyrsong.qzz.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zephyrsong.qzz.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://zephyrsong.qzz.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://zephyrsong.qzz.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="zh" href="https://zephyrsong.qzz.io/posts/zh/daily-tarot/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    }
+
+</script><meta property="og:url" content="https://zephyrsong.qzz.io/posts/zh/daily-tarot/">
+  <meta property="og:site_name" content="Zephyr&#39;s Blog">
+  <meta property="og:title" content="我做了一个微信小程序：每日牌阵">
+  <meta property="og:description" content="高中时用塔罗牌给同学测过，觉得挺准的。后来自己写了个小程序，把这件事自动化了。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-04-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-04-03T00:00:00+00:00">
+    <meta property="article:tag" content="小程序">
+    <meta property="article:tag" content="塔罗">
+    <meta property="article:tag" content="工具">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="我做了一个微信小程序：每日牌阵">
+  <meta name="twitter:description" content="高中时用塔罗牌给同学测过，觉得挺准的。后来自己写了个小程序，把这件事自动化了。">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://zephyrsong.qzz.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "我做了一个微信小程序：每日牌阵",
+      "item": "https://zephyrsong.qzz.io/posts/zh/daily-tarot/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "我做了一个微信小程序：每日牌阵",
+  "name": "我做了一个微信小程序：每日牌阵",
+  "description": "高中时用塔罗牌给同学测过，觉得挺准的。后来自己写了个小程序，把这件事自动化了。",
+  "keywords": [
+    "小程序", "塔罗", "工具"
+  ],
+  "articleBody": "清明打算去威海、烟台、青岛玩一趟。\n就想着做点什么有意思的东西。突然想起之前玩过的塔罗牌——那时候觉得挺准的，就是每次查资料太麻烦了。 其实我不太信\"神秘学\"。但我信一件事：有时候，随机本身就是一种信息。\n你随机抽一张牌，牌面和你当下的处境产生某种共鸣，这件事本身就很有意思。\n17岁生日有人送了我一副塔罗牌，那时候下课无聊，我经常给同学\"测一测\"。没有系统学过，就是拿着说明书对着看。但奇怪的是，同学普遍觉得挺准的——当然，“准\"可能更多是心理暗示的作用。\n测完同学会说\"真的诶，我最近确实是这样”，或者\"这个建议还挺有道理的\"。我也不知道是真的准，还是人总能从模糊的描述里找到和自己相关的部分。\n但那个感觉，我一直记得。\n开发过程 用的是微信小程序，这个没什么犹豫的——微信生态用起来最顺手，而且塔罗这东西在年轻人里挺流行的，微信小程序传播也方便。\n第一步：牌库\n塔罗78张牌，每张需要存储：名称、关键词、正位解读、逆位解读、对应元素、数字符号。数据量不大，用 JSON 存着就行。\n主要的工作量在解读文本上。78张牌每张都要有至少一套解读，不能太水，也不能写得像百度百科。我参考了几本书的解读，自己改写成更口语、更贴近当代年轻人生活的版本。\n比如\"女祭司\"，经典解读是\"直觉、神秘、内在智慧\"，我写的是：\n她坐在两根柱子之间，眼帘低垂，不说话。她知道很多事情，但她选择不说。这个阶段适合向内看，而不是向外找答案。适合独处、冥想、写日记。不适合做重大决定。\n听起来还挺像那么回事的。\n第二步：随机抽牌逻辑\n每天一抽，关键是不能重复——抽过的牌今天不能再抽，第二天重置。\n实现其实很简单：用 localStorage 存一个日期和当天的牌组，每天打开时判断一下日期是否变化就行。\n第三步：界面\n配色选了有点神秘感的深紫。\n最麻烦的是\"翻牌\"的动画。微信小程序的动画 API 有限制，做不出很炫的效果，最后用了一个简单的2D翻转，low是low了点，但够用了。\n第四步：分享\n小程序有个\"发送给朋友\"的功能，可以把今天的牌阵生成一张图分享出去。我加了自定义文字——“今日牌阵 · 第X抽”，有点仪式感。\n一些感想 这个小程序很简单，没什么技术含量。但它让我重新审视了一件事：有些东西的价值，不在于复杂度，而在于它恰好出现在某个时刻。\n塔罗牌本身可能没什么道理，但\"每天停下来，想一想自己正在经历什么\"这件事本身，是有意义的。\n现代人太忙了，忙到没有时间和自己对话。抽一张牌，看看解读，然后想一想——这可能比刷两小时短视频要有用一点。\n我不知道这个小程序能走多远。也许就几十个人用，也许哪天就被微信下架了。但做这件事的过程本身，让我挺开心的。\n下一次，我想给它加一个功能：根据抽到的牌，生成一首适合当下听的歌。歌单我已经想好了。\n做成那天，我抽到了愚者——大阿尔卡纳的第零张。不知道有何暗示。\n",
+  "wordCount" : "1256",
+  "inLanguage": "zh",
+  "datePublished": "2026-04-03T00:00:00Z",
+  "dateModified": "2026-04-03T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Zephyr"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://zephyrsong.qzz.io/posts/zh/daily-tarot/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Zephyr's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://zephyrsong.qzz.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://zephyrsong.qzz.io/" accesskey="h" title="Zephyr&#39;s Blog (Alt + H)">Zephyr&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://zephyrsong.qzz.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zephyrsong.qzz.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zephyrsong.qzz.io/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://zephyrsong.qzz.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://zephyrsong.qzz.io/">主页</a>&nbsp;»&nbsp;<a href="https://zephyrsong.qzz.io/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      我做了一个微信小程序：每日牌阵
+    </h1>
+    <div class="post-description">
+      高中时用塔罗牌给同学测过，觉得挺准的。后来自己写了个小程序，把这件事自动化了。
+    </div>
+    <div class="post-meta"><span title='2026-04-03 00:00:00 +0000 UTC'>2026年4月3日</span>&nbsp;·&nbsp;<span>Zephyr</span>
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">目录</span>
+        </summary>
+
+        <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#开发过程">开发过程</a></li>
+    <li><a href="#一些感想">一些感想</a></li>
+  </ul>
+</nav>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>清明打算去威海、烟台、青岛玩一趟。</p>
+<p>就想着做点什么有意思的东西。突然想起之前玩过的塔罗牌——那时候觉得挺准的，就是每次查资料太麻烦了。
+其实我不太信&quot;神秘学&quot;。但我信一件事：<strong>有时候，随机本身就是一种信息。</strong></p>
+<p>你随机抽一张牌，牌面和你当下的处境产生某种共鸣，这件事本身就很有意思。</p>
+<p>17岁生日有人送了我一副塔罗牌，那时候下课无聊，我经常给同学&quot;测一测&quot;。没有系统学过，就是拿着说明书对着看。但奇怪的是，同学普遍觉得挺准的——当然，&ldquo;准&quot;可能更多是心理暗示的作用。</p>
+<p>测完同学会说&quot;真的诶，我最近确实是这样&rdquo;，或者&quot;这个建议还挺有道理的&quot;。我也不知道是真的准，还是人总能从模糊的描述里找到和自己相关的部分。</p>
+<p>但那个感觉，我一直记得。</p>
+<h2 id="开发过程">开发过程<a hidden class="anchor" aria-hidden="true" href="#开发过程">#</a></h2>
+<p>用的是微信小程序，这个没什么犹豫的——微信生态用起来最顺手，而且塔罗这东西在年轻人里挺流行的，微信小程序传播也方便。</p>
+<p><strong>第一步：牌库</strong></p>
+<p>塔罗78张牌，每张需要存储：名称、关键词、正位解读、逆位解读、对应元素、数字符号。数据量不大，用 JSON 存着就行。</p>
+<p>主要的工作量在<strong>解读文本</strong>上。78张牌每张都要有至少一套解读，不能太水，也不能写得像百度百科。我参考了几本书的解读，自己改写成更口语、更贴近当代年轻人生活的版本。</p>
+<p>比如&quot;女祭司&quot;，经典解读是&quot;直觉、神秘、内在智慧&quot;，我写的是：</p>
+<blockquote>
+<p>她坐在两根柱子之间，眼帘低垂，不说话。她知道很多事情，但她选择不说。这个阶段适合向内看，而不是向外找答案。适合独处、冥想、写日记。不适合做重大决定。</p>
+</blockquote>
+<p>听起来还挺像那么回事的。</p>
+<p><strong>第二步：随机抽牌逻辑</strong></p>
+<p>每天一抽，关键是不能重复——抽过的牌今天不能再抽，第二天重置。</p>
+<p>实现其实很简单：用 localStorage 存一个日期和当天的牌组，每天打开时判断一下日期是否变化就行。</p>
+<p><strong>第三步：界面</strong></p>
+<p>配色选了有点神秘感的深紫。</p>
+<p>最麻烦的是&quot;翻牌&quot;的动画。微信小程序的动画 API 有限制，做不出很炫的效果，最后用了一个简单的2D翻转，low是low了点，但够用了。</p>
+<p><strong>第四步：分享</strong></p>
+<p>小程序有个&quot;发送给朋友&quot;的功能，可以把今天的牌阵生成一张图分享出去。我加了自定义文字——&ldquo;今日牌阵 · 第X抽&rdquo;，有点仪式感。</p>
+<h2 id="一些感想">一些感想<a hidden class="anchor" aria-hidden="true" href="#一些感想">#</a></h2>
+<p>这个小程序很简单，没什么技术含量。但它让我重新审视了一件事：<strong>有些东西的价值，不在于复杂度，而在于它恰好出现在某个时刻。</strong></p>
+<p>塔罗牌本身可能没什么道理，但&quot;每天停下来，想一想自己正在经历什么&quot;这件事本身，是有意义的。</p>
+<p>现代人太忙了，忙到没有时间和自己对话。抽一张牌，看看解读，然后想一想——这可能比刷两小时短视频要有用一点。</p>
+<p>我不知道这个小程序能走多远。也许就几十个人用，也许哪天就被微信下架了。但做这件事的过程本身，让我挺开心的。</p>
+<p>下一次，我想给它加一个功能：<strong>根据抽到的牌，生成一首适合当下听的歌</strong>。歌单我已经想好了。</p>
+<hr>
+<hr>
+<p><em>做成那天，我抽到了愚者——大阿尔卡纳的第零张。不知道有何暗示。</em></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://zephyrsong.qzz.io/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/">小程序</a></li>
+      <li><a href="https://zephyrsong.qzz.io/tags/%E5%A1%94%E7%BD%97/">塔罗</a></li>
+      <li><a href="https://zephyrsong.qzz.io/tags/%E5%B7%A5%E5%85%B7/">工具</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://zephyrsong.qzz.io/posts/zh/built-with-ai/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>我用龙虾把这个博客搭出来了</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://zephyrsong.qzz.io/">Zephyr&#39;s Blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+<script src="/js/cursor-effect.js" defer></script>
+
+<link rel="stylesheet" href="/css/music-player.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2.0.1/dist/Meting.min.js"></script>
+<script src="/js/music-loader.js"></script>
+<script src="/js/auto-next.js"></script>
+<link rel="stylesheet" href="/css/inspiration.css">
+<script>
+
+function createStarBg() {
+  if (document.getElementById('star-wrap')) return;
+
+  var wrap = document.createElement('div');
+  wrap.id = 'star-wrap';
+  wrap.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:0;transition:opacity 2s ease;background:linear-gradient(135deg,#0a1a0f,#0d2818);';
+
+  var colors = [
+    '#00E5FF','#FF6B6B','#FFD93D','#6BCB77',
+    '#C9B1FF','#FF9A8B','#00D2FF','#FFB6C1',
+    '#7CFFCB','#FFC300','#A29BFE','#FD79A8',
+    '#55EFC4','#FF7675','#74B9FF','#FDCB6E'
+  ];
+
+  
+  for (var i = 0; i < 60; i++) {
+    var s = document.createElement('div');
+    s.className = 'star';
+    var c = colors[i % colors.length];
+    var size = (1 + Math.random() * 2).toFixed(1);
+    s.style.cssText = [
+      'position:absolute',
+      'width:' + size + 'px',
+      'height:' + size + 'px',
+      'background:' + c,
+      'border-radius:50%',
+      'box-shadow:0 0 ' + size + 'px ' + c,
+      'left:' + (Math.random() * 100).toFixed(2) + '%',
+      'top:' + (Math.random() * 100).toFixed(2) + '%',
+      'animation:starTwinkle ' + (1 + Math.random() * 3).toFixed(2) + 's ease-in-out infinite',
+      'animation-delay:' + (Math.random() * 3).toFixed(2) + 's',
+      '--sc:' + c
+    ].join(';');
+    wrap.appendChild(s);
+  }
+
+  
+  for (var j = 0; j < 8; j++) {
+    var b = document.createElement('div');
+    b.className = 'star big';
+    var c = colors[j % colors.length];
+    b.style.cssText = [
+      'position:absolute',
+      'width:4px',
+      'height:4px',
+      'background:#fff',
+      'border-radius:50%',
+      'box-shadow:0 0 8px 3px ' + c + ', 0 0 20px 6px ' + c,
+      'left:' + (Math.random() * 100).toFixed(2) + '%',
+      'top:' + (Math.random() * 100).toFixed(2) + '%',
+      'animation:bigStarPulse ' + (2 + Math.random() * 2).toFixed(2) + 's ease-in-out infinite',
+      'animation-delay:' + (Math.random() * 3).toFixed(2) + 's'
+    ].join(';');
+    wrap.appendChild(b);
+  }
+
+  document.body.appendChild(wrap);
+}
+
+
+function toggleStar() {
+  var wrap = document.getElementById('star-wrap');
+  var btn = document.querySelector('.inspiration-btn');
+
+  if (!wrap) {
+    createStarBg();
+    toggleStar();
+    return;
+  }
+
+  if (wrap.style.opacity === '1') {
+    wrap.style.opacity = '0';
+    if (btn) btn.classList.remove('active');
+  } else {
+    wrap.style.opacity = '1';
+    if (btn) btn.classList.add('active');
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  createStarBg();
+
+  setTimeout(function() {
+    var footer = document.querySelector('.home-info .entry-footer');
+    if (footer) {
+      var btn = document.createElement('button');
+      btn.className = 'inspiration-btn';
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>Inspiration';
+      btn.onclick = toggleStar;
+      btn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:linear-gradient(135deg,#8fb3a9,#7a9e96);color:white;border:none;border-radius:30px;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.3s;box-shadow:0 2px 8px rgba(143,179,169,0.25);margin-top:0.5rem;';
+      footer.appendChild(btn);
+    }
+  }, 500);
+});
+</script>
+<style>
+ 
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+ 
+@keyframes bigStarPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.5); }
+}
+</style>
+
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '已复制！';
+            setTimeout(() => {
+                copybutton.innerHTML = '复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

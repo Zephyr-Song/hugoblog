@@ -1,0 +1,39 @@
+/* Inspiration 流星雨按钮样式 */
+.inspiration-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #8fb3a9 0%, #7a9e96 100%);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(143, 179, 169, 0.25);
+  margin-top: 0.5rem;
+  font-family: inherit;
+}
+
+.inspiration-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(143, 179, 169, 0.35);
+}
+
+.inspiration-btn:active {
+  transform: translateY(0);
+}
+
+.inspiration-btn.active {
+  background: linear-gradient(135deg, #6b8e7e 0%, #5a7d6e 100%);
+  box-shadow: 0 1px 6px rgba(143, 179, 169, 0.2);
+}
+
+@media (max-width: 768px) {
+  .inspiration-btn {
+    padding: 5px 12px;
+    font-size: 0.75rem;
+  }
+}

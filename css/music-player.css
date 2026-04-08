@@ -1,0 +1,65 @@
+/* ==================== APlayer fixed+mini 修复 v5.3 ==================== */
+
+/* 右下角定位 */
+.aplayer.aplayer-fixed {
+  bottom: 24px !important;
+  right: 24px !important;
+  left: auto !important;
+  z-index: 1000 !important;
+}
+
+/* 展开后播放器主体：宽度、圆角 */
+.aplayer.aplayer-fixed .aplayer-body {
+  width: 320px !important;
+  right: 0 !important;
+  left: auto !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
+}
+
+/* 强制显示进度条 */
+.aplayer.aplayer-fixed .aplayer-bar-wrap {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 强制显示底部控制区 */
+.aplayer.aplayer-fixed .aplayer-controls {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* 强制显示音量 */
+.aplayer.aplayer-fixed .aplayer-volume-wrap {
+  display: flex !important;
+}
+
+/* 歌单列表宽度对齐 */
+.aplayer.aplayer-fixed .aplayer-list {
+  width: 320px !important;
+  right: 0 !important;
+  left: auto !important;
+  max-height: 180px !important;
+  border-radius: 12px 12px 0 0 !important;
+  box-shadow: 0 -4px 16px rgba(0,0,0,0.10) !important;
+}
+
+/* mini 圆钮颜色 */
+.aplayer.aplayer-fixed .aplayer-miniswitcher {
+  background: linear-gradient(135deg, #8fb3a9, #7a9e96) !important;
+  border-radius: 50% !important;
+}
+
+/* 移动端 */
+@media (max-width: 480px) {
+  .aplayer.aplayer-fixed {
+    right: 8px !important;
+    bottom: 16px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-body,
+  .aplayer.aplayer-fixed .aplayer-list {
+    width: calc(100vw - 16px) !important;
+  }
+}
