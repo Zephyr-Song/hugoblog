@@ -7,8 +7,6 @@ hidemeta: true
 
 ## 你好，我是 Zephyr 👋
 
-生于湖北荆州，六岁迁居湖南长沙。在青园小学、南雅初中、雅礼高中度过了成长的时光，现就读于苏州西交利物浦大学。
-
 ---
 
 ## 关于这个博客
@@ -20,7 +18,7 @@ hidemeta: true
 - **项目 · 记录** — 亲手做过的东西，踩过的坑
 - **随笔 · 日常** — 生活里值得记一笔的碎片
 
-写作对我来说是整理思路的方式，不追求完美，只求真实。
+写作对我来说是整理思路的方式，不求完美，只求真实。
 
 ---
 
@@ -38,5 +36,5 @@ hidemeta: true
 ## 联系我
 
 - GitHub：[@Zephyr-Song](https://github.com/Zephyr-Song)
-- GitHub Pages：[zephyr-song.github.io](https://zephyr-song.github.io)
+- 书评（GitHub Pages）：[zephyr-song.github.io](https://zephyr-song.github.io)
 - 有任何想法，欢迎在 GitHub 上给我提 [Issue](https://github.com/Zephyr-Song)
