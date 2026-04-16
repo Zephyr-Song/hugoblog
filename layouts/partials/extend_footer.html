@@ -90,18 +90,25 @@ function launchMeteorShower() {
     this.reset();
   }
   Meteor.prototype.reset = function() {
-    this.x = w * (0.5 + Math.random() * 0.5); // 从屏幕右半部分开始
-    this.y = -50 - Math.random() * 200;       // 从屏幕上方外开始
-    this.len = 80 + Math.random() * 120;      // 拖尾长度
-    this.speed = 8 + Math.random() * 12;      // 速度
-    this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2; // 约45度斜向下
+    this.x = w * (0.3 + Math.random() * 0.7); // 从屏幕右侧30%-100%区域开始
+    this.y = -50 - Math.random() * 300;       // 从屏幕上方外开始
+    this.len = 60 + Math.random() * 100;      // 拖尾长度 60-160
+    this.speed = 2 + Math.random() * 4;       // 速度变慢：2-6（原来是8-20）
+    this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.4; // 约45度，随机偏差更大
     this.vx = -this.speed * Math.cos(this.angle);
     this.vy = this.speed * Math.sin(this.angle);
     this.color = colors[Math.floor(Math.random() * colors.length)];
     this.life = 1.0;
-    this.decay = 0.005 + Math.random() * 0.005;
+    this.decay = 0.002 + Math.random() * 0.003; // 消失更慢
+    this.delay = Math.random() * 120; // 随机延迟出现（帧数）
+    this.active = this.delay <= 0;
   };
   Meteor.prototype.update = function() {
+    if (!this.active) {
+      this.delay--;
+      if (this.delay <= 0) this.active = true;
+      return;
+    }
     this.x += this.vx;
     this.y += this.vy;
     this.life -= this.decay;
@@ -110,17 +117,19 @@ function launchMeteorShower() {
     }
   };
   Meteor.prototype.draw = function() {
+    if (!this.active) return;
     var tailX = this.x - this.vx * (this.len / this.speed);
     var tailY = this.y - this.vy * (this.len / this.speed);
 
     var grad = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
     grad.addColorStop(0, this.color);
+    grad.addColorStop(0.3, this.color);
     grad.addColorStop(1, 'transparent');
 
     ctx.save();
-    ctx.globalAlpha = this.life;
+    ctx.globalAlpha = this.life * (0.6 + Math.random() * 0.4); // 轻微闪烁
     ctx.strokeStyle = grad;
-    ctx.lineWidth = 2 + Math.random();
+    ctx.lineWidth = 1.5 + Math.random() * 1.5;
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(this.x, this.y);
@@ -129,10 +138,10 @@ function launchMeteorShower() {
 
     // 头部光点
     ctx.fillStyle = '#fff';
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 8 + Math.random() * 4;
     ctx.shadowColor = this.color;
     ctx.beginPath();
-    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+    ctx.arc(this.x, this.y, 1.5 + Math.random(), 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   };
@@ -152,14 +161,14 @@ function launchMeteorShower() {
       meteors[i].draw();
     }
     frame++;
-    if (frame < 180) { // 约3秒
+    if (frame < 360) { // 延长至约6秒（原来是180帧/3秒）
       requestAnimationFrame(animate);
     } else {
       // 淡出并移除
       canvas.style.opacity = '0';
       setTimeout(function() {
         if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
-      }, 1500);
+      }, 2000);
     }
   }
   animate();
