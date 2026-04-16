@@ -72,6 +72,105 @@ function createStarBg() {
   document.body.appendChild(wrap);
 }
 
+// 流星雨 Canvas 系统
+function launchMeteorShower() {
+  var canvas = document.createElement('canvas');
+  canvas.id = 'meteor-canvas';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;opacity:1;transition:opacity 1.5s ease;';
+  document.body.appendChild(canvas);
+
+  var ctx = canvas.getContext('2d');
+  var w = canvas.width = window.innerWidth;
+  var h = canvas.height = window.innerHeight;
+
+  var meteors = [];
+  var colors = ['#00E5FF', '#FF6B6B', '#FFD93D', '#C9B1FF', '#FF9A8B', '#FFB6C1', '#55EFC4', '#74B9FF'];
+
+  function Meteor() {
+    this.reset();
+  }
+  Meteor.prototype.reset = function() {
+    this.x = w * (0.5 + Math.random() * 0.5); // 从屏幕右半部分开始
+    this.y = -50 - Math.random() * 200;       // 从屏幕上方外开始
+    this.len = 80 + Math.random() * 120;      // 拖尾长度
+    this.speed = 8 + Math.random() * 12;      // 速度
+    this.angle = Math.PI / 4 + (Math.random() - 0.5) * 0.2; // 约45度斜向下
+    this.vx = -this.speed * Math.cos(this.angle);
+    this.vy = this.speed * Math.sin(this.angle);
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.life = 1.0;
+    this.decay = 0.005 + Math.random() * 0.005;
+  };
+  Meteor.prototype.update = function() {
+    this.x += this.vx;
+    this.y += this.vy;
+    this.life -= this.decay;
+    if (this.life <= 0 || this.x < -this.len || this.y > h + this.len) {
+      this.reset();
+    }
+  };
+  Meteor.prototype.draw = function() {
+    var tailX = this.x - this.vx * (this.len / this.speed);
+    var tailY = this.y - this.vy * (this.len / this.speed);
+
+    var grad = ctx.createLinearGradient(this.x, this.y, tailX, tailY);
+    grad.addColorStop(0, this.color);
+    grad.addColorStop(1, 'transparent');
+
+    ctx.save();
+    ctx.globalAlpha = this.life;
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 2 + Math.random();
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y);
+    ctx.lineTo(tailX, tailY);
+    ctx.stroke();
+
+    // 头部光点
+    ctx.fillStyle = '#fff';
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  };
+
+  // 创建 25 颗流星
+  for (var i = 0; i < 25; i++) {
+    var m = new Meteor();
+    m.y = Math.random() * h * 0.5; // 初始分散在画面上半部分
+    meteors.push(m);
+  }
+
+  var frame = 0;
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < meteors.length; i++) {
+      meteors[i].update();
+      meteors[i].draw();
+    }
+    frame++;
+    if (frame < 180) { // 约3秒
+      requestAnimationFrame(animate);
+    } else {
+      // 淡出并移除
+      canvas.style.opacity = '0';
+      setTimeout(function() {
+        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      }, 1500);
+    }
+  }
+  animate();
+
+  // 窗口大小变化适配
+  window.addEventListener('resize', function() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }, { once: true });
+}
+
 // 切换特效（手动关闭）
 function toggleStar() {
   var wrap = document.getElementById('star-wrap');
@@ -89,6 +188,8 @@ function toggleStar() {
   } else {
     wrap.style.opacity = '1';
     if (btn) btn.classList.add('active');
+    // 触发流星雨！
+    launchMeteorShower();
   }
 }
 
