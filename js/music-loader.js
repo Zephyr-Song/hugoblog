@@ -13,7 +13,7 @@
     el.setAttribute('autoplay', 'false');
     el.setAttribute('order', 'random');
     el.setAttribute('theme', '#8fb3a9');
-    el.setAttribute('api', 'https://api.injahow.cn/meting/');
+    el.setAttribute('api', 'https://api.injahow.cn/meting/?');
     document.body.appendChild(el);
 
     // 歌单加载后移除前7首
