@@ -3,6 +3,9 @@
  */
 (function () {
 
+  // 在 MetingJS 加载前设置自定义 API（需在 Meting.min.js 之前执行）
+  window.meting_api = 'https://meting-api-omega.vercel.app/api?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+
   function initMeting() {
     var el = document.createElement('meting-js');
     el.setAttribute('server', 'netease');
@@ -13,7 +16,6 @@
     el.setAttribute('autoplay', 'false');
     el.setAttribute('order', 'random');
     el.setAttribute('theme', '#8fb3a9');
-    el.setAttribute('api', 'https://api.yuanningtech.cn/meting/?');
     document.body.appendChild(el);
 
     // 歌单加载后移除前7首
