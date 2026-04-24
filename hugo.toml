@@ -113,6 +113,9 @@ buildFuture = true
   # 自定义 CSS
   [params.assets]
     customCSS = ["css/inspiration.css"]
+    favicon = "/favicon.svg"
+    favicon16 = "/favicon.svg"
+    favicon32 = "/favicon.svg"
 
   # 启用 Inspiration 动态背景
   [params.inspiration]
