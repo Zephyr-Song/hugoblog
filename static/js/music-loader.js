@@ -1,13 +1,7 @@
 /**
- * Music Loader - 歌单播放（跳过前7首）
+ * Music Loader - 歌单播放
  */
 (function () {
-  // 手机端不加载播放器
-  var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 1024;
-
-  if (isMobile) {
-    return;
-  }
 
   function initMeting() {
     var el = document.createElement('meting-js');
