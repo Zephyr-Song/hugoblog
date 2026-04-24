@@ -3,8 +3,7 @@
  */
 (function () {
 
-  // 在 MetingJS 加载前设置自定义 API（需在 Meting.min.js 之前执行）
-  window.meting_api = 'https://meting-api-omega.vercel.app/api?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+  // window.meting_api 由 extend_footer.html 设置，此处不再覆盖
 
   function initMeting() {
     var el = document.createElement('meting-js');
