@@ -1,18 +1,8 @@
 /**
  * Music Loader - 歌单播放
- * 切换页面保持播放状态，不自动切歌
+ * 进入网站随机播放，点击播放键后切页不暂停
  */
 (function () {
-  // 页面即将卸载时，记录当前播放状态
-  window.addEventListener('beforeunload', function () {
-    var metingEl = document.querySelector('meting-js');
-    if (metingEl && metingEl.ap) {
-      var ap = metingEl.ap;
-      sessionStorage.setItem('music_playing', ap.audio.paused ? '0' : '1');
-      sessionStorage.setItem('music_index', ap.list.index);
-      sessionStorage.setItem('music_time', ap.audio.currentTime);
-    }
-  });
 
   function initMeting() {
     var existingMeting = document.querySelector('meting-js');
@@ -28,33 +18,21 @@
     el.setAttribute('fixed', 'true');
     el.setAttribute('mini', 'true');
     el.setAttribute('autoplay', 'false');
-    el.setAttribute('order', 'list');
+    el.setAttribute('order', 'random');
     el.setAttribute('theme', '#8fb3a9');
     document.body.appendChild(el);
 
-    function restoreState() {
+    // 切页后尝试继续播放
+    function tryResume() {
       var metingEl = document.querySelector('meting-js');
       if (!metingEl || !metingEl.ap) return false;
-
       var ap = metingEl.ap;
-      var wasPlaying = sessionStorage.getItem('music_playing');
-      var savedIndex = sessionStorage.getItem('music_index');
-      var savedTime = sessionStorage.getItem('music_time');
 
-      // 切到之前的歌曲
-      if (savedIndex !== null && ap.list.audios.length > 0) {
-        var idx = parseInt(savedIndex, 10);
-        if (idx >= 0 && idx < ap.list.audios.length) {
-          ap.list.switch(idx);
-          // 同步歌曲信息显示
-          ap.audio.currentTime = parseFloat(savedTime) || 0;
-        }
-      }
-
-      // 如果之前在播放，切页后继续播放
-      if (wasPlaying === '1') {
+      var savedPlaying = sessionStorage.getItem('music_was_playing');
+      if (savedPlaying === '1') {
         ap.play().catch(function() {});
       }
+      sessionStorage.removeItem('music_was_playing');
       return true;
     }
 
@@ -75,16 +53,20 @@
     var count = 0;
     var timer = setInterval(function () {
       count++;
-      if (removeFirstSeven()) {
-        // 删除后恢复播放状态
-        restoreState();
-      }
-      if (count > 120) {
+      if (removeFirstSeven() || count > 120) {
         clearInterval(timer);
-        restoreState();
+        tryResume();
       }
     }, 200);
   }
+
+  // 切页前记录是否在播放
+  window.addEventListener('beforeunload', function () {
+    var metingEl = document.querySelector('meting-js');
+    if (metingEl && metingEl.ap && !metingEl.ap.audio.paused) {
+      sessionStorage.setItem('music_was_playing', '1');
+    }
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMeting);
