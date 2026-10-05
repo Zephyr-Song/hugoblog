@@ -162,21 +162,25 @@
   display: none !important;
 }
 
-/* 音量控件整体（wrap 作锚点）放到播放键正上方：
-   icon 是 absolute 会脱离文档流、把 wrap 缩成空壳导致音量条锚点跑位，
-   所以定位加在 wrap 上，icon 回归 static 随 wrap 排布 */
+/* 音量控件整体（wrap 作锚点）放到播放键正上方，并改为横向布局：
+   左边音量图标、右边横向音量条（宽 70px = 图标 24 + 间距 6 + 条 40）。
+   注意：icon 用 absolute 会脱离文档流把 wrap 缩成空壳导致音量条锚点跑位，
+   所以定位加在 wrap 上、icon 回归 static（flex 项）随 wrap 排布 */
 .aplayer.aplayer-fixed .aplayer-volume-wrap {
   position: absolute !important;
   bottom: 40px !important;
-  right: 90px !important;
-  width: 24px !important;
+  right: 44px !important;
+  width: 70px !important;
   height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
 }
 .aplayer.aplayer-fixed .aplayer-icon-volume-down {
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: static !important;
+  flex: 0 0 24px !important;
   width: 24px !important;
   height: 24px !important;
   padding: 2px !important;
@@ -186,13 +190,19 @@
 /* 音量条横向化：原生是竖条（JS 用内联 style 控制 height 0→40 展开），
    旋转 90° 后视觉变为横向（宽 0→40 从左向右展开），JS 填充逻辑无需改动。
    height 用 !important 强制展开（覆盖 JS 内联的 height:0），常驻显示。
-   定位：视觉条位于音量图标左侧、垂直居中 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
+   定位：贴在音量图标右侧、与图标垂直居中。
+   原生条 DOM 是 25 宽 × 40 高（rotate 90° 后视觉 40 宽 × 25 高），
+   布局中心 wrap 右 - right - 12.5，视觉左端 = 中心 - 20。
+   right:6px → 左端恰好在图标右侧 4px、右端齐 wrap 右边缘 */
+  .aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
+  position: absolute !important;
+  top: 50% !important;
+  right: 6px !important;
+  bottom: auto !important;
+  left: auto !important;
+  margin-top: -20px !important;
   transform: rotate(90deg) !important;
   transform-origin: center !important;
-  right: 31.5px !important;
-  bottom: -8.5px !important;
-  left: auto !important;
   height: 40px !important;
 }
 
@@ -281,6 +291,8 @@
   .aplayer.aplayer-fixed .aplayer-icon-forward { bottom: 5px !important; right: 40px !important; }
   .aplayer.aplayer-fixed .aplayer-icon-play    { bottom: 5px !important; right: 70px !important; }
   .aplayer.aplayer-fixed .aplayer-icon-back    { bottom: 5px !important; right: 100px !important; }
+  /* 音量控件沿用桌面横向布局（桌面规则的定位锚点是 .aplayer-info，
+     手机端 info 同样是全宽，无需重复声明；此行的键名仅为兼容性保留） */
   .aplayer.aplayer-fixed .aplayer-icon-volume  { bottom: 5px !important; right: 130px !important; }
 }
 /* 容器透明化：.aplayer 原生白底会在面板下方露出白色空块 */
