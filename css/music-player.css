@@ -53,16 +53,59 @@
   box-shadow: 0 3px 12px rgba(199,125,255,.4) !important;
 }
 
-/* 播放器面板配色 —— 跟随主题变量 */
+/* 播放器面板配色 —— 跟随站点明暗主题（之前写死深色导致亮色下也是黑的） */
+/* 亮色（默认）：白底黑字 */
 .aplayer.aplayer-fixed .aplayer-body,
 .aplayer.aplayer-fixed .aplayer-list {
+  background: #ffffff !important;
+  border: 1px solid #E4DEEC !important;
+  color: #16121C !important;
+}
+.aplayer.aplayer-fixed .aplayer-title,
+.aplayer.aplayer-fixed .aplayer-singer,
+.aplayer.aplayer-fixed .aplayer-list li .aplayer-list-title,
+.aplayer.aplayer-fixed .aplayer-list li .aplayer-list-author {
+  color: #16121C !important;
+}
+.aplayer.aplayer-fixed .aplayer-list li {
+  border-top: 1px solid #EFEBF5 !important;
+}
+.aplayer.aplayer-fixed .aplayer-list li:hover {
+  background: #F4F1F8 !important;
+}
+.aplayer.aplayer-fixed .aplayer-icon,
+.aplayer.aplayer-fixed .aplayer-play,
+.aplayer.aplayer-fixed .aplayer-pause,
+.aplayer.aplayer-fixed .aplayer-time,
+.aplayer.aplayer-fixed .aplayer-volume-wrap {
+  color: #4A4454 !important;
+}
+
+/* 暗色主题：深底浅字（跟随 html[data-theme="dark"]） */
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list {
   background: #1E1929 !important;
   border: 1px solid #2E2740 !important;
   color: #F4F1F8 !important;
 }
-.aplayer.aplayer-fixed .aplayer-title,
-.aplayer.aplayer-fixed .aplayer-singer {
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-title,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-singer,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list li .aplayer-list-title,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list li .aplayer-list-author {
   color: #F4F1F8 !important;
+}
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list li {
+  border-top: 1px solid #2E2740 !important;
+}
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list li:hover {
+  background: #2A2338 !important;
+}
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-icon,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-play,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-pause,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-time,
+html[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-volume-wrap {
+  color: #C8C1D4 !important;
 }
 
 /* 移动端 */
