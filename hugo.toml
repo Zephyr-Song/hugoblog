@@ -117,9 +117,9 @@ buildFuture = true
     favicon16 = "/favicon.svg"
     favicon32 = "/favicon.svg"
 
-  # Inspiration 动态背景（旧版绿色星河代码已移除，改为 zen-art.js 插画层）
+  # 启用 Inspiration 动态背景
   [params.inspiration]
-    enabled = false
+    enabled = true
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
