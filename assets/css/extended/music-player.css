@@ -162,18 +162,38 @@
   display: none !important;
 }
 
-/* 音量按钮（原生类名是 icon-volume-down，升为 24px 大按钮） */
+/* 音量控件整体（wrap 作锚点）放到播放键正上方：
+   icon 是 absolute 会脱离文档流、把 wrap 缩成空壳导致音量条锚点跑位，
+   所以定位加在 wrap 上，icon 回归 static 随 wrap 排布 */
+.aplayer.aplayer-fixed .aplayer-volume-wrap {
+  position: absolute !important;
+  bottom: 40px !important;
+  right: 90px !important;
+  width: 24px !important;
+  height: 24px !important;
+}
 .aplayer.aplayer-fixed .aplayer-icon-volume-down {
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  position: absolute !important;
-  bottom: 8px !important;
-  right: 166px !important;
+  position: static !important;
   width: 24px !important;
   height: 24px !important;
   padding: 2px !important;
   cursor: pointer !important;
+}
+
+/* 音量条横向化：原生是竖条（JS 用内联 style 控制 height 0→40 展开），
+   旋转 90° 后视觉变为横向（宽 0→40 从左向右展开），JS 填充逻辑无需改动。
+   height 用 !important 强制展开（覆盖 JS 内联的 height:0），常驻显示。
+   定位：视觉条位于音量图标左侧、垂直居中 */
+.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
+  transform: rotate(90deg) !important;
+  transform-origin: center !important;
+  right: 31.5px !important;
+  bottom: -8.5px !important;
+  left: auto !important;
+  height: 40px !important;
 }
 
 /* 暗黑模式 */
@@ -272,4 +292,18 @@
 .aplayer.aplayer-fixed .aplayer-list.aplayer-list-hide {
   border: none !important;
   box-shadow: none !important;
+}
+
+/* ============================================================
+   首页 Hero 区：Inspiration 按钮与 GitHub/Globe 社交图标同行
+   （原实现 appendChild 到 entry-footer 末尾导致换行独行）
+   ============================================================ */
+.home-info .entry-footer {
+  display: flex !important;
+  align-items: center !important;
+  flex-wrap: wrap !important;
+  gap: 14px !important;
+}
+.inspiration-btn {
+  margin-top: 0 !important;
 }

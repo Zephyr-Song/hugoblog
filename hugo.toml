@@ -94,10 +94,6 @@ buildFuture = true
     name = "globe"
     url = "https://zephyr-song.github.io"
 
-  [[params.socialIcons]]
-    name = "rss"
-    url = "/index.xml"
-
   # 动态效果和音乐播放器配置
   [params.animations]
     enabled = false
