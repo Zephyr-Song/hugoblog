@@ -75,18 +75,18 @@
   scrollbar-color: #d5cebd transparent;
 }
 
-/* 进度条颜色（紫，与站点插画点缀色一致） */
+/* 进度条颜色（焦糖色 #C08552，替换原来的紫色 #C77DFF —— 与站点米色底更协调） */
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played {
-  background: #C77DFF !important;
+  background: #C08552 !important;
 }
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb {
-  background: #C77DFF !important;
-  box-shadow: 0 0 0 3px rgba(199,125,255,0.3) !important;
+  background: #C08552 !important;
+  box-shadow: 0 0 0 3px rgba(192,133,82,0.3) !important;
 }
 
-/* 音量条颜色 */
+/* 音量条颜色（与进度条同色） */
 .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
-  background: #C77DFF !important;
+  background: #C08552 !important;
 }
 
 /* 音量条加粗加长（好点/好拖）：
