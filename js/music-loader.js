@@ -135,30 +135,89 @@
       ap.volume(Math.round(p * 100) / 100); // APlayer 会同步 UI 与 audio.volume
     }
 
-    function onDown(e) {
-      dragging = true;
-      if (e.cancelable) e.preventDefault();
-      e.stopPropagation();
+    function beginDrag(e) {
+      if (!dragging) {
+        dragging = true;
+        wrap.classList.add('is-dragging');
+      }
+      // setPointerCapture 之后，后续 pointermove/pointerup 一律重定向到 wrap，
+      // 拖到条外面（甚至窗口外）松手也能正常结束。
+      try { wrap.setPointerCapture(e.pointerId); } catch (err) {}
       setByX(clientX(e));
     }
-    function onMove(e) {
+    function moveDrag(e) {
       if (!dragging) return;
-      if (e.cancelable) e.preventDefault();
       e.stopPropagation();
       setByX(clientX(e));
     }
-    function onUp(e) {
+    function endDrag() {
       if (!dragging) return;
       dragging = false;
-      e.stopPropagation();
+      wrap.classList.remove('is-dragging');
     }
 
-    wrap.addEventListener('mousedown', onDown, true);
-    document.addEventListener('mousemove', onMove, true);
-    document.addEventListener('mouseup', onUp, true);
-    wrap.addEventListener('touchstart', onDown, true);
-    document.addEventListener('touchmove', onMove, true);
-    document.addEventListener('touchend', onUp, true);
+    // 1) 主力：pointer 事件，鼠标 / 触摸 / 触控笔统一处理。
+    //    move/up 必须挂在 wrap 上 —— capture 生效后事件只发给 wrap，
+    //    挂 document 的兼容 mousemove 在部分浏览器根本收不到（表现为"按得动拖不动"）。
+    wrap.addEventListener('pointerdown', function (e) {
+      if (e.pointerType === 'mouse' && typeof e.button === 'number' && e.button !== 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      beginDrag(e);
+    }, true);
+    wrap.addEventListener('pointermove', moveDrag, true);
+    wrap.addEventListener('pointerup', endDrag, true);
+    wrap.addEventListener('pointercancel', endDrag, true);
+
+    // 1b) 双保险：万一 setPointerCapture 失败，document 上仍有一套
+    wrap.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      beginDrag(e);
+    }, true);
+    document.addEventListener('pointermove', moveDrag, true);
+    document.addEventListener('pointerup', endDrag, true);
+    document.addEventListener('pointercancel', endDrag, true);
+
+    // 2) 兜底 APlayer 自己的逻辑：它的 dragStart 监听 mousedown、
+    //    dragMove/dragEnd 监听 document 上的 mousemove/mouseup，
+    //    不拦住就会抢着按自己的（竖直方向）公式写一遍音量，把我们覆盖掉。
+    wrap.addEventListener('mousedown', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      beginDrag(e);
+    }, true);
+    // 3) 触屏兜底（老浏览器没有 pointer events）
+    wrap.addEventListener('touchstart', function (e) {
+      if (e.cancelable) e.preventDefault();
+      e.stopPropagation();
+      beginDrag(e);
+    }, true);
+    document.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      e.stopPropagation();
+      moveDrag(e);
+    }, true);
+    document.addEventListener('touchend', function () {
+      if (!dragging) return;
+      endDrag();
+    }, true);
+    document.addEventListener('touchcancel', function () {
+      if (!dragging) return;
+      endDrag();
+    }, true);
+
+    // 4) 备用交互：鼠标滚轮在音量条上滚一下就 ±5%，比拖更省力
+    wrap.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var cur = ap.audio ? ap.audio.volume : 0;
+      if (typeof cur !== 'number') cur = 0;
+      var next = cur + (e.deltaY < 0 ? 0.05 : -0.05);
+      if (next < 0) next = 0;
+      if (next > 1) next = 1;
+      ap.volume(Math.round(next * 100) / 100);
+    }, { passive: false, capture: true });
   }
 
   // 切页前记录播放状态
