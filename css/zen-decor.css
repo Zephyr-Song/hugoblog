@@ -6,15 +6,46 @@
  *    原站点的配色、字体、布局、间距全部保持不变。
  */
 
-/* ========== 1. 文章卡片插画封面 ========== */
+/* ============================================================
+   1. 文章条目横向布局（左图 / 右文）
+   仿效参考站 wisdomechoes.net 的 articles 板块：
+   左侧窄插画 + 序号角标，右侧标题/摘要/元信息，原样保留。
+
+   注：PaperMod 原样式给 .post-entry 加了 box-shadow 与 hover 位移，
+       在横排布局下会显得像"白底卡片"。这里显式归零，
+       改用参考站那种「无边框 + 分隔线」的条目形态。
+   ============================================================ */
+
+.zen-art-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.7rem;
+  /* 抵消 PaperMod 的卡片化效果，回到平面条目 */
+  box-shadow: none !important;
+  border: none;
+  background: transparent;
+  padding: 1.5rem 0;
+  margin: 0;
+}
+.zen-art-row:hover {
+  transform: none;
+  box-shadow: none !important;
+  border-color: transparent;
+}
+
+/* ---- 左栏：插画 + 序号 ---- */
+.zen-art-left {
+  flex: 0 0 260px;
+  width: 260px;
+  position: relative;
+}
+
 .zen-art-wrap {
   display: block;
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
-  margin-bottom: 1.1rem;
+  border-radius: 10px;
   line-height: 0;
-  /* 渐显动画 */
   animation: zenArtIn .7s cubic-bezier(.22,.61,.36,1) both;
 }
 
@@ -27,15 +58,73 @@
   display: block;
   width: 100%;
   height: auto;
-  /* 限制高度，避免长图喧宾夺主 */
   aspect-ratio: 800 / 450;
   object-fit: cover;
   transition: transform .7s cubic-bezier(.22,.61,.36,1);
 }
 
-/* 悬停时轻微放大 + 插画内的线条动起来 */
-.zen-art-wrap:hover .zen-art {
-  transform: scale(1.035);
+/* 悬停时轻微放大 */
+.zen-art-row:hover .zen-art-wrap .zen-art {
+  transform: scale(1.045);
+}
+
+/* 序号角标：叠在插画左上角 */
+.zen-art-num {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  min-width: 27px;
+  height: 23px;
+  padding: 0 7px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .85);
+  color: #6E5A9E;
+  font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  font-size: .72rem;
+  font-weight: 700;
+  line-height: 23px;
+  text-align: center;
+  letter-spacing: .02em;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+  transition: background .25s, color .25s;
+}
+.zen-art-row:hover .zen-art-num {
+  background: #C77DFF;
+  color: #fff;
+}
+
+/* ---- 右栏：原有内容 ---- */
+.zen-art-right {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: .15rem;
+}
+
+/* 右栏内 PaperMod 原有元素间距微调（仅在横排布局下生效） */
+.zen-art-row .zen-art-right > .entry-header { margin-bottom: .45rem; }
+.zen-art-row .zen-art-right > .entry-content { margin-bottom: .55rem; }
+
+/* 标题在悬停时变色（沿用参考站的紫，不改动原主题色变量） */
+.zen-art-row .entry-header a,
+.zen-art-row .entry-header h2 {
+  transition: color .22s ease;
+}
+.zen-art-row:hover .entry-header a { color: #C77DFF; }
+
+/* 移动端：回到上下堆叠 */
+@media (max-width: 720px) {
+  .zen-art-row {
+    flex-direction: column;
+    gap: .9rem;
+    padding: 1.1rem 0;
+  }
+  .zen-art-left {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+  .zen-art-row .zen-art-right { width: 100%; }
 }
 
 /* ========== 2. 首页 Hero 装饰图案 ========== */
@@ -55,7 +144,7 @@
 /* ========== 3. 章节分隔图案 ========== */
 .zen-divider {
   width: 100%;
-  margin: 1.9rem 0;
+  margin: 0 0 0.2rem;
   line-height: 0;
   animation: zenArtIn .8s cubic-bezier(.22,.61,.36,1) both;
 }
@@ -83,7 +172,18 @@
   display: block;
 }
 
-/* ========== 5. 暗色模式适配 ========== */
+/* 暗色模式：序号角标压暗，避免在深色背景上过于抢眼 */
+[data-theme="dark"] .zen-art-num {
+  background: rgba(30, 25, 41, .82);
+  color: #C9B8E8;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
+}
+[data-theme="dark"] .zen-art-row:hover .zen-art-num {
+  background: #C77DFF;
+  color: #fff;
+}
+
+/* ========== 5. 暗色模式：插画适配 ========== */
 /*
  * 插画本身是「亮底粉彩」设计，直接放到深色背景上会形成刺眼反差。
  * 这里用滤镜整体压暗并轻微降饱和，使其融入暗色环境，
