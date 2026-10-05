@@ -89,6 +89,24 @@
   background: #C77DFF !important;
 }
 
+/* 音量条加粗加长（好点/好拖）：
+   原生轨道只有 5px 厚 × 35px 长，太小难点。
+   加粗 → 改 .aplayer-volume-bar 的 width（DOM width 方向即旋转后的"厚度"；
+   原生 right:10px 在 25px 宽的容器里已居中，宽 5→10 时重算 right 保持居中：
+   (25-10)/2 = 7.5px），并让长度铺满轨道容器（height:100%，原生写死 35px）。
+   旋转 90° 后 DOM 的 height 方向变成视觉的水平长度方向。 */
+.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar {
+  right: 7.5px !important;
+  width: 10px !important;
+  height: 100% !important;
+  border-radius: 5px !important;
+}
+
+.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar .aplayer-volume {
+  width: 10px !important;
+  border-radius: 5px !important;
+}
+
 /* 确保控制按钮显示 */
 .aplayer .aplayer-icon {
   display: inline-block !important;
@@ -169,8 +187,8 @@
 .aplayer.aplayer-fixed .aplayer-volume-wrap {
   position: absolute !important;
   bottom: 40px !important;
-  right: 44px !important;
-  width: 70px !important;
+  right: 12px !important;
+  width: 102px !important;
   height: 24px !important;
   display: flex !important;
   align-items: center !important;
@@ -190,20 +208,22 @@
 /* 音量条横向化：原生是竖条（JS 用内联 style 控制 height 0→40 展开），
    旋转 90° 后视觉变为横向（宽 0→40 从左向右展开），JS 填充逻辑无需改动。
    height 用 !important 强制展开（覆盖 JS 内联的 height:0），常驻显示。
-   定位：贴在音量图标右侧、与图标垂直居中。
-   原生条 DOM 是 25 宽 × 40 高（rotate 90° 后视觉 40 宽 × 25 高），
-   布局中心 wrap 右 - right - 12.5，视觉左端 = 中心 - 20。
-   right:6px → 左端恰好在图标右侧 4px、右端齐 wrap 右边缘 */
+   定位：贴在音量图标右侧、与图标垂直居中，长度由 height 决定（40 → 72 加长）。
+   坐标换算：条 DOM 25 宽 x 72 高，rotate(90deg) 后视觉 72 长 x 10 厚。
+   布局中心 x = wrap 右 - right - 12.5 = 视觉中心，视觉左端 = 中心 - 36。
+   right:22px → 左端离图标右缘 4px、右端贴 wrap 右边缘 2px 内。
+   垂直：top:50% + margin-top:-36px 让 72px 高布局框中心对齐 wrap 中线。
+   注：margin-top 取布局框高度的一半，改 height 时务必同步改这个值 */
   .aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
   position: absolute !important;
   top: 50% !important;
-  right: 6px !important;
+  right: 22px !important;
   bottom: auto !important;
   left: auto !important;
-  margin-top: -20px !important;
+  margin-top: -36px !important;
   transform: rotate(90deg) !important;
   transform-origin: center !important;
-  height: 40px !important;
+  height: 72px !important;
 }
 
 /* 暗黑模式 */
