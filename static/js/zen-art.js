@@ -31,6 +31,9 @@
     };
   }
 
+  /* ============ 图形母题（6 种） ============ */
+  var MOTIFS = ['area', 'bars', 'rings', 'peaks', 'spectrum', 'warp'];
+
   /* ============ 粉彩配色（低饱和，参考 wisdomechoes 风格） ============ */
   var PALETTES = [
     { bg: '#F4F1FA', soft: '#E6DFF3', ink: '#9080C0', hot: '#7C63B8' },
@@ -41,8 +44,26 @@
     { bg: '#F2F4F7', soft: '#DFE4EC', ink: '#8296AC', hot: '#63788F' }
   ];
 
-  /* ============ 6 种图形母题 ============ */
-  var MOTIFS = ['area', 'bars', 'rings', 'peaks', 'spectrum', 'warp'];
+  /* ============ 母题与配色的分配策略 ============
+   *
+   * 早期版本用「标题哈希 → 随机取母题/配色」，结果 6 篇文章里
+   * 出现 1&3 同为 area、2&4 同为 rings 的撞车（母题只有 6 种，
+   * 生日问题必然重复）。
+   *
+   * 改为：按文章序号轮转分配，母题与配色用互质步长错开，
+   * 保证「相邻不重复」，且 6 篇内各自覆盖全部 6 种。
+   * 标题哈希只用于决定母题内部的细节参数（曲线形状、点数等），
+   * 这样即使母题相同，图也绝不相同。
+   */
+  function pickMotif(index) {
+    return index % MOTIFS.length;
+  }
+
+  function pickPalette(index) {
+    /* 步长 5 与母题步长 1 互质 → 配色周期与母题周期错开，
+       不会出现「同母题 + 同配色」的组合。 */
+    return (index * 5 + 2) % PALETTES.length;
+  }
 
   function el(tag, attrs) {
     var e = document.createElementNS('http://www.w3.org/2000/svg', tag);
@@ -54,13 +75,16 @@
 
   /**
    * 生成一张插画
-   * @param {string} seed  文章标题 → 确定性种子
+   * @param {string} seed  文章标题 → 只用于决定母题内部的细节参数
    * @param {number} uid   唯一 id 后缀（避免同页 defs 冲突）
+   * @param {number} index 文章序号 → 决定母题与配色（保证相邻不重复）
    */
-  function buildArt(seed, uid) {
+  function buildArt(seed, uid, index) {
     var rnd = rngFrom(seed);
-    var P = PALETTES[Math.floor(rnd() * PALETTES.length)];
-    var motif = MOTIFS[Math.floor(rnd() * MOTIFS.length)];
+    /* 母题与配色按序号轮转，不走随机 —— 避免撞车 */
+    var idx = (typeof index === 'number' && index >= 0) ? index : 0;
+    var P = PALETTES[pickPalette(idx)];
+    var motif = MOTIFS[pickMotif(idx)];
     var W = 800, H = 450;
     var CX = W / 2, CY = H / 2;
 
@@ -90,30 +114,90 @@
     svg.appendChild(g);
 
     if (motif === 'area') {
+      /* 三种变体：单峰 / 双峰 / 阶梯，避免同母题看起来一样 */
+      var areaVar = Math.floor(rnd() * 3);
       var y0 = H / 3 + rnd() * 40;
       var y1 = H / 2 + rnd() * 60;
       var y2 = H / 2 + rnd() * 70;
       var y3 = H / 3 + rnd() * 50;
-      var d = 'M0,' + y0 +
+
+      if (areaVar === 2) {
+        /* ---- 变体：阶梯状（模拟数据台阶） ---- */
+        var steps = 5;
+        var sd = 'M0,' + (H / 5 + rnd() * (H * 0.42));
+        var sy = parseFloat(sd.slice(4));
+        var tops = [];
+        for (var si = 1; si <= steps; si++) {
+          var nx = W / steps * si;
+          tops.push([nx, sy]);
+          if (si < steps) {
+            var ny = H / 5 + rnd() * (H * 0.42);
+            sd += ' L' + nx + ',' + ny;
+            sy = ny;
+          }
+        }
+        sd += ' L' + W + ',' + sy;
+        g.appendChild(el('path', {
+          d: sd + ' L' + W + ',' + H + ' L0,' + H + ' Z', fill: P.ink, opacity: '0.2'
+        }));
+        g.appendChild(el('path', {
+          d: sd, fill: 'none', stroke: P.hot, 'stroke-width': '3.5',
+          'stroke-linecap': 'round', 'stroke-linejoin': 'round'
+        }));
+        tops.forEach(function (p) {
+          g.appendChild(el('circle', { cx: p[0], cy: p[1], r: 5, fill: P.hot }));
+        });
+      } else {
+        /* ---- 变体：平滑曲线（单峰 / 双峰） ---- */
+        var d;
+        if (areaVar === 0) {
+          /* 单峰 */
+          d = 'M0,' + y0 +
               ' C' + (W / 3) + ',' + (y0 - 70) + ' ' + (W / 3) + ',' + (y1 - 90) + ' ' + CX + ',' + y1 +
               ' C' + (W * 2 / 3) + ',' + (y2 + 80) + ' ' + (W * 4 / 3) + ',' + y2 + ' ' + W + ',' + y3;
-      g.appendChild(el('path', { d: d + ' L' + W + ',' + H + ' L0,' + H + ' Z', fill: P.ink, opacity: '0.2' }));
-      g.appendChild(el('path', { d: d, fill: 'none', stroke: P.hot, 'stroke-width': '3.5', 'stroke-linecap': 'round' }));
-      g.appendChild(el('path', { d: d, fill: 'none', stroke: P.hot, 'stroke-width': '2', 'stroke-dasharray': '6 8', opacity: '0.75' }));
-      g.appendChild(el('circle', { cx: CX, cy: y1, r: '8', fill: P.hot }));
-      g.appendChild(el('circle', { cx: CX, cy: y1, r: '16', fill: 'none', stroke: P.hot, 'stroke-width': '1.5', opacity: '0.5' }));
+        } else {
+          /* 双峰：中间多一个转折 */
+          var ym = H / 2 - 40 + rnd() * 50;
+          d = 'M0,' + y0 +
+              ' C' + (W / 6) + ',' + (y1 - 60) + ' ' + (W / 5) + ',' + (ym - 50) + ' ' + (W / 3) + ',' + ym +
+              ' C' + (W * 5 / 12) + ',' + (ym + 40) + ' ' + (W * 5 / 12) + ',' + (y2 - 30) + ' ' + CX + ',' + y1 +
+              ' C' + (W * 7 / 12) + ',' + (y3 - 40) + ' ' + (W * 7 / 12) + ',' + (y2 + 60) + ' ' + (W * 5 / 6) + ',' + y2 +
+              ' C' + (W * 11 / 12) + ',' + (y2 + 10) + ' ' + (W * 11 / 12) + ',' + y3 + ' ' + W + ',' + y3;
+        }
+        g.appendChild(el('path', { d: d + ' L' + W + ',' + H + ' L0,' + H + ' Z', fill: P.ink, opacity: '0.2' }));
+        g.appendChild(el('path', { d: d, fill: 'none', stroke: P.hot, 'stroke-width': '3.5', 'stroke-linecap': 'round' }));
+        g.appendChild(el('path', { d: d, fill: 'none', stroke: P.hot, 'stroke-width': '2', 'stroke-dasharray': '6 8', opacity: '0.75' }));
+        g.appendChild(el('circle', { cx: CX, cy: y1, r: '8', fill: P.hot }));
+        g.appendChild(el('circle', { cx: CX, cy: y1, r: '16', fill: 'none', stroke: P.hot, 'stroke-width': '1.5', opacity: '0.5' }));
+      }
 
     } else if (motif === 'bars') {
-      for (var i = 0; i < 9; i++) {
-        var bh = 24 + rnd() * 160;
+      /* 两种变体：升序柱+折线 / 交错双色柱 */
+      var barsVar = Math.floor(rnd() * 2);
+      var nBars = barsVar === 0 ? 9 : 11;
+      var gap = W / (nBars + 2);
+      for (var i = 0; i < nBars; i++) {
+        /* 变体 0：递增；变体 1：随机但相邻不雷同 */
+        var bh = barsVar === 0
+          ? 26 + (i / (nBars - 1)) * 168 + rnd() * 22
+          : 26 + rnd() * 170;
         g.appendChild(el('rect', {
-          x: 34 + i * 62, y: H - 44 - bh, width: 26, height: bh, rx: 5,
-          fill: P.ink, opacity: '0.32'
+          x: gap * (i + 1), y: H - 44 - bh,
+          width: barsVar === 0 ? 26 : gap * 0.52,
+          height: bh, rx: 5,
+          fill: barsVar === 0 ? P.ink : (i % 2 ? P.ink : P.hot),
+          opacity: barsVar === 0 ? '0.32' : (i % 2 ? '0.28' : '0.5')
         }));
       }
+      /* 折线：变体 0 上升趋势，变体 1 波动 */
       var pts = [];
-      for (var j = 0; j < 10; j++) {
-        pts.push((40 + j * 68) + ',' + (H - 96 - rnd() * 200));
+      var lineN = 10;
+      for (var j = 0; j < lineN; j++) {
+        var px = gap * (j + 1.4);
+        var py = barsVar === 0
+          ? H - 96 - (j / (lineN - 1)) * 150 - rnd() * 30
+          : H - 96 - rnd() * 190;
+        pts.push(px + ',' + py);
       }
       g.appendChild(el('polyline', {
         points: pts.join(' '), fill: 'none', stroke: P.hot, 'stroke-width': '3.5',
@@ -123,22 +207,45 @@
         var xy = pts[k].split(',');
         g.appendChild(el('circle', { cx: xy[0], cy: xy[1], r: 6, fill: P.hot }));
       }
+      /* 基线 */
+      g.appendChild(el('line', {
+        x1: 0, y1: H - 44, x2: W, y2: H - 44,
+        stroke: P.ink, 'stroke-width': '1.2', opacity: '0.35'
+      }));
 
     } else if (motif === 'rings') {
+      /* 两种变体：同心环靶心 / 偏心轨道环 */
+      var ringVar = Math.floor(rnd() * 2);
       var base = 118 + rnd() * 46;
+      var rcx = CX, rcy = CY;
+      if (ringVar === 1) {
+        /* 偏心：环心偏离画面中心，构图更有张力 */
+        rcx = CX + (rnd() - 0.5) * 150;
+        rcy = CY + (rnd() - 0.5) * 90;
+      }
       for (var m = 0; m < 5; m++) {
         var rr = base - m * 32;
         if (rr <= 8) continue;
+        /* 变体 1 增加旋转射线，避免纯同心圆过于呆板 */
+        var dash = ringVar === 1 ? (m % 2 ? '3 9' : 'none') : 'none';
         g.appendChild(el('circle', {
-          cx: CX, cy: CY, r: rr, fill: 'none', stroke: P.ink,
+          cx: rcx, cy: rcy, r: rr, fill: 'none', stroke: P.ink,
           'stroke-width': m === 0 ? '3.5' : '1.6',
-          opacity: m === 0 ? '0.9' : '0.5'
+          'stroke-dasharray': dash,
+          opacity: m === 0 ? '0.9' : '0.5',
+          transform: ringVar === 1 && m % 2 ? 'rotate(' + (rnd() * 40 - 20) + ' ' + rcx + ' ' + rcy + ')' : ''
         }));
       }
-      g.appendChild(el('circle', { cx: CX - 44, cy: CY - 28, r: 30, fill: P.hot, opacity: '0.92' }));
-      g.appendChild(el('circle', { cx: CX - 54, cy: CY - 38, r: 9, fill: '#fff', opacity: '0.35' }));
+      /* 主球 */
+      var bx = rcx - 44, by = rcy - 28;
+      g.appendChild(el('circle', { cx: bx, cy: by, r: 30, fill: P.hot, opacity: '0.92' }));
+      g.appendChild(el('circle', { cx: bx - 10, cy: by - 10, r: 9, fill: '#fff', opacity: '0.35' }));
+      /* 卫星 */
+      g.appendChild(el('circle', {
+        cx: rcx + base * 0.72, cy: rcy - base * 0.5, r: 9, fill: P.ink, opacity: '0.7'
+      }));
       g.appendChild(el('line', {
-        x1: CX, y1: CY, x2: W, y2: CY - 128,
+        x1: rcx, y1: rcy, x2: W, y2: rcy - 128,
         stroke: P.hot, 'stroke-width': '2.5', 'stroke-dasharray': '5 6'
       }));
 
@@ -230,7 +337,7 @@
       var media = document.createElement('div');
       media.className = 'zen-art-wrap';
       media.setAttribute('aria-hidden', 'true');
-      media.appendChild(buildArt(title || ('post-' + i), 'c' + i));
+      media.appendChild(buildArt(title || ('post-' + i), 'c' + i, i));
 
       /* --- 序号角标（模仿参考站 01/02/03） --- */
       var num = document.createElement('span');
@@ -378,10 +485,14 @@
     var hEl = single.querySelector('.post-title');
     var title = (hEl ? hEl.textContent : 'post').trim();
 
+    /* 详情页拿不到列表序号，用标题哈希映射到稳定 idx，
+       保证同一篇文章在列表页与详情页的图案一致。 */
+    var idx = hashCode(title) % MOTIFS.length;
+
     var fig = document.createElement('figure');
     fig.className = 'zen-single-banner';
     fig.setAttribute('aria-hidden', 'true');
-    fig.appendChild(buildArt(title, 'single'));
+    fig.appendChild(buildArt(title, 'single', idx));
     single.insertBefore(fig, single.firstChild);
   }
 
