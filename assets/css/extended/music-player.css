@@ -1,30 +1,30 @@
 /* ==================== APlayer 播放器样式修复 ==================== */
 
-/* 固定在右下角 */
+/* 固定在右下角（加宽到 400px，按钮更好按） */
 .aplayer.aplayer-fixed {
   position: fixed !important;
   left: auto !important;
   right: 24px !important;
   bottom: 24px !important;
   top: auto !important;
-  width: 320px !important;
+  width: 400px !important;
   z-index: 9999 !important;
-  max-width: 320px !important;
+  max-width: 400px !important;
 }
 
-/* mini 圆形按钮 - 更小更靠右下（米色系） */
+/* mini 圆形按钮（米色系） */
 .aplayer.aplayer-fixed .aplayer-miniswitcher {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 40px !important;
-  height: 40px !important;
+  width: 44px !important;
+  height: 44px !important;
   border-radius: 50% !important;
   background: linear-gradient(135deg, #f0ece2, #e2dccd) !important;
   border: 1px solid #d5cebd !important;
   box-shadow: 0 4px 16px rgba(90, 80, 60, 0.28) !important;
-  right: -5px !important;
-  bottom: -5px !important;
+  right: -6px !important;
+  bottom: -6px !important;
   left: auto !important;
   position: absolute !important;
 }
@@ -41,19 +41,38 @@
   bottom: 66px !important;
   border-radius: 12px !important;
   box-shadow: 0 8px 32px rgba(0,0,0,0.18) !important;
-  width: 320px !important;
-  max-width: 320px !important;
+  width: 400px !important;
+  max-width: 400px !important;
   background: #f5f3ef !important;
 }
 
 /* 歌单列表 - 限制高度，留出底部按钮空间 */
 .aplayer.aplayer-fixed .aplayer-list {
   background: #f5f3ef !important;
-  max-height: 120px !important;
+  max-height: 230px !important;
   overflow-y: auto !important;
   border: none !important;
   border-top: 1px solid #e8e4df !important;
   margin-bottom: 40px !important;
+}
+
+/* 歌单滚动条：细米色（避免出现粗黑原生滚动条） */
+.aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar {
+  width: 6px;
+}
+.aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+.aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb {
+  background: #d5cebd;
+  border-radius: 3px;
+}
+.aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar-thumb:hover {
+  background: #b9ae97;
+}
+.aplayer.aplayer-fixed .aplayer-list {
+  scrollbar-width: thin;
+  scrollbar-color: #d5cebd transparent;
 }
 
 /* 进度条颜色（紫，与站点插画点缀色一致） */
@@ -89,32 +108,72 @@
   visibility: visible !important;
 }
 
-/* 前进/后退/播放按钮 - 底部固定位置 */
+/* 前进/后退/播放按钮 - 底部一排，加大到 24px 且拉开间距 */
 .aplayer.aplayer-fixed .aplayer-icon-back,
 .aplayer.aplayer-fixed .aplayer-icon-forward,
-.aplayer.aplayer-fixed .aplayer-icon-play {
+.aplayer.aplayer-fixed .aplayer-icon-play,
+.aplayer.aplayer-fixed .aplayer-icon-menu {
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: absolute !important;
-  bottom: 10px !important;
-  width: 20px !important;
-  height: 20px !important;
+  bottom: 8px !important;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 2px !important;
+  cursor: pointer !important;
 }
 
-.aplayer.aplayer-fixed .aplayer-icon-back { right: 75px !important; }
-.aplayer.aplayer-fixed .aplayer-icon-play { right: 50px !important; }
-.aplayer.aplayer-fixed .aplayer-icon-forward { right: 25px !important; }
-.aplayer.aplayer-fixed .aplayer-icon-menu { right: 0 !important; display: inline-block !important; }
-
-/* 音量按钮 - 移到最左边与其他按钮同排 */
+/* 底部一排从右到左：歌单menu / 快进 / 播放 / 快退 / 音量
+   间距 38px，400px 宽度下右侧空间充裕 */
+.aplayer.aplayer-fixed .aplayer-icon-menu    { right: 14px !important; }
+.aplayer.aplayer-fixed .aplayer-icon-forward { right: 52px !important; }
+.aplayer.aplayer-fixed .aplayer-icon-play    { right: 90px !important; }
+.aplayer.aplayer-fixed .aplayer-icon-back    { right: 128px !important; }
 .aplayer.aplayer-fixed .aplayer-icon-volume {
   display: inline-block !important;
   visibility: visible !important;
   opacity: 1 !important;
   position: absolute !important;
-  bottom: 10px !important;
-  right: 100px !important;
+  bottom: 8px !important;
+  right: 166px !important;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 2px !important;
+}
+
+/* 歌单按钮与其它控制按钮统一对齐：
+   .aplayer-info 设为定位基准（否则各按钮的 absolute 祖先不一致，
+   "≡" 会跑到标题行或面板外） */
+.aplayer.aplayer-fixed .aplayer-info {
+  position: relative !important;
+}
+.aplayer.aplayer-fixed .aplayer-icon-menu {
+  top: auto !important;
+  bottom: 8px !important;
+}
+
+/* 隐藏 APlayer 原生的 15px 小图标（音量/播放模式/歌词开关）——
+   太小难点按，且与歌单按钮重叠。音量已有大按钮替代，
+   播放顺序由 music-loader.js 的 order=random 固定 */
+.aplayer.aplayer-fixed .aplayer-icon-order,
+.aplayer.aplayer-fixed .aplayer-icon-loop,
+.aplayer.aplayer-fixed .aplayer-icon-lrc {
+  display: none !important;
+}
+
+/* 音量按钮（原生类名是 icon-volume-down，升为 24px 大按钮） */
+.aplayer.aplayer-fixed .aplayer-icon-volume-down {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: absolute !important;
+  bottom: 8px !important;
+  right: 166px !important;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 2px !important;
+  cursor: pointer !important;
 }
 
 /* 暗黑模式 */
@@ -197,12 +256,12 @@
     max-height: 100px !important;
     margin-bottom: 35px !important;
   }
-  /* 手机端按钮位置微调 - 往下移避免被遮挡 */
-  .aplayer.aplayer-fixed .aplayer-icon-back { bottom: 5px !important; right: 75px !important; }
-  .aplayer.aplayer-fixed .aplayer-icon-play { bottom: 5px !important; right: 50px !important; }
-  .aplayer.aplayer-fixed .aplayer-icon-forward { bottom: 5px !important; right: 25px !important; }
-  .aplayer.aplayer-fixed .aplayer-icon-volume { bottom: 5px !important; right: 100px !important; }
-  .aplayer.aplayer-fixed .aplayer-icon-menu { bottom: 5px !important; right: 0 !important; }
+  /* 手机端按钮位置微调 - 与桌面端同排（间距按屏宽压缩） */
+  .aplayer.aplayer-fixed .aplayer-icon-menu    { bottom: 5px !important; right: 10px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-forward { bottom: 5px !important; right: 40px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-play    { bottom: 5px !important; right: 70px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-back    { bottom: 5px !important; right: 100px !important; }
+  .aplayer.aplayer-fixed .aplayer-icon-volume  { bottom: 5px !important; right: 130px !important; }
 }
 /* 容器透明化：.aplayer 原生白底会在面板下方露出白色空块 */
 .aplayer.aplayer-fixed {
