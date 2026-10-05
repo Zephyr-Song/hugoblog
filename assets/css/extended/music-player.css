@@ -12,7 +12,7 @@
   max-width: 320px !important;
 }
 
-/* mini 圆形按钮 - 更小更靠右下 */
+/* mini 圆形按钮 - 更小更靠右下（米色系） */
 .aplayer.aplayer-fixed .aplayer-miniswitcher {
   display: flex !important;
   align-items: center !important;
@@ -20,8 +20,9 @@
   width: 40px !important;
   height: 40px !important;
   border-radius: 50% !important;
-  background: #8fb3a9 !important;
-  box-shadow: 0 4px 16px rgba(143,179,169,0.5) !important;
+  background: linear-gradient(135deg, #f0ece2, #e2dccd) !important;
+  border: 1px solid #d5cebd !important;
+  box-shadow: 0 4px 16px rgba(90, 80, 60, 0.28) !important;
   right: -5px !important;
   bottom: -5px !important;
   left: auto !important;
@@ -29,7 +30,7 @@
 }
 
 .aplayer.aplayer-fixed .aplayer-miniswitcher .aplayer-icon {
-  fill: #fff !important;
+  fill: #6b6355 !important;
 }
 
 /* 展开后的播放器主体 */
@@ -55,18 +56,18 @@
   margin-bottom: 40px !important;
 }
 
-/* 进度条颜色 */
+/* 进度条颜色（紫，与站点插画点缀色一致） */
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played {
-  background: #8fb3a9 !important;
+  background: #C77DFF !important;
 }
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb {
-  background: #8fb3a9 !important;
-  box-shadow: 0 0 0 3px rgba(143,179,169,0.3) !important;
+  background: #C77DFF !important;
+  box-shadow: 0 0 0 3px rgba(199,125,255,0.3) !important;
 }
 
 /* 音量条颜色 */
 .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
-  background: #8fb3a9 !important;
+  background: #C77DFF !important;
 }
 
 /* 确保控制按钮显示 */
@@ -118,58 +119,58 @@
 
 /* 暗黑模式 */
 [data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body {
-  background: #1a1a1a !important;
+  background: #E9E3D6 !important;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
 }
 
 [data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list {
-  background: #1a1a1a !important;
-  border-top-color: #333 !important;
+  background: #E9E3D6 !important;
+  border-top-color: #d5cebd !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-info {
-  border-bottom-color: #333 !important;
+  border-bottom-color: #d5cebd !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-list li {
-  border-bottom-color: #333 !important;
-  color: #e0e0e0 !important;
+  border-bottom-color: #d5cebd !important;
+  color: #4a4a4a !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-list li:hover {
-  background: #252525 !important;
+  background: #e0d9c8 !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-list li.aplayer-list-light {
-  background: #252525 !important;
+  background: #e0d9c8 !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-list li .aplayer-list-index {
-  color: #a0a0a0 !important;
+  color: #8a8070 !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-list li .aplayer-list-author {
-  color: #a0a0a0 !important;
+  color: #8a8070 !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-title {
-  color: #e0e0e0 !important;
+  color: #4a4a4a !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-author {
-  color: #a0a0a0 !important;
+  color: #8a8070 !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time {
-  color: #a0a0a0 !important;
+  color: #8a8070 !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar {
-  background: #333 !important;
+  background: #d5cebd !important;
 }
 
 [data-theme="dark"] .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar {
-  background: #333 !important;
+  background: #d5cebd !important;
 }
 
 /* 响应式手机端 */
@@ -202,4 +203,14 @@
   .aplayer.aplayer-fixed .aplayer-icon-forward { bottom: 5px !important; right: 25px !important; }
   .aplayer.aplayer-fixed .aplayer-icon-volume { bottom: 5px !important; right: 100px !important; }
   .aplayer.aplayer-fixed .aplayer-icon-menu { bottom: 5px !important; right: 0 !important; }
+}
+/* 容器透明化：.aplayer 原生白底会在面板下方露出白色空块 */
+.aplayer.aplayer-fixed {
+  background: transparent !important;
+}
+
+/* 歌单收起时不残留边框与阴影（收起时高度为 0，只剩边框线） */
+.aplayer.aplayer-fixed .aplayer-list.aplayer-list-hide {
+  border: none !important;
+  box-shadow: none !important;
 }
