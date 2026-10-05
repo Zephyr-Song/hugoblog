@@ -19,7 +19,7 @@
     el.setAttribute('mini', 'true');
     el.setAttribute('autoplay', 'false');
     el.setAttribute('order', 'random');
-    el.setAttribute('theme', '#8fb3a9');
+    el.setAttribute('theme', '#C77DFF');
     el.setAttribute('preload', 'auto');
     document.body.appendChild(el);
 
