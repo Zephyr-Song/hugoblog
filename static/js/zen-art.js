@@ -196,18 +196,7 @@
       }
     }
 
-    /* 角标大字 + 边框 + 圆点 */
-    var label = (seed || '').replace(/[^一-龥A-Za-z0-9]/g, '').slice(0, 2).toUpperCase();
-    if (label) {
-      var txt = el('text', {
-        x: 28, y: H - 26,
-        'font-family': 'Inter, Helvetica, Arial, sans-serif',
-        'font-size': 104, 'font-weight': 800, 'letter-spacing': '-4',
-        fill: P.hot, opacity: '0.17'
-      });
-      txt.textContent = label;
-      svg.appendChild(txt);
-    }
+    /* 角标大字已按需求移除，只保留边框 + 左下角圆点 */
     svg.appendChild(el('rect', {
       x: 1.5, y: 1.5, width: W - 3, height: H - 3,
       fill: 'none', stroke: P.hot, 'stroke-width': 3, opacity: '0.45'
@@ -237,14 +226,45 @@
       var title = (hEl ? hEl.textContent : ('post-' + i)).trim();
       var link = card.querySelector('.entry-link') || card.querySelector('a');
 
-      var wrap = document.createElement('a');
-      wrap.className = 'zen-art-wrap';
-      wrap.setAttribute('aria-hidden', 'true');
-      wrap.tabIndex = -1;
-      if (link) wrap.setAttribute('href', link.getAttribute('href') || '#');
+      /* --- 左侧插画 --- */
+      var media = document.createElement('div');
+      media.className = 'zen-art-wrap';
+      media.setAttribute('aria-hidden', 'true');
+      media.appendChild(buildArt(title || ('post-' + i), 'c' + i));
 
-      wrap.appendChild(buildArt(title || ('post-' + i), 'c' + i));
-      card.insertBefore(wrap, card.firstChild);
+      /* --- 序号角标（模仿参考站 01/02/03） --- */
+      var num = document.createElement('span');
+      num.className = 'zen-art-num';
+      num.setAttribute('aria-hidden', 'true');
+      num.textContent = (i + 1 < 10 ? '0' : '') + (i + 1);
+
+      var left = document.createElement('div');
+      left.className = 'zen-art-left';
+      left.appendChild(media);
+      left.appendChild(num);
+
+      /* --- 组装：左图 + 右文 ---
+       * 把除 .entry-link 之外的所有原内容搬进右栏，
+       * PaperMod 原有的标题/摘要/元信息样式全部保留。 */
+      var right = document.createElement('div');
+      right.className = 'zen-art-right';
+
+      var moved = [];
+      Array.prototype.forEach.call(card.childNodes, function (node) {
+        if (node === left) return;
+        if (node.nodeType === 1 && node.classList.contains('entry-link')) return;
+        moved.push(node);
+      });
+      moved.forEach(function (n) { right.appendChild(n); });
+
+      card.appendChild(left);
+      card.appendChild(right);
+      card.classList.add('zen-art-row');
+
+      /* 让整块可点击，但不覆盖原标题链接的语义 */
+      if (link && link.classList.contains('entry-link')) {
+        left.setAttribute('aria-hidden', 'true');
+      }
     });
   }
 
