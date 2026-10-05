@@ -1,0 +1,122 @@
+/*!
+ * zen-decor.css — 装饰图案叠加层
+ *
+ * ⚠️ 本文件刻意「不覆盖」PaperMod 的任何既有规则，
+ *    只为新增的 SVG 图案元素提供定位与动效。
+ *    原站点的配色、字体、布局、间距全部保持不变。
+ */
+
+/* ========== 1. 文章卡片插画封面 ========== */
+.zen-art-wrap {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 1.1rem;
+  line-height: 0;
+  /* 渐显动画 */
+  animation: zenArtIn .7s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes zenArtIn {
+  from { opacity: 0; transform: translateY(-10px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+.zen-art-wrap .zen-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* 限制高度，避免长图喧宾夺主 */
+  aspect-ratio: 800 / 450;
+  object-fit: cover;
+  transition: transform .7s cubic-bezier(.22,.61,.36,1);
+}
+
+/* 悬停时轻微放大 + 插画内的线条动起来 */
+.zen-art-wrap:hover .zen-art {
+  transform: scale(1.035);
+}
+
+/* ========== 2. 首页 Hero 装饰图案 ========== */
+.zen-hero-decor {
+  width: 100%;
+  max-width: 100%;
+  margin: 0.1rem 0 1.5rem;
+  line-height: 0;
+  animation: zenArtIn .8s cubic-bezier(.22,.61,.36,1) both;
+}
+.zen-hero-decor svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========== 3. 章节分隔图案 ========== */
+.zen-divider {
+  width: 100%;
+  margin: 1.9rem 0;
+  line-height: 0;
+  animation: zenArtIn .8s cubic-bezier(.22,.61,.36,1) both;
+}
+.zen-divider svg {
+  width: 100%;
+  height: 20px;
+  display: block;
+  opacity: 1;
+}
+/* 暗色模式下加强亮度 */
+[data-theme="dark"] .zen-divider svg { opacity: 1; }
+
+/* ========== 4. 文章详情页顶部横幅 ========== */
+.zen-single-banner {
+  margin: 0 0 1.6rem;
+  border-radius: 12px;
+  overflow: hidden;
+  line-height: 0;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .07);
+  animation: zenArtIn .8s cubic-bezier(.22,.61,.36,1) both;
+}
+.zen-single-banner .zen-art {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========== 5. 暗色模式适配 ========== */
+/*
+ * 插画本身是「亮底粉彩」设计，直接放到深色背景上会形成刺眼反差。
+ * 这里用滤镜整体压暗并轻微降饱和，使其融入暗色环境，
+ * 同时保持图形可辨识 —— 比再写一套暗色配色更省且视觉更统一。
+ */
+[data-theme="dark"] .zen-art-wrap .zen-art,
+[data-theme="dark"] .zen-single-banner .zen-art {
+  filter: brightness(.62) saturate(.85) contrast(1.05);
+}
+/* 悬停时略微提亮，形成"点亮"反馈 */
+[data-theme="dark"] .zen-art-wrap:hover .zen-art {
+  filter: brightness(.78) saturate(.95) contrast(1.05);
+}
+/* 描边与角标在暗色下单独提亮，避免糊成一团 */
+[data-theme="dark"] .zen-single-banner {
+  box-shadow: 0 6px 28px rgba(0, 0, 0, .5), 0 0 0 1px rgba(255, 255, 255, .06);
+}
+[data-theme="dark"] .zen-divider svg { opacity: 1; }
+
+/* ========== 6. 响应式 ========== */
+@media (max-width: 768px) {
+  .zen-hero-decor { max-width: 100%; }
+  .zen-divider { margin: 1.5rem 0; }
+  .zen-single-banner { border-radius: 10px; }
+}
+
+/* ========== 7. 无障碍：尊重减弱动效偏好 ========== */
+@media (prefers-reduced-motion: reduce) {
+  .zen-art-wrap,
+  .zen-hero-decor,
+  .zen-divider,
+  .zen-single-banner {
+    animation: none;
+  }
+  .zen-art-wrap:hover .zen-art { transform: none; }
+}

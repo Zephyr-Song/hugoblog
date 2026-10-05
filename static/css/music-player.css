@@ -46,10 +46,23 @@
   box-shadow: 0 -4px 16px rgba(0,0,0,0.10) !important;
 }
 
-/* mini 圆钮颜色 */
+/* mini 圆钮颜色 —— 与新主题一致（粉→紫渐变） */
 .aplayer.aplayer-fixed .aplayer-miniswitcher {
-  background: linear-gradient(135deg, #8fb3a9, #7a9e96) !important;
+  background: linear-gradient(135deg, #FF7EB6, #C77DFF) !important;
   border-radius: 50% !important;
+  box-shadow: 0 3px 12px rgba(199,125,255,.4) !important;
+}
+
+/* 播放器面板配色 —— 跟随主题变量 */
+.aplayer.aplayer-fixed .aplayer-body,
+.aplayer.aplayer-fixed .aplayer-list {
+  background: #1E1929 !important;
+  border: 1px solid #2E2740 !important;
+  color: #F4F1F8 !important;
+}
+.aplayer.aplayer-fixed .aplayer-title,
+.aplayer.aplayer-fixed .aplayer-singer {
+  color: #F4F1F8 !important;
 }
 
 /* 移动端 */

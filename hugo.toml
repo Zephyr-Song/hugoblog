@@ -112,14 +112,14 @@ buildFuture = true
 
   # 自定义 CSS
   [params.assets]
-    customCSS = ["css/inspiration.css"]
+    customCSS = ["css/zen-decor.css"]
     favicon = "/favicon.svg"
     favicon16 = "/favicon.svg"
     favicon32 = "/favicon.svg"
 
-  # 启用 Inspiration 动态背景
+  # Inspiration 动态背景（旧版绿色星河代码已移除，改为 zen-art.js 插画层）
   [params.inspiration]
-    enabled = true
+    enabled = false
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
