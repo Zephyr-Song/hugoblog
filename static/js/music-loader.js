@@ -195,9 +195,12 @@
     }, true);
     document.addEventListener('touchmove', function (e) {
       if (!dragging) return;
+      // 必须 preventDefault：不拦的话浏览器把手势接管去滚页面，
+      // 并立即 fire pointercancel，拖动当场中断（真机表现为"手机上拖不动"）。
+      if (e.cancelable) e.preventDefault();
       e.stopPropagation();
       moveDrag(e);
-    }, true);
+    }, { passive: false, capture: true });
     document.addEventListener('touchend', function () {
       if (!dragging) return;
       endDrag();
@@ -207,7 +210,39 @@
       endDrag();
     }, true);
 
-    // 4) 备用交互：鼠标滚轮在音量条上滚一下就 ±5%，比拖更省力
+    // 4) iOS / 部分移动端浏览器把 audio.volume 写成只读，程序设了也不生效：
+    //    滑条会跟着动、声音却不变，用户只会觉得"调节不了"。
+    //    这里检测一次，确认无效就标出来并提示用系统音量键（滑条照旧可用作显示）。
+    var probeDone = false;
+    function checkVolumeSupport() {
+      if (probeDone || !ap.audio) return false;
+      probeDone = true;
+      var cur = ap.audio.volume;
+      var want = cur > 0.5 ? 0.25 : 0.8;
+      var stuck = false;
+      try {
+        ap.audio.volume = want;
+        // 写进去读回来还是旧值 = 没生效（iOS 等只读设备）
+        stuck = Math.abs(ap.audio.volume - want) > 0.01;
+        ap.audio.volume = cur;
+      } catch (err) {
+        stuck = true;
+      }
+      if (stuck) {
+        wrap.classList.add('vol-native-only');
+        if (!wrap.querySelector('.vol-native-hint')) {
+          var hint = document.createElement('div');
+          hint.className = 'vol-native-hint';
+          hint.textContent = '此设备不支持网页调音量，请用系统音量键';
+          wrap.appendChild(hint);
+        }
+      }
+      return stuck;
+    }
+    wrap.addEventListener('pointerdown', function () { checkVolumeSupport(); }, true);
+    wrap.addEventListener('touchstart', checkVolumeSupport, true);
+
+    // 5) 备用交互：鼠标滚轮在音量条上滚一下就 ±5%，比拖更省力
     wrap.addEventListener('wheel', function (e) {
       e.preventDefault();
       e.stopPropagation();

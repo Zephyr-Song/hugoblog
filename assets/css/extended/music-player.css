@@ -215,6 +215,31 @@
   background: transparent;
   cursor: pointer;
   z-index: 3;
+  /* touch-action 不继承，伪元素要自己声明，否则手指落在热区边缘时
+     浏览器仍可能判定为滚动手势，把手势抢走导致拖动中断 */
+  touch-action: none !important;
+}
+
+/* iOS 等 audio.volume 只读的设备：滑条仍作显示用，弹出一次性提示，
+   免得用户以为功能坏了（提示只在检测到不支持时出现） */
+.aplayer.aplayer-fixed .aplayer-volume-wrap .vol-native-hint {
+  position: absolute !important;
+  bottom: 34px !important;
+  right: -4px !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  background: rgba(60, 56, 50, 0.94) !important;
+  color: #F5F0E6 !important;
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+  white-space: nowrap !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  animation: volHintIn 0.18s ease forwards 0.6s !important;
+  z-index: 9 !important;
+}
+@keyframes volHintIn {
+  to { opacity: 1; }
 }
 
 /* hover / 拖动时给轨道加反馈，让"这条能拖"看得出来 */
