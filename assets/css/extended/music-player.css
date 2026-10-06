@@ -85,7 +85,8 @@
   scrollbar-color: #d5cebd transparent;
 }
 
-/* 进度条颜色（浅绿 #7FBF8F，替换原来的紫色 #C77DFF —— 与站点米色底更协调） */
+/* 进度条颜色（浅绿 #7FBF8F，替换原来的紫色 #C77DFF —— 与站点米色底更协调）。
+   这是播放器里唯一常驻的滑动条（左侧/中间），音量不再另设第二条。 */
 .aplayer .aplayer-bar-wrap .aplayer-bar .aplayer-played {
   background: #7FBF8F !important;
 }
@@ -94,27 +95,9 @@
   box-shadow: 0 0 0 3px rgba(127,191,143,0.3) !important;
 }
 
-/* 音量条颜色（与进度条同色） */
+/* 音量条颜色（与进度条同色；仅作用于原生悬停弹出的竖向音量条） */
 .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
   background: #7FBF8F !important;
-}
-
-/* 音量条加粗加长（好点/好拖）：
-   原生轨道只有 5px 厚 × 35px 长，太小难点。
-   加粗 → 改 .aplayer-volume-bar 的 width（DOM width 方向即旋转后的"厚度"；
-   原生 right:10px 在 25px 宽的容器里已居中，宽 5→10 时重算 right 保持居中：
-   (25-10)/2 = 7.5px），并让长度铺满轨道容器（height:100%，原生写死 35px）。
-   旋转 90° 后 DOM 的 height 方向变成视觉的水平长度方向。 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar {
-  right: 7.5px !important;
-  width: 10px !important;
-  height: 100% !important;
-  border-radius: 5px !important;
-}
-
-.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar .aplayer-volume {
-  width: 10px !important;
-  border-radius: 5px !important;
 }
 
 /* 确保控制按钮显示 */
@@ -130,13 +113,14 @@
   align-items: center !important;
 }
 
-/* 音量按钮 */
+/* 音量控件：交给 APlayer 原生处理（喇叭图标常显，悬停才弹出竖向音量条）。
+   不再叠加任何自定义横向音量条，避免和进度条在右侧叠成「两个滑动条」。 */
 .aplayer .aplayer-volume-wrap {
   display: inline-block !important;
   visibility: visible !important;
 }
 
-/* 前进/后退/播放按钮 - 底部一排，加大到 24px 且拉开间距 */
+/* 前进/后退/播放/歌单 按钮 - 底部一排，加大到 24px 且拉开间距 */
 .aplayer.aplayer-fixed .aplayer-icon-back,
 .aplayer.aplayer-fixed .aplayer-icon-forward,
 .aplayer.aplayer-fixed .aplayer-icon-play,
@@ -150,28 +134,15 @@
   height: 24px !important;
   padding: 2px !important;
   cursor: pointer !important;
-  /* 抬到音量热区伪元素(z-index:3)之上，避免被透明的放大命中区吞掉点击 */
   z-index: 6 !important;
 }
 
-/* 底部一排从右到左：歌单menu / 快进 / 播放 / 快退 / 音量
-   间距 38px，400px 宽度下右侧空间充裕 */
+/* 底部一排从右到左：歌单menu / 快进 / 播放 / 快退
+   间距 38px，400px 宽度下右侧空间充裕（音量交由原生喇叭图标处理，不占此排） */
 .aplayer.aplayer-fixed .aplayer-icon-menu    { right: 14px !important; }
 .aplayer.aplayer-fixed .aplayer-icon-forward { right: 52px !important; }
 .aplayer.aplayer-fixed .aplayer-icon-play    { right: 90px !important; }
 .aplayer.aplayer-fixed .aplayer-icon-back    { right: 128px !important; }
-.aplayer.aplayer-fixed .aplayer-icon-volume {
-  display: inline-block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: absolute !important;
-  bottom: 8px !important;
-  right: 166px !important;
-  width: 24px !important;
-  height: 24px !important;
-  padding: 2px !important;
-  z-index: 6 !important;
-}
 
 /* 歌单按钮与其它控制按钮统一对齐：
    .aplayer-info 设为定位基准（否则各按钮的 absolute 祖先不一致，
@@ -184,119 +155,13 @@
   bottom: 8px !important;
 }
 
-/* 隐藏 APlayer 原生的 15px 小图标（音量/播放模式/歌词开关）——
-   太小难点按，且与歌单按钮重叠。音量已有大按钮替代，
+/* 隐藏 APlayer 原生的 15px 小图标（播放模式/歌词开关）——
+   太小难点按，且与歌单按钮重叠。音量已由原生喇叭图标（悬停调音量）承载，
    播放顺序由 music-loader.js 的 order=random 固定 */
 .aplayer.aplayer-fixed .aplayer-icon-order,
 .aplayer.aplayer-fixed .aplayer-icon-loop,
 .aplayer.aplayer-fixed .aplayer-icon-lrc {
   display: none !important;
-}
-
-/* 音量控件整体（wrap 作锚点）放到播放键正上方，并改为横向布局：
-   左边音量图标、右边横向音量条（宽 70px = 图标 24 + 间距 6 + 条 40）。
-   注意：icon 用 absolute 会脱离文档流把 wrap 缩成空壳导致音量条锚点跑位，
-   所以定位加在 wrap 上、icon 回归 static（flex 项）随 wrap 排布 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap {
-  position: absolute !important;
-  bottom: 40px !important;
-  right: 12px !important;
-  width: 102px !important;
-  height: 24px !important;
-  display: flex !important;
-  align-items: center !important;
-  /* 触屏拖音量条时不要带动页面滚动 */
-  touch-action: none !important;
-}
-/* 热区伪元素 z-index:3 会盖在喇叭图标上把静音按钮点死，
-   把图标抬到它上面一层，图标仍可点、热区仍可拖 */
-.aplayer.aplayer-fixed .aplayer-icon-volume-down {
-  position: relative !important;
-  z-index: 5 !important;
-}
-/* 音量条热区扩大（外观不变，只放大命中范围）：
-   原生命中框只有 25px 高、可见条只有 10px 粗，鼠标/手指很容易按偏。
-   用伪元素上下各扩 20px、左右各扩 10px，把可点区域撑到 ~65px 高。
-   hit 归属父元素 .aplayer-volume-wrap，拖动监听也挂在它上面，一致。
-   注意：必须 pointer-events:none —— 否则这块透明放大区会盖在下方四个
-   控制按钮之上（z-index:3），把它们的点击吞掉（表现为"按钮点不动、
-   只能拖音量条"）。音量拖动由 wrap 自身 102×24 的盒子承接即可。 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap::before {
-  content: '';
-  position: absolute;
-  left: -10px !important;
-  right: -10px !important;
-  top: -20px !important;
-  bottom: -20px !important;
-  background: transparent;
-  cursor: pointer;
-  z-index: 3;
-  pointer-events: none !important;
-  /* touch-action 不继承，伪元素要自己声明，否则手指落在热区边缘时
-     浏览器仍可能判定为滚动手势，把手势抢走导致拖动中断 */
-  touch-action: none !important;
-}
-
-/* iOS 等 audio.volume 只读的设备：滑条仍作显示用，弹出一次性提示，
-   免得用户以为功能坏了（提示只在检测到不支持时出现） */
-.aplayer.aplayer-fixed .aplayer-volume-wrap .vol-native-hint {
-  position: absolute !important;
-  bottom: 34px !important;
-  right: -4px !important;
-  padding: 4px 8px !important;
-  border-radius: 6px !important;
-  background: rgba(60, 56, 50, 0.94) !important;
-  color: #F5F0E6 !important;
-  font-size: 11px !important;
-  line-height: 1.3 !important;
-  white-space: nowrap !important;
-  pointer-events: none !important;
-  opacity: 0 !important;
-  animation: volHintIn 0.18s ease forwards 0.6s !important;
-  z-index: 9 !important;
-}
-@keyframes volHintIn {
-  to { opacity: 1; }
-}
-
-/* hover / 拖动时给轨道加反馈，让"这条能拖"看得出来 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap:hover .aplayer-volume-bar,
-.aplayer.aplayer-fixed .aplayer-volume-wrap.is-dragging .aplayer-volume-bar {
-  background: #b3aa99 !important;
-  box-shadow: 0 0 0 2px rgba(192, 133, 82, 0.35) !important;
-}
-
-.aplayer.aplayer-fixed .aplayer-icon-volume-down {
-  display: inline-block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  position: static !important;
-  flex: 0 0 24px !important;
-  width: 24px !important;
-  height: 24px !important;
-  padding: 2px !important;
-  cursor: pointer !important;
-}
-
-/* 音量条横向化：原生是竖条（JS 用内联 style 控制 height 0→40 展开），
-   旋转 90° 后视觉变为横向（宽 0→40 从左向右展开），JS 填充逻辑无需改动。
-   height 用 !important 强制展开（覆盖 JS 内联的 height:0），常驻显示。
-   定位：贴在音量图标右侧、与图标垂直居中，长度由 height 决定（40 → 72 加长）。
-   坐标换算：条 DOM 25 宽 x 72 高，rotate(90deg) 后视觉 72 长 x 10 厚。
-   布局中心 x = wrap 右 - right - 12.5 = 视觉中心，视觉左端 = 中心 - 36。
-   right:22px → 左端离图标右缘 4px、右端贴 wrap 右边缘 2px 内。
-   垂直：top:50% + margin-top:-36px 让 72px 高布局框中心对齐 wrap 中线。
-   注：margin-top 取布局框高度的一半，改 height 时务必同步改这个值 */
-  .aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
-  position: absolute !important;
-  top: 50% !important;
-  right: 22px !important;
-  bottom: auto !important;
-  left: auto !important;
-  margin-top: -36px !important;
-  transform: rotate(90deg) !important;
-  transform-origin: center !important;
-  height: 72px !important;
 }
 
 /* 暗黑模式 */
@@ -388,9 +253,6 @@
   .aplayer.aplayer-fixed .aplayer-icon-forward { bottom: 5px !important; right: 40px !important; }
   .aplayer.aplayer-fixed .aplayer-icon-play    { bottom: 5px !important; right: 70px !important; }
   .aplayer.aplayer-fixed .aplayer-icon-back    { bottom: 5px !important; right: 100px !important; }
-  /* 音量控件沿用桌面横向布局（桌面规则的定位锚点是 .aplayer-info，
-     手机端 info 同样是全宽，无需重复声明；此行的键名仅为兼容性保留） */
-  .aplayer.aplayer-fixed .aplayer-icon-volume  { bottom: 5px !important; right: 130px !important; }
 }
 /* 容器透明化：.aplayer 原生白底会在面板下方露出白色空块 */
 .aplayer.aplayer-fixed {
