@@ -46,14 +46,24 @@
   background: #f5f3ef !important;
 }
 
-/* 歌单列表 - 限制高度，留出底部按钮空间 */
+/* 歌单列表 - 与播放器主体右对齐、抬到主体上方、并确保不被主体遮挡
+   原 APlayer 默认 .aplayer-list 是 position:fixed; left:0; right:0（全宽贴底）、
+   且无 z-index，导致歌单既和右下角 400px 播放器卡片不对齐，又被 z-index:99 的
+   .aplayer-body 盖住（"被遮挡"）。这里显式右对齐 + 抬高 + 抬高层级修复。 */
 .aplayer.aplayer-fixed .aplayer-list {
+  position: fixed !important;
+  left: auto !important;
+  right: 24px !important;
+  bottom: 0 !important;
+  width: 400px !important;
+  max-width: 400px !important;
+  margin-bottom: 270px !important;   /* 抬到播放器主体（约 250px 高）上方 */
+  z-index: 10000 !important;         /* 高于 .aplayer-body 的 z-index:99 */
   background: #f5f3ef !important;
   max-height: 230px !important;
   overflow-y: auto !important;
-  border: none !important;
-  border-top: 1px solid #e8e4df !important;
-  margin-bottom: 40px !important;
+  border: 1px solid #e8e4df !important;
+  border-radius: 12px 12px 0 0 !important;
 }
 
 /* 歌单滚动条：细米色（避免出现粗黑原生滚动条） */
@@ -140,6 +150,8 @@
   height: 24px !important;
   padding: 2px !important;
   cursor: pointer !important;
+  /* 抬到音量热区伪元素(z-index:3)之上，避免被透明的放大命中区吞掉点击 */
+  z-index: 6 !important;
 }
 
 /* 底部一排从右到左：歌单menu / 快进 / 播放 / 快退 / 音量
@@ -158,6 +170,7 @@
   width: 24px !important;
   height: 24px !important;
   padding: 2px !important;
+  z-index: 6 !important;
 }
 
 /* 歌单按钮与其它控制按钮统一对齐：
@@ -204,7 +217,10 @@
 /* 音量条热区扩大（外观不变，只放大命中范围）：
    原生命中框只有 25px 高、可见条只有 10px 粗，鼠标/手指很容易按偏。
    用伪元素上下各扩 20px、左右各扩 10px，把可点区域撑到 ~65px 高。
-   hit 归属父元素 .aplayer-volume-wrap，拖动监听也挂在它上面，一致。 */
+   hit 归属父元素 .aplayer-volume-wrap，拖动监听也挂在它上面，一致。
+   注意：必须 pointer-events:none —— 否则这块透明放大区会盖在下方四个
+   控制按钮之上（z-index:3），把它们的点击吞掉（表现为"按钮点不动、
+   只能拖音量条"）。音量拖动由 wrap 自身 102×24 的盒子承接即可。 */
 .aplayer.aplayer-fixed .aplayer-volume-wrap::before {
   content: '';
   position: absolute;
@@ -215,6 +231,7 @@
   background: transparent;
   cursor: pointer;
   z-index: 3;
+  pointer-events: none !important;
   /* touch-action 不继承，伪元素要自己声明，否则手指落在热区边缘时
      浏览器仍可能判定为滚动手势，把手势抢走导致拖动中断 */
   touch-action: none !important;
@@ -359,8 +376,12 @@
     bottom: -5px !important;
   }
   .aplayer.aplayer-fixed .aplayer-list {
+    right: 8px !important;
+    left: auto !important;
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
     max-height: 100px !important;
-    margin-bottom: 35px !important;
+    margin-bottom: 230px !important;
   }
   /* 手机端按钮位置微调 - 与桌面端同排（间距按屏宽压缩） */
   .aplayer.aplayer-fixed .aplayer-icon-menu    { bottom: 5px !important; right: 10px !important; }
