@@ -1,3 +1,30 @@
+{{- /*
+  文章插画索引表（供 zen-art.js 使用）
+
+  目的：让「同一篇文章」在首页/列表页/详情页拿到**同一个序号**，
+  从而生成完全相同的插画；同时保证不同文章之间插画不重复。
+
+  做法：按 Hugo 默认排序（日期倒序）把全部文章标题输出成一个数组，
+  JS 用 indexOf(标题) 取序号，再由此推导母题与配色。
+
+  ⚠️ 两个踩过的坑：
+  1. 不能直接用标题哈希取模分图案 —— 母题只有 6 种，随机分配在 10+ 篇文章上
+     必然撞车（生日问题），且详情页与列表页算法不同会导致同一篇两处图案不一致。
+     用全局序号 + 互质步长轮转可以从数学上保证不重复。
+  2. 此处必须用「数组 + jsonify + safeJS」，不能写成 JS 对象字面量
+     （如 { {{ .Title | jsonify }}: 0 }）。因为在 <script> 上下文里
+     jsonify 的输出会被 Go 模板再做一次 JS 转义，`"标题"` 会变成
+     `\"标题\"`，最终对象 key 里混入字面双引号，运行时永远匹配不上。
+*/ -}}
+{{- $artPages := where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- $artTitles := slice -}}
+{{- range $artPages }}{{ $artTitles = $artTitles | append .Title }}{{ end -}}
+<script>
+window.__ZEN_ART_TITLES = {{ $artTitles | jsonify | safeJS }};
+window.__ZEN_ART_TOTAL = {{ len $artPages }};
+window.__ZEN_ART_HOME_LIMIT = 3;
+</script>
+
 <!-- 装饰图案注入（纯加法：卡片插画 / Hero 图案 / 分隔线 / 详情页横幅） -->
 <script src="/js/zen-art.js" defer></script>
 
