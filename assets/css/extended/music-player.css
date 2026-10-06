@@ -94,27 +94,55 @@
   box-shadow: 0 0 0 3px rgba(127,191,143,0.3) !important;
 }
 
-/* 音量条颜色（与进度条同色） */
-.aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar .aplayer-volume {
+/* ===== 自定义横向音量条（彻底替换 APlayer 原生竖向音量条） ===== */
+/* 1) 彻底隐藏 APlayer 原生竖向音量条（track + fill 一起藏，杜绝"歌单右侧两个竖条"） */
+.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
+  display: none !important;
+}
+
+/* 2) 音量图标作静音开关（APlayer 原生绑定 click 静音），放在横向条左侧 */
+.aplayer.aplayer-fixed .aplayer-icon-volume-down {
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: static !important;
+  flex: 0 0 24px !important;
+  width: 24px !important;
+  height: 24px !important;
+  padding: 2px !important;
+  cursor: pointer !important;
+  z-index: 5 !important;
+}
+
+/* 3) 自定义横向音量条：左图标 + 右横向轨道，flex 排布 */
+.aplayer.aplayer-fixed .aplayer-volume-wrap .zen-vol {
+  flex: 1 1 auto !important;
+  height: 6px !important;
+  margin-left: 8px !important;
+  background: #d5cebd !important;
+  border-radius: 4px !important;
+  position: relative !important;
+  cursor: pointer !important;
+  touch-action: none !important;
+}
+.aplayer.aplayer-fixed .aplayer-volume-wrap .zen-vol-fill {
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 70% !important;
   background: #7FBF8F !important;
+  border-radius: 4px !important;
+  pointer-events: none !important;
 }
-
-/* 音量条加粗加长（好点/好拖）：
-   原生轨道只有 5px 厚 × 35px 长，太小难点。
-   加粗 → 改 .aplayer-volume-bar 的 width（DOM width 方向即旋转后的"厚度"；
-   原生 right:10px 在 25px 宽的容器里已居中，宽 5→10 时重算 right 保持居中：
-   (25-10)/2 = 7.5px），并让长度铺满轨道容器（height:100%，原生写死 35px）。
-   旋转 90° 后 DOM 的 height 方向变成视觉的水平长度方向。 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar {
-  right: 7.5px !important;
-  width: 10px !important;
-  height: 100% !important;
-  border-radius: 5px !important;
+/* 悬停 / 拖动反馈，提示"这条能拖" */
+.aplayer.aplayer-fixed .aplayer-volume-wrap .zen-vol:hover,
+.aplayer.aplayer-fixed .aplayer-volume-wrap .zen-vol.is-dragging {
+  background: #c9c1ae !important;
 }
-
-.aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar .aplayer-volume {
-  width: 10px !important;
-  border-radius: 5px !important;
+.aplayer.aplayer-fixed .aplayer-volume-wrap .zen-vol.is-dragging .zen-vol-fill {
+  background: #6fb083 !important;
+  box-shadow: 0 0 0 2px rgba(192, 133, 82, 0.35) !important;
 }
 
 /* 确保控制按钮显示 */
@@ -214,28 +242,7 @@
   position: relative !important;
   z-index: 5 !important;
 }
-/* 音量条热区扩大（外观不变，只放大命中范围）：
-   原生命中框只有 25px 高、可见条只有 10px 粗，鼠标/手指很容易按偏。
-   用伪元素上下各扩 20px、左右各扩 10px，把可点区域撑到 ~65px 高。
-   hit 归属父元素 .aplayer-volume-wrap，拖动监听也挂在它上面，一致。
-   注意：必须 pointer-events:none —— 否则这块透明放大区会盖在下方四个
-   控制按钮之上（z-index:3），把它们的点击吞掉（表现为"按钮点不动、
-   只能拖音量条"）。音量拖动由 wrap 自身 102×24 的盒子承接即可。 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap::before {
-  content: '';
-  position: absolute;
-  left: -10px !important;
-  right: -10px !important;
-  top: -20px !important;
-  bottom: -20px !important;
-  background: transparent;
-  cursor: pointer;
-  z-index: 3;
-  pointer-events: none !important;
-  /* touch-action 不继承，伪元素要自己声明，否则手指落在热区边缘时
-     浏览器仍可能判定为滚动手势，把手势抢走导致拖动中断 */
-  touch-action: none !important;
-}
+/* （原 ::before 透明放大热区已废弃：自定义 .zen-vol 自带命中区，无需伪元素） */
 
 /* iOS 等 audio.volume 只读的设备：滑条仍作显示用，弹出一次性提示，
    免得用户以为功能坏了（提示只在检测到不支持时出现） */
@@ -259,13 +266,6 @@
   to { opacity: 1; }
 }
 
-/* hover / 拖动时给轨道加反馈，让"这条能拖"看得出来 */
-.aplayer.aplayer-fixed .aplayer-volume-wrap:hover .aplayer-volume-bar,
-.aplayer.aplayer-fixed .aplayer-volume-wrap.is-dragging .aplayer-volume-bar {
-  background: #b3aa99 !important;
-  box-shadow: 0 0 0 2px rgba(192, 133, 82, 0.35) !important;
-}
-
 .aplayer.aplayer-fixed .aplayer-icon-volume-down {
   display: inline-block !important;
   visibility: visible !important;
@@ -278,26 +278,8 @@
   cursor: pointer !important;
 }
 
-/* 音量条横向化：原生是竖条（JS 用内联 style 控制 height 0→40 展开），
-   旋转 90° 后视觉变为横向（宽 0→40 从左向右展开），JS 填充逻辑无需改动。
-   height 用 !important 强制展开（覆盖 JS 内联的 height:0），常驻显示。
-   定位：贴在音量图标右侧、与图标垂直居中，长度由 height 决定（40 → 72 加长）。
-   坐标换算：条 DOM 25 宽 x 72 高，rotate(90deg) 后视觉 72 长 x 10 厚。
-   布局中心 x = wrap 右 - right - 12.5 = 视觉中心，视觉左端 = 中心 - 36。
-   right:22px → 左端离图标右缘 4px、右端贴 wrap 右边缘 2px 内。
-   垂直：top:50% + margin-top:-36px 让 72px 高布局框中心对齐 wrap 中线。
-   注：margin-top 取布局框高度的一半，改 height 时务必同步改这个值 */
-  .aplayer.aplayer-fixed .aplayer-volume-wrap .aplayer-volume-bar-wrap {
-  position: absolute !important;
-  top: 50% !important;
-  right: 22px !important;
-  bottom: auto !important;
-  left: auto !important;
-  margin-top: -36px !important;
-  transform: rotate(90deg) !important;
-  transform-origin: center !important;
-  height: 72px !important;
-}
+/* 注：音量条横向化改用自定义 .zen-vol（见上方"自定义横向音量条"区块），
+   不再依赖原生 .aplayer-volume-bar-wrap 的 rotate(90deg) hack。 */
 
 /* 暗黑模式 */
 [data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body {
@@ -348,10 +330,6 @@
 }
 
 [data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar {
-  background: #d5cebd !important;
-}
-
-[data-theme="dark"] .aplayer .aplayer-volume-wrap .aplayer-volume-bar-wrap .aplayer-volume-bar {
   background: #d5cebd !important;
 }
 

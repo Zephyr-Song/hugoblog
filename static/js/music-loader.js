@@ -82,19 +82,12 @@
   }
 
   /**
-   * 音量条：接管拖动（音量条横向化之后必须做）
+   * 音量条：自定义横向音量条（.zen-vol）的拖动接管
    *
-   * APlayer 原生的音量拖动公式是：
-   *   1 - (clientY - barTop) / bar.clientHeight
-   * 完全基于**竖直方向**。音量条被 rotate(90deg) 转成横向后，这个公式的
-   * 分子（鼠标的 Y）和分母（元素的 clientHeight）不再对应同一根轴，
-   * 结果就是鼠标左右移动几乎不改音量（表现为"总是滑不动"）。
-   *
-   * 这里用自己的拖动替代：直接按 clientX 相对轨道左边缘的比例设音量，
-   * 点击即跳、拖动即跟手（灵敏度 1:1）。
-   *
-   * 用 capture 阶段 + stopPropagation 顶掉 APlayer 自己的监听：
-   * dragStart 挂在 .aplayer-volume-wrap，dragMove/dragEnd 挂在 document。
+   * APlayer 原生音量条是竖向的（track + fill 两个竖条，正是用户说的
+   * "右侧两个竖的，一长一短"），且拖动公式完全基于竖直方向。
+   * 这里彻底不用原生音量条，改为注入一个自定义横向 .zen-vol 轨道，
+   * 直接按 clientX 相对轨道左边缘的比例设音量，点击即跳、拖动即跟手。
    */
   /**
    * 取 APlayer 实例。
@@ -107,152 +100,128 @@
     return el.aplayer || el.ap || null;
   }
 
-  var volDragTries = 0;
+  var volInitTries = 0;
 
-  function initVolumeDrag() {
+  function initVolumeBar() {
     var ap = getAp();
-    var wrap = document.querySelector('.aplayer .aplayer-volume-wrap');
-    var barWrap = wrap && wrap.querySelector('.aplayer-volume-bar-wrap');
-
-    // APlayer 由 Meting 异步初始化，拿不到实例就再试（最多 30 次 ≈ 6 秒）
-    if (!ap || !barWrap) {
-      if (volDragTries++ > 30) return;
-      return setTimeout(initVolumeDrag, 200);
+    var wrap = document.querySelector('.aplayer.aplayer-fixed .aplayer-volume-wrap');
+    if (!ap || !wrap) {
+      // APlayer 由 Meting 异步初始化，拿不到实例就再试（最多 30 次 ≈ 6 秒）
+      if (volInitTries++ > 30) return;
+      return setTimeout(initVolumeBar, 200);
     }
-    var dragging = false;
 
+    // 彻底隐藏 APlayer 原生竖向音量条（track + fill），改用自定义横向条
+    var nativeBar = wrap.querySelector('.aplayer-volume-bar-wrap');
+    if (nativeBar) nativeBar.style.display = 'none';
+
+    // 注入自定义横向音量条（轨道 + 填充），作为音量图标的 flex 兄弟节点
+    var bar = wrap.querySelector('.zen-vol');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'zen-vol';
+      var fill = document.createElement('div');
+      fill.className = 'zen-vol-fill';
+      bar.appendChild(fill);
+      wrap.appendChild(bar);
+    }
+    var fill = bar.querySelector('.zen-vol-fill');
+
+    function setFill(v) {
+      if (v == null || isNaN(v)) v = 1;
+      if (v < 0) v = 0; if (v > 1) v = 1;
+      fill.style.width = (v * 100) + '%';
+    }
+    setFill(ap.audio ? ap.audio.volume : 1);
+
+    var dragging = false;
     function clientX(e) {
       return e.touches && e.touches.length ? e.touches[0].clientX : e.clientX;
     }
-
     function setByX(x) {
-      // 旋转后：rect.width = 视觉长度，rect.height = 视觉厚度
-      var r = barWrap.getBoundingClientRect();
+      var r = bar.getBoundingClientRect();
       if (!r.width) return;
       var p = (x - r.left) / r.width;
       if (p < 0) p = 0;
       if (p > 1) p = 1;
-      ap.volume(Math.round(p * 100) / 100); // APlayer 会同步 UI 与 audio.volume
+      ap.volume(Math.round(p * 100) / 100); // APlayer 会同步 audio.volume
+      setFill(p);
     }
-
     function beginDrag(e) {
-      if (!dragging) {
-        dragging = true;
-        wrap.classList.add('is-dragging');
-      }
-      // setPointerCapture 之后，后续 pointermove/pointerup 一律重定向到 wrap，
-      // 拖到条外面（甚至窗口外）松手也能正常结束。
-      try { wrap.setPointerCapture(e.pointerId); } catch (err) {}
+      dragging = true;
+      bar.classList.add('is-dragging');
+      try { bar.setPointerCapture(e.pointerId); } catch (err) {}
       setByX(clientX(e));
     }
-    function moveDrag(e) {
-      if (!dragging) return;
-      e.stopPropagation();
-      setByX(clientX(e));
-    }
-    function endDrag() {
-      if (!dragging) return;
-      dragging = false;
-      wrap.classList.remove('is-dragging');
-    }
+    function moveDrag(e) { if (!dragging) return; e.stopPropagation(); setByX(clientX(e)); }
+    function endDrag() { if (!dragging) return; dragging = false; bar.classList.remove('is-dragging'); }
 
-    // 1) 主力：pointer 事件，鼠标 / 触摸 / 触控笔统一处理。
-    //    move/up 必须挂在 wrap 上 —— capture 生效后事件只发给 wrap，
-    //    挂 document 的兼容 mousemove 在部分浏览器根本收不到（表现为"按得动拖不动"）。
-    wrap.addEventListener('pointerdown', function (e) {
+    // 主力：pointer 事件（鼠标 / 触摸 / 触控笔统一）
+    bar.addEventListener('pointerdown', function (e) {
       if (e.pointerType === 'mouse' && typeof e.button === 'number' && e.button !== 0) return;
-      e.preventDefault();
-      e.stopPropagation();
-      beginDrag(e);
+      e.preventDefault(); e.stopPropagation(); beginDrag(e);
     }, true);
-    wrap.addEventListener('pointermove', moveDrag, true);
-    wrap.addEventListener('pointerup', endDrag, true);
-    wrap.addEventListener('pointercancel', endDrag, true);
-
-    // 1b) 双保险：万一 setPointerCapture 失败，document 上仍有一套
-    wrap.addEventListener('mousedown', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      beginDrag(e);
-    }, true);
+    bar.addEventListener('pointermove', moveDrag, true);
+    bar.addEventListener('pointerup', endDrag, true);
+    bar.addEventListener('pointercancel', endDrag, true);
+    // 双保险：setPointerCapture 失败时 document 上仍有一套
+    bar.addEventListener('mousedown', function (e) { e.preventDefault(); e.stopPropagation(); beginDrag(e); }, true);
     document.addEventListener('pointermove', moveDrag, true);
     document.addEventListener('pointerup', endDrag, true);
     document.addEventListener('pointercancel', endDrag, true);
-
-    // 2) 兜底 APlayer 自己的逻辑：它的 dragStart 监听 mousedown、
-    //    dragMove/dragEnd 监听 document 上的 mousemove/mouseup，
-    //    不拦住就会抢着按自己的（竖直方向）公式写一遍音量，把我们覆盖掉。
-    wrap.addEventListener('mousedown', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      beginDrag(e);
-    }, true);
-    // 3) 触屏兜底（老浏览器没有 pointer events）
-    wrap.addEventListener('touchstart', function (e) {
-      if (e.cancelable) e.preventDefault();
-      e.stopPropagation();
-      beginDrag(e);
-    }, true);
+    // 触屏兜底（老浏览器无 pointer events）
+    bar.addEventListener('touchstart', function (e) { if (e.cancelable) e.preventDefault(); e.stopPropagation(); beginDrag(e); }, true);
     document.addEventListener('touchmove', function (e) {
       if (!dragging) return;
-      // 必须 preventDefault：不拦的话浏览器把手势接管去滚页面，
-      // 并立即 fire pointercancel，拖动当场中断（真机表现为"手机上拖不动"）。
       if (e.cancelable) e.preventDefault();
       e.stopPropagation();
       moveDrag(e);
     }, { passive: false, capture: true });
-    document.addEventListener('touchend', function () {
-      if (!dragging) return;
-      endDrag();
-    }, true);
-    document.addEventListener('touchcancel', function () {
-      if (!dragging) return;
-      endDrag();
-    }, true);
+    document.addEventListener('touchend', function () { if (dragging) endDrag(); }, true);
+    document.addEventListener('touchcancel', function () { if (dragging) endDrag(); }, true);
 
-    // 4) iOS / 部分移动端浏览器把 audio.volume 写成只读，程序设了也不生效：
-    //    滑条会跟着动、声音却不变，用户只会觉得"调节不了"。
-    //    这里检测一次，确认无效就标出来并提示用系统音量键（滑条照旧可用作显示）。
+    // iOS / 部分移动端把 audio.volume 写成只读：检测一次，无效则提示用系统音量键
     var probeDone = false;
     function checkVolumeSupport() {
-      if (probeDone || !ap.audio) return false;
+      if (probeDone || !ap.audio) return;
       probeDone = true;
       var cur = ap.audio.volume;
       var want = cur > 0.5 ? 0.25 : 0.8;
       var stuck = false;
       try {
         ap.audio.volume = want;
-        // 写进去读回来还是旧值 = 没生效（iOS 等只读设备）
         stuck = Math.abs(ap.audio.volume - want) > 0.01;
         ap.audio.volume = cur;
-      } catch (err) {
-        stuck = true;
+      } catch (err) { stuck = true; }
+      if (stuck && !wrap.querySelector('.vol-native-hint')) {
+        var hint = document.createElement('div');
+        hint.className = 'vol-native-hint';
+        hint.textContent = '此设备不支持网页调音量，请用系统音量键';
+        wrap.appendChild(hint);
       }
-      if (stuck) {
-        wrap.classList.add('vol-native-only');
-        if (!wrap.querySelector('.vol-native-hint')) {
-          var hint = document.createElement('div');
-          hint.className = 'vol-native-hint';
-          hint.textContent = '此设备不支持网页调音量，请用系统音量键';
-          wrap.appendChild(hint);
-        }
-      }
-      return stuck;
     }
-    wrap.addEventListener('pointerdown', function () { checkVolumeSupport(); }, true);
-    wrap.addEventListener('touchstart', checkVolumeSupport, true);
+    bar.addEventListener('pointerdown', checkVolumeSupport, true);
+    bar.addEventListener('touchstart', checkVolumeSupport, true);
 
-    // 5) 备用交互：鼠标滚轮在音量条上滚一下就 ±5%，比拖更省力
-    wrap.addEventListener('wheel', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    // 备用：滚轮 ±5%
+    bar.addEventListener('wheel', function (e) {
+      e.preventDefault(); e.stopPropagation();
       var cur = ap.audio ? ap.audio.volume : 0;
       if (typeof cur !== 'number') cur = 0;
       var next = cur + (e.deltaY < 0 ? 0.05 : -0.05);
-      if (next < 0) next = 0;
-      if (next > 1) next = 1;
+      if (next < 0) next = 0; if (next > 1) next = 1;
       ap.volume(Math.round(next * 100) / 100);
     }, { passive: false, capture: true });
+
+    // 与 APlayer 同步：静音开关 / 程序改音量时，原生 .aplayer-volume 的 inline height
+    // 会变化，把比例镜像到自定义条（无缝跟随喇叭图标的静音动作）
+    var nativeFill = document.querySelector('.aplayer.aplayer-fixed .aplayer-volume');
+    if (nativeFill && typeof MutationObserver !== 'undefined') {
+      new MutationObserver(function () {
+        var h = parseFloat(nativeFill.style.height);
+        if (!isNaN(h)) setFill(h / 100);
+      }).observe(nativeFill, { attributes: true, attributeFilter: ['style'] });
+    }
   }
 
   // 切页前记录播放状态
@@ -268,10 +237,10 @@
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMeting);
     document.addEventListener('DOMContentLoaded', function () {
-      setTimeout(initVolumeDrag, 500);
+      setTimeout(initVolumeBar, 500);
     });
   } else {
     initMeting();
-    setTimeout(initVolumeDrag, 500);
+    setTimeout(initVolumeBar, 500);
   }
 })();
