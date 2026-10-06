@@ -31,8 +31,14 @@
     };
   }
 
-  /* ============ 图形母题（6 种） ============ */
-  var MOTIFS = ['area', 'bars', 'rings', 'peaks', 'spectrum', 'warp'];
+  /* ============ 图形母题（12 种） ============
+   * 为什么扩到 12 种：
+   *   原来只有 6 种母题，而文章已有 12 篇 —— 鸽巢原理下母题必然每 6 篇重复一次
+   *   （第 1 篇和第 7 篇都是 area，只靠配色区分，肉眼看就是「同一张图」）。
+   *   扩到 12 种后，index % 12 让 12 篇文章各自拿到一个独一无二的母题，
+   *   再叠加 9 套配色（LCM(12,9)=36），前 36 篇两两不重复。 */
+  var MOTIFS = ['area', 'bars', 'rings', 'peaks', 'spectrum', 'warp',
+                'scatter', 'orbit', 'spiral', 'hex', 'steps', 'ripple'];
 
   /* ============ 配色（9 组，低饱和自然色系） ============
    *
@@ -63,10 +69,10 @@
    * 这样同一篇文章在首页与详情页拿到同一个 index → 图案一致；
    * 不同文章 index 不同 → 图案不同。
    *
-   * 母题步长 1、配色步长 5，与 6 和 9 都互质：
-   *   motif   = index % 6
+   * 母题步长 1、配色步长 5，与 12 和 9 都互质：
+   *   motif   = index % MOTIFS.length   （现 12 种 → 12 篇文章各一个独有母题）
    *   palette = (index*5 + 2) % 9
-   * 组合周期 LCM(6, 9) = 18，前 18 篇两两不重复。
+   * 组合周期 LCM(12, 9) = 36，前 36 篇两两不重复。
    *
    * 序号只决定「用哪个母题 / 哪套配色」；
    * 母题内部的细节（曲线形状、柱数、环心偏移等）仍由标题哈希决定，
@@ -337,6 +343,145 @@
            ' T' + (W * 3 / 4) + ',' + (spQ - 30 - rnd() * 30),
         fill: 'none', stroke: P.hot, 'stroke-width': '2.5', 'stroke-dasharray': '4 8'
       }));
+
+    } else if (motif === 'scatter') {
+      /* 散点图：稀疏点阵 + 一条趋势折线，明显的「数据点分布」感 */
+      var scCols = 8 + Math.floor(rnd() * 4);          /* 8~11 列 */
+      var scRows = 5 + Math.floor(rnd() * 3);          /* 5~7 行 */
+      var scMx = 70, scMy = 64;
+      var scGx = (W - scMx * 2) / (scCols - 1);
+      var scGy = (H - scMy * 2) / (scRows - 1);
+      for (var ci = 0; ci < scCols; ci++) {
+        for (var ri = 0; ri < scRows; ri++) {
+          if (rnd() < 0.16) continue;                 /* 制造稀疏 */
+          var px = scMx + ci * scGx;
+          var py = H - scMy - ri * scGy;
+          var rr = 3 + rnd() * 8;
+          g.appendChild(el('circle', {
+            cx: px.toFixed(1), cy: py.toFixed(1), r: rr.toFixed(1),
+            fill: (ci + ri) % 2 ? P.ink : P.hot,
+            opacity: (0.35 + rnd() * 0.5).toFixed(2)
+          }));
+        }
+      }
+      var spts = [];
+      for (var si = 0; si < scCols; si++) {
+        var sri = Math.floor(rnd() * (scRows - 1));
+        spts.push((scMx + si * scGx).toFixed(1) + ',' + (H - scMy - sri * scGy).toFixed(1));
+      }
+      g.appendChild(el('polyline', {
+        points: spts.join(' '), fill: 'none', stroke: P.hot, 'stroke-width': '2.5',
+        'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: '0.8'
+      }));
+      g.appendChild(el('line', { x1: scMx, y1: H - scMy, x2: W - scMx, y2: H - scMy, stroke: P.ink, 'stroke-width': '1.2', opacity: '0.3' }));
+      g.appendChild(el('line', { x1: scMx, y1: H - scMy, x2: scMx, y2: scMy, stroke: P.ink, 'stroke-width': '1.2', opacity: '0.3' }));
+
+    } else if (motif === 'orbit') {
+      /* 原子 / 星座：中心核 + 椭圆轨道 + 轨道电子节点 */
+      var ocx = CX + (rnd() - 0.5) * 60, ocy = CY + (rnd() - 0.5) * 40;
+      var oR = 70 + rnd() * 40;
+      for (var e = 0; e < 3; e++) {
+        g.appendChild(el('ellipse', {
+          cx: ocx, cy: ocy, rx: (oR * (1 + e * 0.45)).toFixed(1), ry: (oR * (0.5 + e * 0.32)).toFixed(1),
+          fill: 'none', stroke: P.ink, 'stroke-width': '1.4', opacity: (0.7 - e * 0.18).toFixed(2),
+          transform: 'rotate(' + (rnd() * 60 - 30).toFixed(1) + ' ' + ocx + ' ' + ocy + ')'
+        }));
+      }
+      g.appendChild(el('circle', { cx: ocx, cy: ocy, r: '14', fill: P.hot, opacity: '0.92' }));
+      g.appendChild(el('circle', { cx: ocx - 5, cy: ocy - 5, r: '4', fill: '#fff', opacity: '0.4' }));
+      for (var nd = 0; nd < 5; nd++) {
+        var ang = rnd() * Math.PI * 2;
+        var er = oR * (0.5 + rnd() * 1.4);
+        var ex = ocx + Math.cos(ang) * er;
+        var ey = ocy + Math.sin(ang) * er * 0.7;
+        g.appendChild(el('line', { x1: ocx, y1: ocy, x2: ex.toFixed(1), y2: ey.toFixed(1), stroke: P.hot, 'stroke-width': '1.5', opacity: '0.4' }));
+        g.appendChild(el('circle', { cx: ex.toFixed(1), cy: ey.toFixed(1), r: (4 + rnd() * 3).toFixed(1), fill: P.ink, opacity: '0.85' }));
+      }
+
+    } else if (motif === 'spiral') {
+      /* 阿基米德螺旋：从中心向外盘旋，层数随 seed 变化 */
+      var spcx = CX + (rnd() - 0.5) * 40, spcy = CY + (rnd() - 0.5) * 30;
+      var turns = 3 + Math.floor(rnd() * 2);                     /* 3~4 圈 */
+      var b = (Math.min(W, H) * 0.42) / (turns * 2 * Math.PI);
+      var dsp = '';
+      var spSteps = turns * 48;
+      for (var stp = 0; stp <= spSteps; stp++) {
+        var tt = (stp / spSteps) * turns * 2 * Math.PI;
+        var rsp = b * tt;
+        var xsp = spcx + rsp * Math.cos(tt);
+        var ysp = spcy + rsp * Math.sin(tt);
+        dsp += (stp === 0 ? 'M' : 'L') + xsp.toFixed(1) + ',' + ysp.toFixed(1) + ' ';
+      }
+      g.appendChild(el('path', { d: dsp, fill: 'none', stroke: P.hot, 'stroke-width': '3', 'stroke-linecap': 'round', opacity: '0.9' }));
+      g.appendChild(el('circle', { cx: spcx.toFixed(1), cy: spcy.toFixed(1), r: '6', fill: P.ink, opacity: '0.8' }));
+
+    } else if (motif === 'hex') {
+      /* 蜂窝：六边形网格，部分填充，形成蜂巢质感 */
+      var hR = 26 + rnd() * 10;
+      var hStepX = hR * 1.5;
+      var hStepY = hR * Math.sqrt(3);
+      var hCols = Math.ceil(W / hStepX) + 1;
+      var hRows = Math.ceil(H / hStepY) + 1;
+      function hexPath(cx, cy, r) {
+        var p = '';
+        for (var k = 0; k < 6; k++) {
+          var ha = Math.PI / 180 * (60 * k - 30);
+          var hx = cx + r * Math.cos(ha), hy = cy + r * Math.sin(ha);
+          p += (k === 0 ? 'M' : 'L') + hx.toFixed(1) + ',' + hy.toFixed(1) + ' ';
+        }
+        return p + 'Z';
+      }
+      for (var hc = 0; hc < hCols; hc++) {
+        for (var hr = 0; hr < hRows; hr++) {
+          var hhx = hc * hStepX;
+          var hhy = hr * hStepY + (hc % 2 ? hStepY / 2 : 0);
+          if (hhx > W + hR || hhy > H + hR) continue;
+          var mod = (hc + hr) % 3;
+          var hfill = mod === 0 ? P.hot : (mod === 1 ? P.ink : P.soft);
+          var hop = mod === 0 ? '0.55' : '0.32';
+          g.appendChild(el('path', {
+            d: hexPath(hhx, hhy, hR * 0.92), fill: hfill, opacity: hop,
+            stroke: P.ink, 'stroke-width': '1', 'stroke-opacity': '0.25'
+          }));
+        }
+      }
+
+    } else if (motif === 'steps') {
+      /* 阶梯金字塔：居中的逐层收窄矩形，顶部一颗点 */
+      var nSteps = 5 + Math.floor(rnd() * 3);          /* 5~7 层 */
+      var baseW = W * 0.8;
+      var stepH = (H * 0.62) / nSteps;
+      for (var s = 0; s < nSteps; s++) {
+        var sw = baseW * (1 - s / nSteps);
+        var sx = (W - sw) / 2;
+        var sy = H * 0.86 - (s + 1) * stepH;
+        g.appendChild(el('rect', {
+          x: sx.toFixed(1), y: sy.toFixed(1), width: sw.toFixed(1), height: stepH.toFixed(1),
+          rx: 4, fill: s % 2 ? P.ink : P.hot, opacity: (0.85 - s * 0.09).toFixed(2)
+        }));
+      }
+      g.appendChild(el('circle', { cx: CX, cy: (H * 0.86 - nSteps * stepH - 6).toFixed(1), r: '7', fill: P.hot, opacity: '0.9' }));
+
+    } else if (motif === 'ripple') {
+      /* 波纹：嵌套的波动圆环（区别于 rings 的干净同心圆） */
+      var rcx2 = CX + (rnd() - 0.5) * 80, rcy2 = CY + (rnd() - 0.5) * 50;
+      var maxR = Math.min(W, H) * 0.42;
+      var waves = 5 + Math.floor(rnd() * 3);
+      var wob = 6 + rnd() * 8;
+      for (var wv = 1; wv <= waves; wv++) {
+        var rr2 = maxR * (wv / waves);
+        var ddr = '';
+        var rseg = 60;
+        for (var ra = 0; ra <= rseg; ra++) {
+          var rang = (ra / rseg) * Math.PI * 2;
+          var rad = rr2 + Math.sin(rang * 6 + wv) * wob * (1 - wv / waves * 0.5);
+          var rx = rcx2 + rad * Math.cos(rang);
+          var ry = rcy2 + rad * Math.sin(rang);
+          ddr += (ra === 0 ? 'M' : 'L') + rx.toFixed(1) + ',' + ry.toFixed(1) + ' ';
+        }
+        g.appendChild(el('path', { d: ddr + 'Z', fill: 'none', stroke: wv % 2 ? P.hot : P.ink, 'stroke-width': wv === waves ? '3' : '1.6', opacity: (0.85 - wv * 0.1).toFixed(2) }));
+      }
+      g.appendChild(el('circle', { cx: rcx2.toFixed(1), cy: rcy2.toFixed(1), r: '9', fill: P.hot, opacity: '0.9' }));
 
     } else { /* warp：横波与纵波的行数/列数/振幅随 seed 变化，
                 避免同母题共用一张写死的网格 */
