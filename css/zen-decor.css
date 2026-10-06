@@ -79,7 +79,7 @@
   padding: 0 7px;
   border-radius: 6px;
   background: rgba(255, 255, 255, .85);
-  color: #6E5A9E;
+  color: #55755F;
   font-family: "JetBrains Mono", ui-monospace, Consolas, monospace;
   font-size: .72rem;
   font-weight: 700;
@@ -91,7 +91,7 @@
   transition: background .25s, color .25s;
 }
 .zen-art-row:hover .zen-art-num {
-  background: #C77DFF;
+  background: #7FBF8F;
   color: #fff;
 }
 
@@ -111,7 +111,7 @@
 .zen-art-row .entry-header h2 {
   transition: color .22s ease;
 }
-.zen-art-row:hover .entry-header a { color: #C77DFF; }
+.zen-art-row:hover .entry-header a { color: #4E8C60; }
 
 /* 移动端：回到上下堆叠 */
 @media (max-width: 720px) {
@@ -175,11 +175,11 @@
 /* 暗色模式：序号角标压暗，避免在深色背景上过于抢眼 */
 [data-theme="dark"] .zen-art-num {
   background: rgba(30, 25, 41, .82);
-  color: #C9B8E8;
+  color: #A9CBB2;
   box-shadow: 0 1px 5px rgba(0, 0, 0, .4);
 }
 [data-theme="dark"] .zen-art-row:hover .zen-art-num {
-  background: #C77DFF;
+  background: #7FBF8F;
   color: #fff;
 }
 
@@ -210,7 +210,100 @@
   .zen-single-banner { border-radius: 10px; }
 }
 
-/* ========== 7. 无障碍：尊重减弱动效偏好 ========== */
+/* ========== 7. 首页折叠：只露前 3 篇 ==========
+ *
+ * 结构（由 zen-art.js 的 collapseHomeList 生成）：
+ *   <article>  × 3
+ *   <div id="zen-more-posts" hidden>   ← 第 4 篇起（含分隔线）
+ *   <button class="zen-more-btn">      ← 展开 / 收起
+ *
+ * 注意：.zen-more-posts 不设 display，[hidden] 才能正常生效；
+ *       这里用 !important 兜住主题里可能的 display 覆盖。
+ */
+#zen-more-posts[hidden] { display: none !important; }
+
+#zen-more-posts {
+  animation: zenMoreIn .45s cubic-bezier(.22,.61,.36,1) both;
+}
+
+@keyframes zenMoreIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- 展开按钮：米色胶囊 + 绿色描边，与站点基调一致 ---- */
+.zen-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .45rem;
+  width: 100%;
+  max-width: 260px;
+  margin: 1.85rem auto .5rem;
+  padding: .62rem 1.3rem;
+  border: 1px solid var(--border, #e8e4df);
+  border-radius: 999px;
+  background: var(--bg-secondary, #f5f3ef);
+  color: var(--text-secondary, #7a7a7a);
+  font-family: inherit;
+  font-size: .86rem;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: background .25s, color .25s, border-color .25s, transform .25s;
+}
+
+.zen-more-btn:hover {
+  background: #7FBF8F;
+  border-color: #7FBF8F;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.zen-more-btn:active { transform: translateY(0); }
+
+.zen-more-btn:focus-visible {
+  outline: 2px solid #7FBF8F;
+  outline-offset: 3px;
+}
+
+/* 箭头：展开态翻转 180° */
+.zen-more-chev {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 15px;
+  transition: transform .3s cubic-bezier(.22,.61,.36,1);
+}
+.zen-more-btn.is-open .zen-more-chev { transform: rotate(180deg); }
+
+/* 暗色模式 */
+[data-theme="dark"] .zen-more-btn {
+  background: #232520;
+  border-color: #3a3d36;
+  color: #a8ada0;
+}
+[data-theme="dark"] .zen-more-btn:hover {
+  background: #7FBF8F;
+  border-color: #7FBF8F;
+  color: #14201a;
+}
+
+/* 移动端：按钮宽度自适应，避免在窄屏上过于局促 */
+@media (max-width: 720px) {
+  .zen-more-btn {
+    max-width: none;
+    margin: 1.4rem 0 .35rem;
+    padding: .68rem 1rem;
+  }
+}
+
+/* 无障碍：尊重减弱动效偏好（折叠区） */
+@media (prefers-reduced-motion: reduce) {
+  #zen-more-posts { animation: none; }
+  .zen-more-chev { transition: none; }
+  .zen-more-btn { transition: none; }
+}
+
+/* ========== 8. 无障碍：尊重减弱动效偏好（插画动效） ========== */
 @media (prefers-reduced-motion: reduce) {
   .zen-art-wrap,
   .zen-hero-decor,
