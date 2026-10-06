@@ -81,7 +81,21 @@
     }, 200);
   }
 
-  /* 音量拖动已交回 APlayer 原生处理（不再做横向化接管），见底部 initMeting 调用处 */
+  /**
+   * 音量条：接管拖动（音量条横向化之后必须做）
+   *
+   * APlayer 原生的音量拖动公式是：
+   *   1 - (clientY - barTop) / bar.clientHeight
+   * 完全基于**竖直方向**。音量条被 rotate(90deg) 转成横向后，这个公式的
+   * 分子（鼠标的 Y）和分母（元素的 clientHeight）不再对应同一根轴，
+   * 结果就是鼠标左右移动几乎不改音量（表现为"总是滑不动"）。
+   *
+   * 这里用自己的拖动替代：直接按 clientX 相对轨道左边缘的比例设音量，
+   * 点击即跳、拖动即跟手（灵敏度 1:1）。
+   *
+   * 用 capture 阶段 + stopPropagation 顶掉 APlayer 自己的监听：
+   * dragStart 挂在 .aplayer-volume-wrap，dragMove/dragEnd 挂在 document。
+   */
   /**
    * 取 APlayer 实例。
    * 注意：Meting 不同版本挂载的字段名不一样 —— 新版挂在 el.aplayer，
@@ -253,7 +267,11 @@
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initMeting);
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(initVolumeDrag, 500);
+    });
   } else {
     initMeting();
+    setTimeout(initVolumeDrag, 500);
   }
 })();
