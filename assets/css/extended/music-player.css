@@ -66,6 +66,21 @@
   border-radius: 12px 12px 0 0 !important;
 }
 
+/* 关键修复：APlayer 的 .aplayer-list 与内部 <ol> 各自都设了 overflow:auto，
+   导致歌单溢出时右边缘出现"两条竖向滚动条"（一长一短）。这里只让外层
+   .aplayer-list 滚动，内层 <ol> 改为不滚动，从而删掉那条多余的长滚动条，
+   只保留外层可拖动的短滑块（用户用来滑动选歌）。 */
+.aplayer.aplayer-fixed .aplayer-list ol {
+  overflow: visible !important;
+}
+.aplayer.aplayer-fixed .aplayer-list ol::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+}
+.aplayer.aplayer-fixed .aplayer-list ol {
+  scrollbar-width: none !important;
+}
+
 /* 歌单滚动条：细米色（避免出现粗黑原生滚动条） */
 .aplayer.aplayer-fixed .aplayer-list::-webkit-scrollbar {
   width: 6px;
